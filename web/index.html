@@ -2,16 +2,23 @@
 
 <head>
     <script src="jquery.min.js"></script>
+    <script src="app.js"></script>
     <title>Hello World</title>
-    <script>
-        $(document).ready(function () {
-            $("body").html("<b>Hello World</b>");
-        });
-    </script>
 </head>
 
 <body>
-Hello World
+    <div id="addElement">
+        <h3>Add a User</h3>
+        <label>Name</label>
+        <input type="text" id="newTitle" />
+        <button id="addButton">Add</button>
+        <button id="addCancel">Cancel</button>
+    </div>
+    <div id="showElements">
+        <h3>All Messages</h3>
+        <button id="showFormButton">Add Message</button>
+        <div id="messageList"></div>
+    </div>
 </body>
 
 </html>
