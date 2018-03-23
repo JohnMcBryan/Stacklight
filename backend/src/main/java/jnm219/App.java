@@ -17,9 +17,6 @@ public class App
         // Get the port on which to listen for requests
         Spark.port(getIntFromEnv("PORT", 4567));
 
-        // Set up the location for serving static files.  If the STATIC_LOCATION
-        // environment variable is set, we will serve from it.  Otherwise, serve
-        // from "/web"
         String static_location_override = System.getenv("STATIC_LOCATION");
         if (static_location_override == null) {
             Spark.staticFileLocation("/web");
@@ -28,21 +25,13 @@ public class App
         }
 
         final Gson gson = new Gson();
-        //final DataStore dataStore = new DataStore();
         Database db = Database.getDatabase(2);
-        //String db_url = env.get("DATABASE_URL");
 
         // Give the Database object a connection, fail if we cannot get one
         try {
-            Class.forName("org.postgresql.Driver");
-            //URI dbUri = new URI(db_url);
-            //String username = dbUri.getUserInfo().split(":")[0];
-            String user = "lrowbdmdlqbujk";
-            //String password = dbUri.getUserInfo().split(":")[1];
-            String password = "71032f1501535b6bb36268789eefa18f2e6b9e31acb637363b1e176d58fb1acf";
-            //String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
-            String dbUrl = "postgres://lrowbdmdlqbujk:71032f1501535b6bb36268789eefa18f2e6b9e31acb637363b1e176d58fb1acf@ec2-23-21-217-27.compute-1.amazonaws.com:5432/d5um503ki5n8qv";
-            Connection conn = DriverManager.getConnection(dbUrl, user, password);
+            dbUrl = System.getenv("JDBC_DATABASE_URL"); // Url for heroku database connection
+            Connection conn = DriverManager.getConnection(dbUrl);
+
             if (conn == null) {
                 System.err.println("Error: DriverManager.getConnection() returned a null object");
             }
@@ -50,8 +39,6 @@ public class App
         } catch (SQLException e) {
             System.err.println("Error: DriverManager.getConnection() threw a SQLException");
             e.printStackTrace();
-        } catch (ClassNotFoundException cnfe) {
-            System.out.println("Unable to find postgresql driver");
         }
 
 

@@ -36,10 +36,9 @@ class NewEntryForm {
     submitForm() {
         // get the values of the two fields, force them to be strings, and check
         // that neither is empty
-        let title = "" + $("#newTitle").val();
-        let msg = "" + $("#newMessage").val();
-        if (title === "" || msg === "") {
-            window.alert("Error: title or message is not valid");
+        let title = "" + $("#newName").val();
+        if (title === "") {
+            window.alert("Error: Name not Valid");
             return;
         }
         // set up an AJAX post.  When the server replies, the result will go to
@@ -48,7 +47,7 @@ class NewEntryForm {
             type: "POST",
             url: "/messages",
             dataType: "json",
-            data: JSON.stringify({ mTitle: title, mMessage: msg }),
+            data: JSON.stringify({ mTitle: title}),
             success: newEntryForm.onSubmitResponse
         });
     }
@@ -102,8 +101,8 @@ class ElementList {
     private update(data: any) {
         $("#messageList").html("<table>");
         for (let i = 0; i < data.mData.length; ++i) {
-            $("#messageList").append("<tr><td>" + data.mData[i].mTitle +
-                "</td>" + mainList.buttons(data.mData[i].mId) + "</tr>");
+            $("#messageList").append("<tr><td>" + data.mData[i].mId +
+                "</td><td>"+data.mData[i].mName+"</td></tr>");
         }
         $("#messageList").append("</table>");
     }

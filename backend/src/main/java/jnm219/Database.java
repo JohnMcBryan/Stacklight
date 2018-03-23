@@ -37,17 +37,25 @@ public class Database {
      * Must be logged into heroku on a local computer to be able to use mvn heroku:deploy
      */
     private static Connection getConnection() throws URISyntaxException, SQLException {
-        Class.forName("org.postgresql.Driver");
+        /*
+        //Class.forName("org.postgresql.Driver");
         //URI dbUri = new URI(db_url);
         //String username = dbUri.getUserInfo().split(":")[0];
         String user = "lrowbdmdlqbujk";
         //String password = dbUri.getUserInfo().split(":")[1];
         String password = "71032f1501535b6bb36268789eefa18f2e6b9e31acb637363b1e176d58fb1acf";
         //String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
-        String dbUrl = "postgres://lrowbdmdlqbujk:71032f1501535b6bb36268789eefa18f2e6b9e31acb637363b1e176d58fb1acf@ec2-23-21-217-27.compute-1.amazonaws.com:5432/d5um503ki5n8qv";
+        String dbUrl = "jdbc:postgres://lrowbdmdlqbujk:71032f1501535b6bb36268789eefa18f2e6b9e31acb637363b1e176d58fb1acf@ec2-23-21-217-27.compute-1.amazonaws.com:5432/d5um503ki5n8qv&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
         Connection conn = DriverManager.getConnection(dbUrl, user, password);
+        */
+        String dbUrl = System.getenv("JDBC_DATABASE_URL"); // Url for heroku database connection
+        Connection conn = DriverManager.getConnection(dbUrl);
+        //return DriverManager.getConnection("");
+        //return DriverManager.getConnection("jdbc:postgresql://ec2-107-22-211-182.compute-1.amazonaws.com:5432/dd8h04ocdonsvj?user=qcxhljggghpbxa&password=6d462cf3d5d52813f0a69912a10908fad2ff06725737ce41e0cf0750b83d2375&sslmode=require");
+        //return conn;
 
-        return conn;
+        //String dbUrl = System.getenv("JDBC_DATABASE_URL"); // Url for heroku database connection
+        return DriverManager.getConnection(dbUrl);
     }
 
     static Database getDatabase(int connectionType) {
@@ -86,6 +94,8 @@ public class Database {
 
         try{
             db.mSelectAllMessage = db.mConnection.prepareStatement("SELECT * FROM Users");
+
+
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
             e.printStackTrace();
@@ -129,8 +139,8 @@ public class Database {
         try {
             ResultSet rs = mSelectAllMessage.executeQuery();
             while (rs.next()) {
-
-                res.add(new DataRow(1,rs.getString("name")));
+                System.err.println("NAMES: "+rs.getString("name"));
+                res.add(new DataRow(rs.getInt("your_id"),rs.getString("name")));
             }
             rs.close();
             return res;
@@ -138,6 +148,20 @@ public class Database {
             e.printStackTrace();
             return null;
         }
+    }
+
+    boolean insertName(String name)
+    {
+        int rs=0;
+        try {
+            mInsertComment.setString(1,name);
+            rs +=mInsertName.executeUpdate();
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
 }
