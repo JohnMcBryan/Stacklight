@@ -28,7 +28,8 @@ public class App
         }
 
         final Gson gson = new Gson();
-        final DataStore dataStore = new DataStore();
+        //final DataStore dataStore = new DataStore();
+        Database db = Database.getDatabase(2);
         //String db_url = env.get("DATABASE_URL");
 
         // Give the Database object a connection, fail if we cannot get one
@@ -59,7 +60,7 @@ public class App
             // ensure status 200 OK, with a MIME type of JSON
             response.status(200);
             response.type("application/json");
-            return gson.toJson(new StructuredResponse("ok", null, dataStore.readAll()));
+            return gson.toJson(new StructuredResponse("ok", null, db.selectAllMessages()));
         });
 
         Spark.get("/", (req, res) -> {
@@ -68,6 +69,7 @@ public class App
         });
         // PUT route for updating a row in the DataStore.  This is almost
         // exactly the same as POST
+        /*
         Spark.put("/messages/:id", (request, response) -> {
             // If we can't get an ID or can't parse the JSON, Spark will send
             // a status 500
@@ -83,7 +85,8 @@ public class App
                 return gson.toJson(new StructuredResponse("ok", null, result));
             }
         });
-
+        */
+        /*
 // DELETE route for removing a row from the DataStore
         Spark.delete("/messages/:id", (request, response) -> {
             // If we can't get an ID, Spark will send a status 500
@@ -100,6 +103,7 @@ public class App
                 return gson.toJson(new StructuredResponse("ok", null, null));
             }
         });
+        */
 
         Spark.get("/hello", (request, response) -> {
             return "Hello World!";

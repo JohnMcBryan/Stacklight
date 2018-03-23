@@ -40,13 +40,4 @@ public class DataRow {
         mName = name;
     }
 
-    /**
-     * Copy constructor to create one datarow from another
-     */
-    DataRow(DataRow data) {
-        mId = data.mId;
-        // NB: Strings and Dates are immutable, so copy-by-reference is safe
-        mName = data.mName;
-
-    }
 }

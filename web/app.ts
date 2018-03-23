@@ -75,8 +75,53 @@ class NewEntryForm {
     }
 } // end class NewEntryForm
 
+// a global for the main ElementList of the program.  See newEntryForm for
+// explanation
+var mainList: ElementList;
+
+/**
+ * ElementList provides a way of seeing all of the data stored on the server.
+ */
+class ElementList {
+    /**
+     * refresh is the public method for updating messageList
+     */
+    refresh() {
+        // Issue a GET, and then pass the result to update()
+        $.ajax({
+            type: "GET",
+            url: "/messages",
+            dataType: "json",
+            success: mainList.update
+        });
+    }
+
+    /**
+     * update is the private method used by refresh() to update messageList
+     */
+    private update(data: any) {
+        $("#messageList").html("<table>");
+        for (let i = 0; i < data.mData.length; ++i) {
+            $("#messageList").append("<tr><td>" + data.mData[i].mTitle +
+                "</td>" + mainList.buttons(data.mData[i].mId) + "</tr>");
+        }
+        $("#messageList").append("</table>");
+    }
+
+    /**
+     * buttons() doesn't do anything yet
+     */
+    private buttons(id: string): string {
+        return "";
+    }
+} // end class ElementList
+
 // Run some configuration code when the web page loads
 $(document).ready(function () {
     // Create the object that controls the "New Entry" form
     newEntryForm = new NewEntryForm();
+    // Create the object for the main data list, and populate it with data from
+    // the server
+    mainList = new ElementList();
+    mainList.refresh();
 });
