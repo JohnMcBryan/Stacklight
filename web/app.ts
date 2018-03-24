@@ -26,7 +26,7 @@ class NewEntryForm {
      * Clear the form's input fields
      */
     clearForm() {
-        $("#newTitle").val("");
+        $("#newName").val("");
         $("#newMessage").val("");
     }
 
@@ -36,8 +36,9 @@ class NewEntryForm {
     submitForm() {
         // get the values of the two fields, force them to be strings, and check
         // that neither is empty
-        let title = "" + $("#newName").val();
-        if (title === "") {
+        let name = "" + $("#newName").val();
+        window.alert(name);
+        if (name === "") {
             window.alert("Error: Name not Valid");
             return;
         }
@@ -47,7 +48,7 @@ class NewEntryForm {
             type: "POST",
             url: "/messages",
             dataType: "json",
-            data: JSON.stringify({ mTitle: title}),
+            data: JSON.stringify({ mName: name}),
             success: newEntryForm.onSubmitResponse
         });
     }

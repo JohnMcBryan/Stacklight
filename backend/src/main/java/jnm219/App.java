@@ -29,7 +29,7 @@ public class App
 
         // Give the Database object a connection, fail if we cannot get one
         try {
-            dbUrl = System.getenv("JDBC_DATABASE_URL"); // Url for heroku database connection
+            String dbUrl = System.getenv("JDBC_DATABASE_URL"); // Url for heroku database connection
             Connection conn = DriverManager.getConnection(dbUrl);
 
             if (conn == null) {
@@ -48,6 +48,19 @@ public class App
             response.status(200);
             response.type("application/json");
             return gson.toJson(new StructuredResponse("ok", null, db.selectAllMessages()));
+        });
+
+        Spark.post("/messages",(request, response) -> {
+            SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);
+            response.status(200);
+            response.type("application/json");
+            System.out.println(request.raw().getParameter("mName"));
+            boolean newId = db.insertName(req.mName);
+            if (!newId) {
+                return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
+            } else {
+                return gson.toJson(new StructuredResponse("ok", "" + newId, null));
+            }
         });
 
         Spark.get("/", (req, res) -> {

@@ -31,30 +31,16 @@ public class Database {
      * A prepared statement for getting all messages
      */
     private PreparedStatement mSelectAllMessage;
+    private PreparedStatement mInsertName;
 
     /**
      * Give the Database object a connection, fail if we cannot get one
      * Must be logged into heroku on a local computer to be able to use mvn heroku:deploy
      */
     private static Connection getConnection() throws URISyntaxException, SQLException {
-        /*
-        //Class.forName("org.postgresql.Driver");
-        //URI dbUri = new URI(db_url);
-        //String username = dbUri.getUserInfo().split(":")[0];
-        String user = "lrowbdmdlqbujk";
-        //String password = dbUri.getUserInfo().split(":")[1];
-        String password = "71032f1501535b6bb36268789eefa18f2e6b9e31acb637363b1e176d58fb1acf";
-        //String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
-        String dbUrl = "jdbc:postgres://lrowbdmdlqbujk:71032f1501535b6bb36268789eefa18f2e6b9e31acb637363b1e176d58fb1acf@ec2-23-21-217-27.compute-1.amazonaws.com:5432/d5um503ki5n8qv&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
-        Connection conn = DriverManager.getConnection(dbUrl, user, password);
-        */
+
         String dbUrl = System.getenv("JDBC_DATABASE_URL"); // Url for heroku database connection
         Connection conn = DriverManager.getConnection(dbUrl);
-        //return DriverManager.getConnection("");
-        //return DriverManager.getConnection("jdbc:postgresql://ec2-107-22-211-182.compute-1.amazonaws.com:5432/dd8h04ocdonsvj?user=qcxhljggghpbxa&password=6d462cf3d5d52813f0a69912a10908fad2ff06725737ce41e0cf0750b83d2375&sslmode=require");
-        //return conn;
-
-        //String dbUrl = System.getenv("JDBC_DATABASE_URL"); // Url for heroku database connection
         return DriverManager.getConnection(dbUrl);
     }
 
@@ -94,6 +80,7 @@ public class Database {
 
         try{
             db.mSelectAllMessage = db.mConnection.prepareStatement("SELECT * FROM Users");
+            db.mInsertName = db.mConnection.prepareStatement("INSERT INTO Users Values (default,?)");
 
 
         } catch (SQLException e) {
@@ -154,7 +141,8 @@ public class Database {
     {
         int rs=0;
         try {
-            mInsertComment.setString(1,name);
+            System.out.println("New Name: "+name);
+            mInsertName.setString(1,name);
             rs +=mInsertName.executeUpdate();
         } catch (SQLException e)
         {
