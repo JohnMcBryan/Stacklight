@@ -126,7 +126,7 @@ public class Database {
         try {
             ResultSet rs = mSelectAllMessage.executeQuery();
             while (rs.next()) {
-                System.err.println("NAMES: "+rs.getString("name"));
+                //System.err.println("NAMES: "+rs.getString("name"));
                 res.add(new DataRow(rs.getInt("your_id"),rs.getString("name")));
             }
             rs.close();

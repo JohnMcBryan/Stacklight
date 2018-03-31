@@ -101,11 +101,19 @@ class ElementList {
      */
     private update(data: any) {
         $("#messageList").html("<table>");
+        var sizes = ["12", "22","13", "25"]
+        
         for (let i = 0; i < data.mData.length; ++i) {
-            $("#messageList").append("<tr><td>" + data.mData[i].mId +
-                "</td><td>"+data.mData[i].mName+"</td></tr>");
+            $("#messageList").append("<tr><td>ID: " + data.mData[i].mId +" </td><td> Name: "+data.mData[i].mName+" </td> <td> Sizes: "+sizes[i]+"</td></tr>");
         }
+        
+        /** 
+       $("#messageList").append("<tr><td>ID: 1 </td><td> Filename: sample.txt </td> <td> Sizes: "+sizes[0]+"</td><td><button type= button>Download</button></td></tr>");
+       $("#messageList").append("<tr><td>ID: 2 </td><td> Filename: test.txt </td> <td> Sizes: "+sizes[1]+"</td><td><button type= button>Download</button></td></tr>");
+       $("#messageList").append("<tr><td>ID: 3 </td><td> Filename: HW6.txt </td> <td> Sizes: "+sizes[2]+"</td><td><button type= button>Download</button></td></tr>");
+       $("#messageList").append("<tr><td>ID: 4 </td><td> Filename: HW7.txt </td> <td> Sizes: "+sizes[3]+"</td><td><button type= button>Download</button></td></tr>");
         $("#messageList").append("</table>");
+        */
     }
 
     /**
