@@ -32,6 +32,8 @@ public class Database {
      */
     private PreparedStatement mSelectAllMessage;
     private PreparedStatement mInsertName;
+    private PreparedStatement mInsertFile;
+    private PreparedStatement mSelectAllFiles;
 
     /**
      * Give the Database object a connection, fail if we cannot get one
@@ -82,6 +84,9 @@ public class Database {
             db.mSelectAllMessage = db.mConnection.prepareStatement("SELECT * FROM Users");
             db.mInsertName = db.mConnection.prepareStatement("INSERT INTO Users Values (default,?)");
 
+            db.mSelectAllFiles = db.mConnection.prepareStatement("SELECT * FROM Files");
+            db.mInsertFile = db.mConnection.prepareStatement("INSERT INTO Files Values (default,?,?)");
+
 
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
@@ -128,6 +133,37 @@ public class Database {
             while (rs.next()) {
                 //System.err.println("NAMES: "+rs.getString("name"));
                 res.add(new DataRow(rs.getInt("your_id"),rs.getString("name")));
+            }
+            rs.close();
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    boolean insertFile(String fileName,String fileId)
+    {
+        int rs=0;
+        try {
+            System.out.println("FileName: "+ fileName);
+            mInsertFile.setString(1,fileName);
+            mInsertFile.setString(2,fileId);
+            rs +=mInsertFile.executeUpdate();
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    ArrayList<FileRow> selectAllFiles() {
+        ArrayList<FileRow> res = new ArrayList<FileRow>();
+        try {
+            ResultSet rs = mSelectAllFiles.executeQuery();
+            while (rs.next()) {
+                //System.err.println("NAMES: "+rs.getString("name"));
+                res.add(new FileRow(rs.getInt("id"),rs.getString("fileName"),rs.getString("fileId"),rs.getInt("fileSize")));
             }
             rs.close();
             return res;

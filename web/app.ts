@@ -8,6 +8,8 @@ var $: any;
 // that we can reference it from methods of the NewEntryForm in situations where
 // 'this' won't work correctly.
 var newEntryForm: NewEntryForm;
+var FileUpload: fileUpload;
+var fileList: FileList2;
 
 /**
  * NewEntryForm encapsulates all of the code for the form for adding an entry
@@ -95,7 +97,6 @@ class ElementList {
             success: mainList.update
         });
     }
-
     /**
      * update is the private method used by refresh() to update messageList
      */
@@ -106,23 +107,78 @@ class ElementList {
         for (let i = 0; i < data.mData.length; ++i) {
             $("#messageList").append("<tr><td>ID: " + data.mData[i].mId +" </td><td> Name: "+data.mData[i].mName+" </td> <td> Sizes: "+sizes[i]+"</td></tr>");
         }
-        
-        /** 
-       $("#messageList").append("<tr><td>ID: 1 </td><td> Filename: sample.txt </td> <td> Sizes: "+sizes[0]+"</td><td><button type= button>Download</button></td></tr>");
-       $("#messageList").append("<tr><td>ID: 2 </td><td> Filename: test.txt </td> <td> Sizes: "+sizes[1]+"</td><td><button type= button>Download</button></td></tr>");
-       $("#messageList").append("<tr><td>ID: 3 </td><td> Filename: HW6.txt </td> <td> Sizes: "+sizes[2]+"</td><td><button type= button>Download</button></td></tr>");
-       $("#messageList").append("<tr><td>ID: 4 </td><td> Filename: HW7.txt </td> <td> Sizes: "+sizes[3]+"</td><td><button type= button>Download</button></td></tr>");
-        $("#messageList").append("</table>");
-        */
     }
-
     /**
      * buttons() doesn't do anything yet
      */
     private buttons(id: string): string {
         return "";
     }
-} // end class ElementList
+}
+
+class FileList2 {
+    /**
+     * refresh is the public method for updating messageList
+     */
+    refresh() {
+        // Issue a GET, and then pass the result to update()
+        $.ajax({
+            type: "GET",
+            url: "/messages/file",
+            dataType: "json",
+            success: fileList.update
+        });
+    }
+    /**
+     * update is the private method used by refresh() to update messageList
+     */
+    private update(data: any) {
+        $("#fileList").html("<table>");
+        for (let i = 0; i < data.mData.length; ++i) {
+            $("#fileList").append("<tr><td>ID: " + data.mData[i].mId +" </td><td> Name: "+data.mData[i].mfileName+" </td>");
+        }
+    }
+}
+
+
+class fileUpload{
+
+    constructor() {
+        window.alert("Constructor");
+        $("#addFile").click(this.upload);
+    }
+
+    private upload(data:any)
+    {
+        window.alert("Upload");
+        let file = $("#fileUpload")[0].files[0];
+        let fileName = $("#fileName").val();
+        var formData = new FormData();
+        formData.append('mFile', file);
+        formData.append('mFileName',fileName);
+
+        $.ajax({
+            type: "POST",
+            url: "/messages/file",
+            //url: "https://forums.wholetomato.com/mira/echo.aspx",
+            dataType: "json",      // dataType of response to POST
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: fileUpload.onSubmitResponse
+        });
+    }
+    /**
+         * onSubmitResponse runs when the AJAX call in submitForm() returns a 
+         * result.
+         * 
+         * @param data The object returned by the server
+         */
+        private static onSubmitResponse(data: any) {
+            mainList = new ElementList();
+            mainList.refresh();
+        }
+}
 
 // Run some configuration code when the web page loads
 $(document).ready(function () {
@@ -130,6 +186,7 @@ $(document).ready(function () {
     newEntryForm = new NewEntryForm();
     // Create the object for the main data list, and populate it with data from
     // the server
+    FileUpload = new fileUpload();
     mainList = new ElementList();
     mainList.refresh();
 });

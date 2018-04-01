@@ -154,24 +154,40 @@ public class App
             response.status(200);
             response.type("application/json");
             request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
-
             int suc = 0;
-
+            String fileName = request.raw().getParameter("mFileName");
+            String id = "Error";
+            if(fileName == null)
+            {
+                System.out.println("File Name Null");
+                fileName = "Error";
+            }
             try (InputStream is = request.raw().getPart("mFile").getInputStream()) {
                 // Use the input stream to create a file
                 System.out.println("Input Stream Read");
-                uploadFile(is, "FileTest");
+                id = uploadFile(is, fileName);
                 System.out.println("File Uploaded Successfully");
             } catch (Exception e) {
-                suc = 1;
                 System.out.println("Failure: " + e);
             }
-            if (suc == 1) {
+            boolean newId = db.insertFile(fileName,id);
+            if (!newId) {
                 return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
             } else {
                 return gson.toJson(new StructuredResponse("ok", "", null));
             }
         });
+        Spark.post("/messages/file", (request, response) -> {
+            response.status(200);
+            response.type("application/json");
+            return gson.toJson(new StructuredResponse("ok", null, db.selectAllFiles()));
+
+        });
+
+
+
+
+
 
         Spark.get("/", (req, res) -> {
             res.redirect("/index.html");
@@ -201,6 +217,7 @@ public class App
     public static String uploadFile(InputStream in,String filename) throws IOException {
         Drive service;
         String id = "error";
+        int size = 0;
         System.out.println("Drive Found. Filename: "+filename);
         String mimeFull = "image/png";
         try {
@@ -230,7 +247,9 @@ public class App
                             new ByteArrayInputStream(
                                     IOUtils.toByteArray(in)))).setFields("id").execute();
             id = file.getId();
+
             System.out.println("INPUT ID: "+id);
+
         } catch (GoogleJsonResponseException e){
             System.out.println("Google Drive Connection Failure "+e);
             GoogleJsonError error = e.getDetails();
@@ -255,12 +274,8 @@ public class App
         File file = null;
         try {
             service = GDrive.getDriveService();
-
             file = service.files().get(id).execute();
-
             file.getMimeType();
-
-
         } catch (GoogleJsonResponseException e){
             System.out.println("Google Drive Connection Failure "+e);
             GoogleJsonError error = e.getDetails();
