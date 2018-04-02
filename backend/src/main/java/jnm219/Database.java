@@ -161,9 +161,10 @@ public class Database {
         ArrayList<FileRow> res = new ArrayList<FileRow>();
         try {
             ResultSet rs = mSelectAllFiles.executeQuery();
+            System.out.println("HERE");
             while (rs.next()) {
                 //System.err.println("NAMES: "+rs.getString("name"));
-                res.add(new FileRow(rs.getInt("id"),rs.getString("fileName"),rs.getString("fileId"),rs.getInt("fileSize")));
+                res.add(new FileRow(rs.getInt("id"),rs.getString("fileName"),rs.getString("fileId")));
             }
             rs.close();
             return res;

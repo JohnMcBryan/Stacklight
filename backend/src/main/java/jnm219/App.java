@@ -177,9 +177,10 @@ public class App
                 return gson.toJson(new StructuredResponse("ok", "", null));
             }
         });
-        Spark.post("/messages/file", (request, response) -> {
+        Spark.get("/messages/file", (request, response) -> {
             response.status(200);
             response.type("application/json");
+            System.out.println("Spark Called");
             return gson.toJson(new StructuredResponse("ok", null, db.selectAllFiles()));
 
         });

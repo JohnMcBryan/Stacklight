@@ -30,7 +30,7 @@ public class FileRow {
      *
      * @param content The content string for this row of data
      */
-    FileRow(int id, String fileName, String fileId, int fileSize) {
+    FileRow(int id, String fileName, String fileId) {
         mId = id;
         mfileName = fileName;
         mfileId = fileId;

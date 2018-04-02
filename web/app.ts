@@ -39,7 +39,7 @@ class NewEntryForm {
         // get the values of the two fields, force them to be strings, and check
         // that neither is empty
         let name = "" + $("#newName").val();
-        window.alert(name);
+        
         if (name === "") {
             window.alert("Error: Name not Valid");
             return;
@@ -133,9 +133,10 @@ class FileList2 {
      * update is the private method used by refresh() to update messageList
      */
     private update(data: any) {
+        window.alert("Get Update");
         $("#fileList").html("<table>");
         for (let i = 0; i < data.mData.length; ++i) {
-            $("#fileList").append("<tr><td>ID: " + data.mData[i].mId +" </td><td> Name: "+data.mData[i].mfileName+" </td>");
+            $("#fileList").append("<tr><td>ID: " + data.mData[i].mId +" </td><td> File Name: "+data.mData[i].mfileName+" </td>");
         }
     }
 }
@@ -144,13 +145,11 @@ class FileList2 {
 class fileUpload{
 
     constructor() {
-        window.alert("Constructor");
         $("#addFile").click(this.upload);
     }
 
     private upload(data:any)
     {
-        window.alert("Upload");
         let file = $("#fileUpload")[0].files[0];
         let fileName = $("#fileName").val();
         var formData = new FormData();
@@ -184,9 +183,10 @@ class fileUpload{
 $(document).ready(function () {
     // Create the object that controls the "New Entry" form
     newEntryForm = new NewEntryForm();
-    // Create the object for the main data list, and populate it with data from
-    // the server
     FileUpload = new fileUpload();
     mainList = new ElementList();
+    fileList = new FileList2();
+
     mainList.refresh();
+    fileList.refresh();
 });
