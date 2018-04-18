@@ -117,11 +117,10 @@ class ElementList {
 }
 
 class FileList2 {
-    /**
-     * refresh is the public method for updating messageList
-     */
+    private download(data:String){
+        alert("Infunction");
+    }
     refresh() {
-        // Issue a GET, and then pass the result to update()
         $.ajax({
             type: "GET",
             url: "/messages/file",
@@ -133,13 +132,41 @@ class FileList2 {
      * update is the private method used by refresh() to update messageList
      */
     private update(data: any) {
-        window.alert("Get Update");
         $("#fileList").html("<table>");
+
         for (let i = 0; i < data.mData.length; ++i) {
-            $("#fileList").append("<tr><td>ID: " + data.mData[i].mId +" </td><td> File Name: "+data.mData[i].mfileName+" </td>");
+            $("#fileList").append("<tr><td>ID: " + data.mData[i].mId +" </td><td> File Name: "+data.mData[i].mfileName+" </td><td> File ID: "+data.mData[i].mfileId+" </td><td><button class = \"download\" id = \""+data.mData[i].mfileId+"\"> Download </button></td>");
         }
+
+        $(".download").click( function(this:HTMLButtonElement){
+            let id = "" + this.id;
+            if (id === "") {
+                window.alert("Error: Name not Valid");
+                return;
+            }
+            var formData = new FormData();
+            formData.append('mId', id);
+    
+            // set up an AJAX post.  When the server replies, the result will go to
+            // onSubmitResponse
+            $.ajax({
+                type: "POST",
+                url: "/download",
+                dataType: "json",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: fileList.update
+            });
+        })
     }
+
+    
 }
+
+
+
+
 
 
 class fileUpload{
@@ -151,8 +178,9 @@ class fileUpload{
     private upload(data:any)
     {
         let file = $("#fileUpload")[0].files[0];
-        let fileName = $("#fileName").val();
+        //let fileName = $("#fileName").val();
         var formData = new FormData();
+        var fileName = $('input[type=file]').val().replace(/C:\\fakepath\\/i, '')
         formData.append('mFile', file);
         formData.append('mFileName',fileName);
 
@@ -178,6 +206,8 @@ class fileUpload{
             mainList.refresh();
         }
 }
+
+
 
 // Run some configuration code when the web page loads
 $(document).ready(function () {

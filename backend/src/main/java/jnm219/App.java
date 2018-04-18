@@ -157,6 +157,8 @@ public class App
             int suc = 0;
             String fileName = request.raw().getParameter("mFileName");
             String id = "Error";
+            FileRet file = null;
+
             if(fileName == null)
             {
                 System.out.println("File Name Null");
@@ -164,8 +166,8 @@ public class App
             }
             try (InputStream is = request.raw().getPart("mFile").getInputStream()) {
                 // Use the input stream to create a file
-                System.out.println("Input Stream Read");
-                id = uploadFile(is, fileName);
+                file = uploadFile(is,fileName);
+                id = file.id;
                 System.out.println("File Uploaded Successfully");
             } catch (Exception e) {
                 System.out.println("Failure: " + e);
@@ -177,6 +179,20 @@ public class App
                 return gson.toJson(new StructuredResponse("ok", "", null));
             }
         });
+
+        //Route for downloading a file
+        Spark.post("/download", (request, response) -> {
+            response.status(200);
+            response.type("application/json");
+            request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
+            String fileId = request.raw().getParameter("mId");
+
+            System.out.println("Download File: "+fileId);
+            downloadFile2(fileId);
+            return gson.toJson(new StructuredResponse("ok", "", null));
+
+        });
+
         Spark.get("/messages/file", (request, response) -> {
             response.status(200);
             response.type("application/json");
@@ -215,16 +231,16 @@ public class App
         return defaultVal;
     }
 
-    public static String uploadFile(InputStream in,String filename) throws IOException {
+    public static FileRet uploadFile(InputStream in,String fileName) throws IOException {
         Drive service;
         String id = "error";
         int size = 0;
-        System.out.println("Drive Found. Filename: "+filename);
         String mimeFull = "image/png";
+        FileRet ret = new FileRet(id,fileName);
         try {
             service = GDrive.getDriveService();
 
-            String[] parts = filename.split("\\.");
+            String[] parts = fileName.split("\\.");
             String name = parts[0];
             String mime = parts[1];
             System.out.println(name+" "+mime);
@@ -248,14 +264,15 @@ public class App
                             new ByteArrayInputStream(
                                     IOUtils.toByteArray(in)))).setFields("id").execute();
             id = file.getId();
+            fileName = file.getTitle();
 
-            System.out.println("INPUT ID: "+id);
+            System.out.println("INPUT ID: "+id+"FileName: "+fileName);
 
         } catch (GoogleJsonResponseException e){
             System.out.println("Google Drive Connection Failure "+e);
             GoogleJsonError error = e.getDetails();
             System.out.print(error);
-            return "Error";
+            return ret;
         }
         FileList result = service.files().list()
                 .execute();
@@ -268,8 +285,44 @@ public class App
                 System.out.printf("%s (%s)\n",file.getTitle(),file.getId());
             }
         }
-        return id;
+        ret.fileName = fileName;
+        ret.id = id;
+
+        return ret;
     }
+    //This file download was used to
+    public static int downloadFile2(String id) throws IOException {
+        Drive service;
+        File file = null;
+        OutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            service = GDrive.getDriveService();
+            file = service.files().get(id).execute();
+            String Mime = file.getMimeType();
+            System.out.println("Download: "+file.getId());
+            /*
+            service.files().export(id, Mime)
+                    .executeMediaAndDownloadTo(outputStream);
+            */
+            if (file.getDownloadUrl() !=null && file.getDownloadUrl().length() > 0) {
+                try {
+                    HttpResponse resp = service.getRequestFactory().buildGetRequest(new GenericUrl(file.getDownloadUrl())).execute();
+                    return 1;
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                    return 0;
+                }
+            }
+        } catch (GoogleJsonResponseException e){
+            System.out.println("Google Drive Connection Failure "+e);
+            GoogleJsonError error = e.getDetails();
+            System.out.print(error);
+            return 0;
+        }
+        return 1;
+    }
+    //This File download was used to return a file, for displaying purposes on a website
     public static File downloadFile(String id) throws IOException {
         Drive service;
         File file = null;
