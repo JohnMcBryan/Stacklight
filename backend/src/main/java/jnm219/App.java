@@ -75,6 +75,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
+
 public class App
 {
     public static void main(String[] args) {
@@ -300,6 +301,14 @@ public class App
             file = service.files().get(id).execute();
             String Mime = file.getMimeType();
             System.out.println("Download: "+file.getId());
+
+            String name = file.getTitle();
+            InputStream initialStream = downloadFile3(service,file);
+
+            byte[] buffer = new byte[initialStream.available()];
+            initialStream.read(buffer);
+
+            Download.download(initialStream);
             /*
             service.files().export(id, Mime)
                     .executeMediaAndDownloadTo(outputStream);
@@ -337,7 +346,31 @@ public class App
         }
         return file;
     }
-
+    /**
+     * Download a file's content.
+     *
+     * @param service Drive API service instance.
+     * @param file Drive File instance.
+     * @return InputStream containing the file's content if successful,
+     *         {@code null} otherwise.
+     */
+    private static InputStream downloadFile3(Drive service, File file) {
+        if (file.getDownloadUrl() != null && file.getDownloadUrl().length() > 0) {
+            try {
+                HttpResponse resp =
+                        service.getRequestFactory().buildGetRequest(new GenericUrl(file.getDownloadUrl()))
+                                .execute();
+                return resp.getContent();
+            } catch (IOException e) {
+                // An error occurred.
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            // The file doesn't have any content stored on Drive.
+            return null;
+        }
+    }
 }
 
 

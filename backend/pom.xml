@@ -45,7 +45,7 @@
         <version>2.0.2</version>
         <configuration>
           <jdkVersion>1.8</jdkVersion>
-          <appName>stoplight-280</appName>
+          <appName>stoplight-test</appName>
           <processTypes>
             <web>java -jar ./target/backend-1.0-SNAPSHOT-jar-with-dependencies.jar</web>
           </processTypes>
