@@ -135,7 +135,8 @@ class FileList2 {
         $("#fileList").html("<table>");
 
         for (let i = 0; i < data.mData.length; ++i) {
-            $("#fileList").append("<tr><td>ID: " + data.mData[i].mId +" </td><td> File Name: "+data.mData[i].mfileName+" </td><td> File ID: "+data.mData[i].mfileId+" </td><td><button class = \"download\" id = \""+data.mData[i].mfileId+"\"> Download </button></td>");
+            //<button class = \"download\" id = \""+data.mData[i].mfileId+"\" href= \"https://stoplight-test.herokuapp.com/download/"+data.mData[i].mfileId+"\" download> Download </button>
+            $("#fileList").append("<tr><td>ID: " + data.mData[i].mId +" </td><td> File Name: "+data.mData[i].mfileName+" </td><td> File ID: "+data.mData[i].mfileId+" </td><td><a href= \"https://stoplight-test.herokuapp.com/download/"+data.mData[i].mfileId+"\" download = \""+data.mData[i].mfileName+"\">Export</a></td>");
         }
 
         $(".download").click( function(this:HTMLButtonElement){
@@ -144,6 +145,9 @@ class FileList2 {
                 window.alert("Error: Name not Valid");
                 return;
             }
+
+            var url = 'https://stoplight-test.herokuapp.com/download/'+id;
+
             var formData = new FormData();
             formData.append('mId', id);
     

@@ -76,8 +76,7 @@ import java.util.List;
 
 
 
-public class App
-{
+public class App {
     public static void main(String[] args) {
         // Get the port on which to listen for requests
         Spark.port(getIntFromEnv("PORT", 4567));
@@ -123,8 +122,7 @@ public class App
                     System.out.printf("%s (%s)\n", file.getTitle(), file.getId());
                 }
             }
-        }catch(IOException e)
-        {
+        } catch (IOException e) {
             System.out.println(e);
         }
 
@@ -137,7 +135,7 @@ public class App
             return gson.toJson(new StructuredResponse("ok", null, db.selectAllMessages()));
         });
 
-        Spark.post("/messages",(request, response) -> {
+        Spark.post("/messages", (request, response) -> {
             SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);
             response.status(200);
             response.type("application/json");
@@ -160,20 +158,19 @@ public class App
             String id = "Error";
             FileRet file = null;
 
-            if(fileName == null)
-            {
+            if (fileName == null) {
                 System.out.println("File Name Null");
                 fileName = "Error";
             }
             try (InputStream is = request.raw().getPart("mFile").getInputStream()) {
                 // Use the input stream to create a file
-                file = uploadFile(is,fileName);
+                file = uploadFile(is, fileName);
                 id = file.id;
                 System.out.println("File Uploaded Successfully");
             } catch (Exception e) {
                 System.out.println("Failure: " + e);
             }
-            boolean newId = db.insertFile(fileName,id);
+            boolean newId = db.insertFile(fileName, id);
             if (!newId) {
                 return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
             } else {
@@ -181,18 +178,33 @@ public class App
             }
         });
 
-        //Route for downloading a file
-        Spark.post("/download", (request, response) -> {
+        //Route for downloading a google drive file, given its unique id
+        Spark.get("/download/:id", (request, response) -> {
+            //SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);
+            String id = request.params("id");
             response.status(200);
-            response.type("application/json");
-            request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
-            String fileId = request.raw().getParameter("mId");
-
-            System.out.println("Download File: "+fileId);
-            downloadFile2(fileId);
-            return gson.toJson(new StructuredResponse("ok", "", null));
-
+            response.type("image/png");
+            Drive service;
+            try {
+                service = GDrive.getDriveService();
+                OutputStream outputStream = new ByteArrayOutputStream();
+                String mimeType = service.files().get(id).execute().getMimeType();
+                System.out.println("Mime Type: " + mimeType);
+                response.type(mimeType);
+                service.files().get(id)
+                        .executeMediaAndDownloadTo(outputStream);
+                ByteArrayOutputStream bos = (ByteArrayOutputStream) outputStream;
+                response.raw().getOutputStream().write(bos.toByteArray());
+                response.raw().getOutputStream().flush();
+                response.raw().getOutputStream().close();
+            } catch (GoogleJsonResponseException e) {
+                System.out.println("Google Drive Connection Failure " + e);
+                GoogleJsonError error = e.getDetails();
+                System.out.print(error);
+            }
+            return response.raw();
         });
+
 
         Spark.get("/messages/file", (request, response) -> {
             response.status(200);
@@ -203,10 +215,6 @@ public class App
         });
 
 
-
-
-
-
         Spark.get("/", (req, res) -> {
             res.redirect("/index.html");
             return "";
@@ -215,13 +223,13 @@ public class App
             return "Hello World!";
         });
     }
+
     /**
      * Get an integer environment varible if it exists, and otherwise return the
      * default value.
      *
-     * @envar      The name of the environment variable to get.
+     * @envar The name of the environment variable to get.
      * @defaultVal The integer value to use as the default if envar isn't found
-     *
      * @returns The best answer we could come up with for a value for envar
      */
     static int getIntFromEnv(String envar, int defaultVal) {
@@ -232,34 +240,38 @@ public class App
         return defaultVal;
     }
 
-    public static FileRet uploadFile(InputStream in,String fileName) throws IOException {
+    //Code for Uploading a file to our google drive
+    //This first looks at the file name to figure out the MiMe type, then converts the contents to a File,
+    //Next it uploads the file to Google Drive
+    //Finally, it returns the name of the file and the unique file id
+    public static FileRet uploadFile(InputStream in, String fileName) throws IOException {
         Drive service;
         String id = "error";
         int size = 0;
         String mimeFull = "image/png";
-        FileRet ret = new FileRet(id,fileName);
+        FileRet ret = new FileRet(id, fileName);
         try {
             service = GDrive.getDriveService();
 
             String[] parts = fileName.split("\\.");
             String name = parts[0];
             String mime = parts[1];
-            System.out.println(name+" "+mime);
+            System.out.println(name + " " + mime);
             File body = new File();
             body.setTitle(name);
             body.setDescription("Description");
-            if(mime.equals("png") || mime.equals("jpeg"))
-            {
-                mimeFull = "image/"+mime;
-                body.setMimeType(mime);
+            if (mime.equals("png") || mime.equals("jpeg")) {
+                mimeFull = "image/" + mime;
             }
-            else if (mime.equals("pdf"))
-            {
+            else if(mime.equals("txt")){
+                mimeFull = "text/plain";
+            }
+            else if (mime.equals("pdf")) {
                 mimeFull = "application/pdf";
-                body.setMimeType(mime);
             }
+            body.setMimeType(mime);
 
-            File file= service.files().insert(body,
+            File file = service.files().insert(body,
                     new InputStreamContent(
                             mimeFull,
                             new ByteArrayInputStream(
@@ -267,10 +279,10 @@ public class App
             id = file.getId();
             fileName = file.getTitle();
 
-            System.out.println("INPUT ID: "+id+"FileName: "+fileName);
+            System.out.println("INPUT ID: " + id + "FileName: " + fileName);
 
-        } catch (GoogleJsonResponseException e){
-            System.out.println("Google Drive Connection Failure "+e);
+        } catch (GoogleJsonResponseException e) {
+            System.out.println("Google Drive Connection Failure " + e);
             GoogleJsonError error = e.getDetails();
             System.out.print(error);
             return ret;
@@ -283,7 +295,7 @@ public class App
         } else {
             System.out.println("Files:");
             for (File file : files) {
-                System.out.printf("%s (%s)\n",file.getTitle(),file.getId());
+                System.out.printf("%s (%s)\n", file.getTitle(), file.getId());
             }
         }
         ret.fileName = fileName;
@@ -291,86 +303,8 @@ public class App
 
         return ret;
     }
-    //This file download was used to
-    public static int downloadFile2(String id) throws IOException {
-        Drive service;
-        File file = null;
-        OutputStream outputStream = new ByteArrayOutputStream();
-        try {
-            service = GDrive.getDriveService();
-            file = service.files().get(id).execute();
-            String Mime = file.getMimeType();
-            System.out.println("Download: "+file.getId());
 
-            String name = file.getTitle();
-            InputStream initialStream = downloadFile3(service,file);
-
-            byte[] buffer = new byte[initialStream.available()];
-            initialStream.read(buffer);
-
-            Download.download(initialStream);
-            /*
-            service.files().export(id, Mime)
-                    .executeMediaAndDownloadTo(outputStream);
-            */
-            if (file.getDownloadUrl() !=null && file.getDownloadUrl().length() > 0) {
-                try {
-                    HttpResponse resp = service.getRequestFactory().buildGetRequest(new GenericUrl(file.getDownloadUrl())).execute();
-                    return 1;
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                    return 0;
-                }
-            }
-        } catch (GoogleJsonResponseException e){
-            System.out.println("Google Drive Connection Failure "+e);
-            GoogleJsonError error = e.getDetails();
-            System.out.print(error);
-            return 0;
-        }
-        return 1;
-    }
-    //This File download was used to return a file, for displaying purposes on a website
-    public static File downloadFile(String id) throws IOException {
-        Drive service;
-        File file = null;
-        try {
-            service = GDrive.getDriveService();
-            file = service.files().get(id).execute();
-            file.getMimeType();
-        } catch (GoogleJsonResponseException e){
-            System.out.println("Google Drive Connection Failure "+e);
-            GoogleJsonError error = e.getDetails();
-            System.out.print(error);
-        }
-        return file;
-    }
-    /**
-     * Download a file's content.
-     *
-     * @param service Drive API service instance.
-     * @param file Drive File instance.
-     * @return InputStream containing the file's content if successful,
-     *         {@code null} otherwise.
-     */
-    private static InputStream downloadFile3(Drive service, File file) {
-        if (file.getDownloadUrl() != null && file.getDownloadUrl().length() > 0) {
-            try {
-                HttpResponse resp =
-                        service.getRequestFactory().buildGetRequest(new GenericUrl(file.getDownloadUrl()))
-                                .execute();
-                return resp.getContent();
-            } catch (IOException e) {
-                // An error occurred.
-                e.printStackTrace();
-                return null;
-            }
-        } else {
-            // The file doesn't have any content stored on Drive.
-            return null;
-        }
-    }
 }
+
 
 
