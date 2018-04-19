@@ -134,6 +134,17 @@ public class App {
             response.type("application/json");
             return gson.toJson(new StructuredResponse("ok", null, db.selectAllMessages()));
         });
+        //Route For getting all of the sub files
+
+        Spark.get("/messages/file/:pid", (request, response) -> {
+            //System.out.println("Entering Messages");
+            response.status(200);
+            response.type("application/json");
+            String id = request.params("pid");
+            int pid = Integer.parseInt(id);
+            return gson.toJson(new StructuredResponse("ok", null, db.selectSubFiles(pid)));
+
+        });
 
         Spark.post("/messages", (request, response) -> {
             SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);

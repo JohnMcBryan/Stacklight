@@ -135,9 +135,17 @@ class FileList2 {
         $("#fileList").html("<table>");
 
         for (let i = 0; i < data.mData.length; ++i) {
-            //<button class = \"download\" id = \""+data.mData[i].mfileId+"\" href= \"https://stoplight-test.herokuapp.com/download/"+data.mData[i].mfileId+"\" download> Download </button>
-            $("#fileList").append("<tr><td>ID: " + data.mData[i].mId +" </td><td> File Name: "+data.mData[i].mfileName+" </td><td> File ID: "+data.mData[i].mfileId+" </td><td><a href= \"https://stoplight-test.herokuapp.com/download/"+data.mData[i].mfileId+"\" download = \""+data.mData[i].mfileName+"\">Export</a></td>");
+            let sub = "sub-"+data.mData[i].mId;
+            $("#fileList").append("<tr><td>ID: " + data.mData[i].mId +" </td><td> File Name: "+data.mData[i].mfileName+" </td><td> File ID: "+data.mData[i].mfileId+" </td><td><a href= \"https://stoplight-test.herokuapp.com/download/"+data.mData[i].mfileId+"\" download = \""+data.mData[i].mfileName+"\">Export</a></td><tr><td><div id = \""+sub+"\"></div></td></tr><tr></tr>");
+
+            $.ajax({
+                type: "GET",
+                url: "/messages/file/"+data.mData[i].mId,
+                dataType: "json",
+                success: fileList.updateSub
+            });
         }
+        
 
         $(".download").click( function(this:HTMLButtonElement){
             let id = "" + this.id;
@@ -164,15 +172,17 @@ class FileList2 {
             });
         })
     }
-
+    private updateSub(data: any) {
+        let pid = data.mData.mpid;
+        $("#sub-"+pid).html("<table>");
+        //alert("#sub-"+pid);
+        for (let i = 0; i < data.mData.length; ++i) {
+            let sub = "sub-"+data.mData[i].mId;
+            $("#fileList").append("<tr><td>ID: " + data.mData[i].mId +" </td><td>PID: "+data.mData[i].mpid+" </td><td> File Name: "+data.mData[i].mfileName+" </td><td> File ID: "+data.mData[i].mfileId+" </td><td><a href= \"https://stoplight-test.herokuapp.com/download/"+data.mData[i].mfileId+"\" download = \""+data.mData[i].mfileName+"\">Export</a></td>");
+        }
+    }
     
 }
-
-
-
-
-
-
 class fileUpload{
 
     constructor() {
