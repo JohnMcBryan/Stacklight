@@ -35,6 +35,8 @@ public class Database {
     private PreparedStatement mInsertFile;
     private PreparedStatement mSelectAllFiles;
     private PreparedStatement mSelectSubFiles;
+    private PreparedStatement mInsertSubFile;
+    private PreparedStatement mSelectAllSubFiles;
 
     /**
      * Give the Database object a connection, fail if we cannot get one
@@ -89,6 +91,8 @@ public class Database {
             db.mInsertFile = db.mConnection.prepareStatement("INSERT INTO Files Values (default,?,?)");
 
             db.mSelectSubFiles = db.mConnection.prepareStatement("SELECT * FROM SubFiles WHERE parentId = ?");
+            db.mSelectAllSubFiles = db.mConnection.prepareStatement("SELECT * FROM SubFiles");
+            db.mInsertSubFile = db.mConnection.prepareStatement("INSERT INTO SubFiles Values (default,?,?,?,?)");
 
 
         } catch (SQLException e) {
@@ -159,6 +163,24 @@ public class Database {
         }
         return true;
     }
+    boolean insertSubFile(String fileName,String fileId,int pid,String time)
+    {
+        int rs=0;
+        try {
+            System.out.println("FileName: "+ fileName);
+            mInsertSubFile.setString(1,fileName);
+            mInsertSubFile.setString(2,fileId);
+            mInsertSubFile.setInt(3,pid);
+            mInsertSubFile.setString(4,time);
+            rs +=mInsertSubFile.executeUpdate();
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
 
     ArrayList<FileRow> selectAllFiles() {
         ArrayList<FileRow> res = new ArrayList<FileRow>();
@@ -182,7 +204,25 @@ public class Database {
         try {
             mSelectSubFiles.setInt(1,pid);
             ResultSet rs = mSelectSubFiles.executeQuery();
-            System.out.println("SubFiles HERE");
+            //System.out.println("SubFiles HERE");
+            while (rs.next()) {
+                //System.err.println("NAMES: "+rs.getString("name"));
+                res.add(new SubFileRow(rs.getInt("id"),rs.getString("fileName"),rs.getString("fileId"),rs.getInt("parentId"),rs.getString("time")));
+            }
+            rs.close();
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    ArrayList<SubFileRow> selectAllSubFiles() {
+        ArrayList<SubFileRow> res = new ArrayList<SubFileRow>();
+        System.out.println("selectAllSubFiles");
+        try {
+            ResultSet rs = mSelectAllSubFiles.executeQuery();
+            System.out.println("SubFiles Are Here");
             while (rs.next()) {
                 //System.err.println("NAMES: "+rs.getString("name"));
                 res.add(new SubFileRow(rs.getInt("id"),rs.getString("fileName"),rs.getString("fileId"),rs.getInt("parentId"),rs.getString("time")));

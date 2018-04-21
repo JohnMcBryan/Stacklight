@@ -23,6 +23,8 @@ import java.security.Permission;
 import java.sql.Array;
 import java.util.Arrays;
 import javax.servlet.*;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 //Importing the ability to access the database from Postgres
 import java.sql.Connection;
@@ -125,19 +127,43 @@ public class App {
         } catch (IOException e) {
             System.out.println(e);
         }
-
-
-        // Set up a route for serving the main page
-        Spark.get("/messages", (request, response) -> {
-            // ensure status 200 OK, with a MIME type of JSON
+        //Route for uploading a file
+        Spark.post("/file/sub/:pid", (request, response) -> {
             response.status(200);
             response.type("application/json");
-            return gson.toJson(new StructuredResponse("ok", null, db.selectAllMessages()));
-        });
-        //Route For getting all of the sub files
+            request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
+            int suc = 0;
+            String pidString = request.raw().getParameter("mPid");
+            int pid = Integer.parseInt(pidString);
+            String fileName = request.raw().getParameter("mFileName");
+            String id = "Error";
+            FileRet file = null;
 
-        Spark.get("/messages/file/:pid", (request, response) -> {
-            //System.out.println("Entering Messages");
+            if (fileName == null) {
+                System.out.println("File Name Null");
+                fileName = "Error";
+            }
+            try (InputStream is = request.raw().getPart("mFile").getInputStream()) {
+                // Use the input stream to create a file
+                file = uploadFile(is, fileName);
+                id = file.id;
+                System.out.println("File Uploaded Successfully");
+            } catch (Exception e) {
+                System.out.println("Failure: " + e);
+            }
+            String timeStamp = new SimpleDateFormat("MM.dd.yyyy.HH.mm").format(new Date());
+            boolean newId = db.insertSubFile(fileName, id,pid,timeStamp);
+
+            if (!newId) {
+                return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
+            } else {
+                return gson.toJson(new StructuredResponse("ok", "", null));
+            }
+        });
+
+        //Route For getting one parents sub files
+        Spark.get("/file/:pid", (request, response) -> {
+
             response.status(200);
             response.type("application/json");
             String id = request.params("pid");
@@ -146,21 +172,8 @@ public class App {
 
         });
 
-        Spark.post("/messages", (request, response) -> {
-            SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);
-            response.status(200);
-            response.type("application/json");
-            //System.out.println(request.raw().getParameter("mName"));
-            boolean newId = db.insertName(req.mName);
-            if (!newId) {
-                return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
-            } else {
-                return gson.toJson(new StructuredResponse("ok", "" + newId, null));
-            }
-        });
-        //image tag points to spark route and wraps the return value of get statement
-        Spark.post("/messages/file", (request, response) -> {
-            //System.out.println("Entering Messages");
+        //Route for uploading a file
+        Spark.post("/file", (request, response) -> {
             response.status(200);
             response.type("application/json");
             request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
@@ -216,15 +229,21 @@ public class App {
             return response.raw();
         });
 
-
-        Spark.get("/messages/file", (request, response) -> {
+        //Route for getting all of the file objects
+        Spark.get("/file", (request, response) -> {
             response.status(200);
             response.type("application/json");
-            System.out.println("Spark Called");
             return gson.toJson(new StructuredResponse("ok", null, db.selectAllFiles()));
 
         });
 
+        //Select All Sub Files
+        Spark.get("/file/sub", (request, response) -> {
+            response.status(200);
+            response.type("application/json");
+            System.out.println("Spark Called");
+            return gson.toJson(new StructuredResponse("ok", null, db.selectAllSubFiles()));
+        });
 
         Spark.get("/", (req, res) -> {
             res.redirect("/index.html");
@@ -234,7 +253,6 @@ public class App {
             return "Hello World!";
         });
     }
-
     /**
      * Get an integer environment varible if it exists, and otherwise return the
      * default value.
