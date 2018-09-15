@@ -11,11 +11,13 @@ var FileUpload: fileUpload;
 var fileList: FileList2;
 var subFileList: SubFileList;
 
+const backendUrl = "https://stoplight-test.herokuapp.com";
+
 class SubFileList{
     refresh() {
         $.ajax({
             type: "GET",
-            url: "/file/sub",
+            url: backendUrl + "/file/sub",
             dataType: "json",
             success: subFileList.update
         });
@@ -37,7 +39,7 @@ class FileList2 {
     refresh() {
         $.ajax({
             type: "GET",
-            url: "/file",
+            url: backendUrl + "/file",
             dataType: "json",
             success: fileList.update
         });
@@ -54,7 +56,7 @@ class FileList2 {
             /*
             $.ajax({
                 type: "GET",
-                url: "/file/"+data.mData[i].mId,
+                url: backendUrl + "/file/"+data.mData[i].mId,
                 dataType: "json",
                 success: fileList.updateSub
             });
@@ -74,7 +76,7 @@ class FileList2 {
             let url = "/file/sub/"+pid;
             $.ajax({
                 type: "POST",
-                url: url,
+                url: backendUrl + url,
                 dataType: "json",
                 data: formData,
                 contentType: false,
@@ -112,7 +114,7 @@ class fileUpload{
 
         $.ajax({
             type: "POST",
-            url: "/file",
+            url: backendUrl + "/file",
             dataType: "json",      // dataType of response to POST
             data: formData,
             contentType: false,
