@@ -84,11 +84,12 @@ public class App {
         Spark.port(getIntFromEnv("PORT", 4567));
 
         String static_location_override = System.getenv("STATIC_LOCATION");
-        if (static_location_override == null) {
-            Spark.staticFileLocation("/web");
-        } else {
-            Spark.staticFiles.externalLocation(static_location_override);
-        }
+//        if (static_location_override == null) {
+//            Spark.staticFileLocation("/web");
+//        } else {
+//            Spark.staticFiles.externalLocation(static_location_override);
+//        }
+        Spark.staticFileLocation("/web");
 
         final String acceptCrossOriginRequestsFrom = "*";
         final String acceptedCrossOriginRoutes = "GET,PUT,POST,DELETE,OPTIONS";
@@ -254,6 +255,12 @@ public class App {
             res.redirect("/index.html");
             return "";
         });
+
+        Spark.get("/tasks",(req,res) -> {
+           res.redirect("/tasks.html");
+            return "Here";
+        });
+
         Spark.get("/hello", (request, response) -> {
             return "Hello World!";
         });
