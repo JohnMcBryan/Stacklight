@@ -30,6 +30,8 @@ public class Taskbase {
      * A prepared statement for getting all messages
      */
     private PreparedStatement mSelectAllTasks;
+
+    private PreparedStatement mAddTask;
     /**
      * Give the Database object a connection, fail if we cannot get one
      * Must be logged into heroku on a local computer to be able to use mvn heroku:deploy
@@ -101,6 +103,7 @@ public class Taskbase {
 
         try{
             tb.mSelectAllTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks");
+            tb.mAddTask = tb.mConnection.prepareStatement("INSERT INTO Tasks Values (default,?,?,?,?,?,?,default)");
 
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
@@ -132,6 +135,26 @@ public class Taskbase {
             e.printStackTrace();
             return null;
         }
+    }
+    //Method for adding a new task
+    boolean addTask(int projectId,String taskname,String description,
+                          int priority, String assignee, String assigner) {
+        int rs=0;
+        try {
+            System.out.println("Adding: " + taskname);
+            mAddTask.setInt(1,projectId);
+            mAddTask.setString(2,taskname);
+            mAddTask.setString(3,description);
+            mAddTask.setInt(4,priority);
+            mAddTask.setString(5,assignee);
+            mAddTask.setString(6,assigner);
+            rs +=mAddTask.executeUpdate();
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
 

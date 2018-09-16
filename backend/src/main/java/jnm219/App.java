@@ -258,7 +258,7 @@ public class App {
         });
 
         Spark.get("/tasks",(req,res) -> {
-           res.redirect("/tasks.html");
+            res.redirect("/tasks.html");
            return "";
         });
 
@@ -267,6 +267,27 @@ public class App {
             res.type("application/json");
             System.out.println("Spark Called");
             return gson.toJson(new StructuredTask("ok", null, tb.selectAllTasks()));
+        });
+
+        Spark.post("/tasks", (req, res) -> {
+            res.status(200);
+            res.type("application/json");
+            req.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
+
+            int projectId = Integer.parseInt( req.raw().getParameter("mProjectId") );
+            String taskName = req.raw().getParameter("mTaskname");
+            String description = req.raw().getParameter("mDescription");
+            int priority = Integer.parseInt( req.raw().getParameter("mPriority") );
+            String assignee = req.raw().getParameter("mAssignee");
+            String assigner = req.raw().getParameter("mAssigner");
+
+            boolean newTask = tb.addTask(projectId,taskName,description,
+                    priority,assignee,assigner);
+            if (newTask == false) {
+                return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
+            } else {
+                return gson.toJson(new StructuredResponse("ok", "" + newTask, null));
+            }
         });
 
         Spark.get("/hello", (request, response) -> {
