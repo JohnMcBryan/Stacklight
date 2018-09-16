@@ -23,6 +23,8 @@ cp node_modules/jquery/dist/jquery.min.js $TARGETFOLDER
 
 # step 4: compile TypeScript files
 node_modules/.bin/tsc app.ts --strict --outFile $TARGETFOLDER/app.js
+node_modules/.bin/tsc tasks.ts --strict --outFile $TARGETFOLDER/tasks.js
+
 
 # step 5: compile tests and copy tests to the local deploy folder
 node_modules/.bin/tsc apptest.ts --strict --outFile $TARGETFOLDER/apptest.js

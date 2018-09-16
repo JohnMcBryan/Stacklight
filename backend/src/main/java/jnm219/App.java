@@ -84,12 +84,12 @@ public class App {
         Spark.port(getIntFromEnv("PORT", 4567));
 
         String static_location_override = System.getenv("STATIC_LOCATION");
-//        if (static_location_override == null) {
-//            Spark.staticFileLocation("/web");
-//        } else {
-//            Spark.staticFiles.externalLocation(static_location_override);
-//        }
-        Spark.staticFileLocation("/web");
+        if (static_location_override == null) {
+            Spark.staticFileLocation("/web");
+        } else {
+            Spark.staticFiles.externalLocation(static_location_override);
+        }
+
 
         final String acceptCrossOriginRequestsFrom = "*";
         final String acceptedCrossOriginRoutes = "GET,PUT,POST,DELETE,OPTIONS";
@@ -98,6 +98,7 @@ public class App {
 
         final Gson gson = new Gson();
         Database db = Database.getDatabase(2);
+        Taskbase tb = Taskbase.getTaskbase(2);
 
         // Give the Database object a connection, fail if we cannot get one
         try {
@@ -258,7 +259,14 @@ public class App {
 
         Spark.get("/tasks",(req,res) -> {
            res.redirect("/tasks.html");
-            return "Here";
+           return "";
+        });
+
+        Spark.get("/tasks/all",(req,res) -> {
+            res.status(200);
+            res.type("application/json");
+            System.out.println("Spark Called");
+            return gson.toJson(new StructuredTask("ok", null, tb.selectAllTasks()));
         });
 
         Spark.get("/hello", (request, response) -> {

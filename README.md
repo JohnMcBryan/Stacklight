@@ -30,4 +30,6 @@ Then in the backend folder use:
 
 mvn package; mvn heroku:deploy
 
-Note: 
+Notes:
+
+- When adding a new html page, make sure that you add the html in the deploy.sh and ldeploy.sh
