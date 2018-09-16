@@ -33,3 +33,4 @@ mvn package; mvn heroku:deploy
 Notes:
 
 - When adding a new html page, make sure that you add the html in the deploy.sh and ldeploy.sh
+- When going cloning for the first time, you might have problems

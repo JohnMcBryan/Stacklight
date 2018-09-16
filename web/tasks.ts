@@ -14,8 +14,9 @@ class TaskList {
     }
     private update(data: any) {
         $("#taskList").html("<table>");
+        console.log(data);
         for (let i = 0; i < data.mTaskData.length; ++i) {
-            $("#taskList").append("<tr><td>"+data.mTaskData.mId+"</td><td>Task: " +data.mTaskData.mName+"</td><td>Task: " +data.mTaskData.mDescription+"</td><tr>");
+            $("#taskList").append("<tr><td>"+data.mTaskData[i].mId+". </td><td> <b> " +data.mTaskData[i].mName+" :</b></td><td> " +data.mTaskData[i].mDescription+"</td><tr>");
         }
     }
 }

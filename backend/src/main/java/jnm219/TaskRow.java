@@ -20,4 +20,8 @@ public class TaskRow {
         mAssigner = assigner;
     }
 
+    public String toString() {
+        return mId + " " + mProjectId+" "+ mName+" "+mDescription;
+    }
+
 }

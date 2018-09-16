@@ -120,9 +120,11 @@ public class Taskbase {
             ResultSet rs = mSelectAllTasks.executeQuery();
             System.out.println("IN SELECT ALL TASKS");
             while (rs.next()) {
-                res.add(new TaskRow(rs.getInt("id"),rs.getInt("projectId"),rs.getString("taskname"),
+                TaskRow taskrow = new TaskRow(rs.getInt("id"),rs.getInt("projectId"),rs.getString("taskname"),
                         rs.getString("description"),rs.getInt("priority"),rs.getString("assignee"),
-                        rs.getString("assigner")));
+                        rs.getString("assigner"));
+                System.out.println(taskrow);
+                res.add(taskrow);
             }
             rs.close();
             return res;
