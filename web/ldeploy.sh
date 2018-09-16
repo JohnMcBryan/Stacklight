@@ -18,6 +18,7 @@ mkdir $TARGETFOLDER
 # step 3: copy static html, css, and JavaScript files
 cp index.html $TARGETFOLDER
 cp tasks.html $TARGETFOLDER
+cp tasksAddForm.html $TARGETFOLDER
 cp app.css $TARGETFOLDER
 cp node_modules/jquery/dist/jquery.min.js $TARGETFOLDER
 

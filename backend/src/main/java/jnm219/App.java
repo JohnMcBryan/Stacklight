@@ -262,6 +262,11 @@ public class App {
            return "";
         });
 
+        Spark.get("/tasks/addForm",(req,res) -> {
+            res.redirect("/tasksAddForm.html");
+            return "";
+        });
+
         Spark.get("/tasks/all",(req,res) -> {
             res.status(200);
             res.type("application/json");
@@ -283,7 +288,7 @@ public class App {
 
             boolean newTask = tb.addTask(projectId,taskName,description,
                     priority,assignee,assigner);
-            if (newTask == false) {
+            if (!newTask) {
                 return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
             } else {
                 return gson.toJson(new StructuredResponse("ok", "" + newTask, null));
