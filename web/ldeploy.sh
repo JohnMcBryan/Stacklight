@@ -24,6 +24,7 @@ cp node_modules/jquery/dist/jquery.min.js $TARGETFOLDER
 cp Images/logo.png $TARGETIMAGEFOLDER
 cp Images/logoWhite.png $TARGETIMAGEFOLDER
 cp Images/uploadwhite.png $TARGETIMAGEFOLDER
+cp Images/add-list.png $TARGETIMAGEFOLDER
 
 # step 4: compile TypeScript files
 node_modules/.bin/tsc app.ts --strict --outFile $TARGETFOLDER/app.js
