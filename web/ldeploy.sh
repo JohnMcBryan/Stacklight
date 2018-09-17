@@ -6,6 +6,7 @@
 
 # This is the resource folder where maven expects to find our files
 TARGETFOLDER=./local
+TARGETIMAGEFOLDER=./$TARGETFOLDER/Images
 
 # step 1: update our npm dependencies
 npm update
@@ -14,11 +15,15 @@ npm update
 #         old folder, and then make it from scratch
 rm -rf $TARGETFOLDER
 mkdir $TARGETFOLDER
+mkdir $TARGETIMAGEFOLDER
 
 # step 3: copy static html, css, and JavaScript files
 cp index.html $TARGETFOLDER
-cp app.css $TARGETFOLDER
+cp style.css $TARGETFOLDER
 cp node_modules/jquery/dist/jquery.min.js $TARGETFOLDER
+cp Images/logo.png $TARGETIMAGEFOLDER
+cp Images/logoWhite.png $TARGETIMAGEFOLDER
+cp Images/uploadwhite.png $TARGETIMAGEFOLDER
 
 # step 4: compile TypeScript files
 node_modules/.bin/tsc app.ts --strict --outFile $TARGETFOLDER/app.js
