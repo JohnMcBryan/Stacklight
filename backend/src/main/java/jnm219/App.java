@@ -75,6 +75,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
+import jnm219.InsertUser;
 
 
 
@@ -342,6 +343,29 @@ public class App {
         Spark.get("/hello", (request, response) -> {
             return "Hello World!";
         });
+
+        Spark.post("/users", (request, response) -> {
+            response.status(200);
+            response.type("application/json");
+            System.out.println("Entering Folder");
+            System.out.println(request.body().toString());
+            InsertUser incoming = gson.fromJson(request.body(), InsertUser.class);
+            int newId = db.insertUser(incoming.mFirstName, incoming,mLastName, incoming.mEmail, incoming.mPass);
+            if (newId == -1) {
+                System.out.println("ERROR");
+                return gson.toJson(new StructuredResponse("error", -1, null));
+            } else {
+                System.out.println("OK");
+                return gson.toJson(new StructuredResponse("ok", newId, null));
+            }
+        });
+        Spark.get("/users", (request, response) -> {
+            response.status(200);
+            response.type("application/json");
+            SimpleRequest incoming = gson.fromJson(request.body(), SimpleRequest.class);
+            return gson.toJson(new StructuredResponse("ok", null, db.selectUser(incoming.mId)));
+
+        });
     }
 
     /**
@@ -455,6 +479,7 @@ public class App {
 
         return ret;
     }
+
 
 }
 
