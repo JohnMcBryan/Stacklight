@@ -17,4 +17,12 @@ public class SimpleRequest {
      * The message being provided by the client.
      */
     public String mName;
+
+    public String mProjectId;
+    public String mTaskname;
+    public String mDescription;
+    public String mPriority;
+    public String mAssignee;
+    public String mAssigner;
+
 }

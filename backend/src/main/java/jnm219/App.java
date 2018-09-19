@@ -274,17 +274,23 @@ public class App {
             return gson.toJson(new StructuredTask("ok", null, tb.selectAllTasks()));
         });
 
-        Spark.post("/tasks", (req, res) -> {
+        Spark.post("/tasks", (request, res) -> {
+            System.out.println("Adding a task....");
+            SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);
             res.status(200);
             res.type("application/json");
-            req.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
 
-            int projectId = Integer.parseInt( req.raw().getParameter("mProjectId") );
-            String taskName = req.raw().getParameter("mTaskname");
-            String description = req.raw().getParameter("mDescription");
-            int priority = Integer.parseInt( req.raw().getParameter("mPriority") );
-            String assignee = req.raw().getParameter("mAssignee");
-            String assigner = req.raw().getParameter("mAssigner");
+            System.out.println("In Backend: "+ req.mTaskname);
+            int projectId = Integer.parseInt( req.mProjectId );
+            System.out.println("In Backend2: "+ projectId);
+            String taskName = req.mTaskname;
+            System.out.println("In Backend3: "+ req.mTaskname);
+            String description = req.mDescription;
+            System.out.println("In Backend4: "+ req.mDescription);
+            int priority = Integer.parseInt( req.mPriority );
+            System.out.println("In Backend5: "+ req.mPriority);
+            String assignee = req.mAssignee;
+            String assigner = req.mAssigner;
 
             boolean newTask = tb.addTask(projectId,taskName,description,
                     priority,assignee,assigner);

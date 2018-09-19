@@ -3,6 +3,7 @@
 var backendUrl = "https://stoplight-test.herokuapp.com";
 var $;
 var taskList;
+var newtaskform;
 var TaskList = /** @class */ (function () {
     function TaskList() {
     }
@@ -23,8 +24,54 @@ var TaskList = /** @class */ (function () {
     };
     return TaskList;
 }());
+var NewTaskForm = /** @class */ (function () {
+    function NewTaskForm() {
+        $("#addButton").click(this.submitForm);
+    }
+    NewTaskForm.prototype.submitForm = function () {
+        var taskname = "" + $("#taskname").val();
+        var description = "" + $("#description").val();
+        var priority = $("#priority").val();
+        var assignee = "" + $("#assignee").val();
+        var assigner = "" + $("assigner").val();
+        if (taskname === "" || description === "") {
+            window.alert("Error: Task is not valid");
+            return;
+        }
+        console.log(taskname);
+        // set up an AJAX post.  When the server replies, the result will go to
+        // onSubmitResponse
+        $.ajax({
+            type: "POST",
+            url: backendUrl + "/tasks",
+            dataType: "json",
+            data: JSON.stringify({ mProjectId: 1, mTaskname: taskname,
+                mDescription: description, mPriority: priority, mAssignee: assignee,
+                mAssigner: assigner }),
+            success: newtaskform.onSubmitResponse,
+            error: newtaskform.onSubmitResponse
+        });
+    };
+    NewTaskForm.prototype.onSubmitResponse = function (data) {
+        // If we get an "ok" message, clear the form
+        if (data.mStatus === "ok") {
+            console.log("Task Added Sucessfully!");
+            taskList.refresh();
+        }
+        // Handle explicit errors with a detailed popup message
+        else if (data.mStatus === "error") {
+            window.alert("The server replied with an error:\n" + data.mMessage);
+        }
+        // Handle other errors with a less-detailed popup message
+        else {
+            window.alert("Unspecified error");
+        }
+    };
+    return NewTaskForm;
+}());
 $(document).ready(function () {
     console.log("Loading Tasks Page.......");
     taskList = new TaskList();
+    newtaskform = new NewTaskForm();
     taskList.refresh();
 });

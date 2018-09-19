@@ -140,8 +140,9 @@ public class Taskbase {
     boolean addTask(int projectId,String taskname,String description,
                           int priority, String assignee, String assigner) {
         int rs=0;
+
         try {
-            System.out.println("Adding: " + taskname);
+            System.out.println(projectId + "Adding: " + taskname);
             mAddTask.setInt(1,projectId);
             mAddTask.setString(2,taskname);
             mAddTask.setString(3,description);

@@ -7,6 +7,7 @@
 # This is the resource folder where maven expects to find our files
 TARGETFOLDER=./local
 
+
 # step 1: update our npm dependencies
 npm update
 
@@ -37,4 +38,4 @@ cp node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js $TARGETFOLDER
 
 # step 6: launch the server.  Be sure to disable caching
 # (Note: we don't currently use -s for silent operation)
-node_modules/.bin/http-server $TARGETFOLDER -c-1
+node_modules/.bin/http-server $TARGETFOLDE
