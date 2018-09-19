@@ -99,6 +99,7 @@ public class App {
         final Gson gson = new Gson();
         Database db = Database.getDatabase(2);
         Taskbase tb = Taskbase.getTaskbase(2);
+        Projectbase pb = Projectbase.getProjectbase(2);
 
         // Give the Database object a connection, fail if we cannot get one
         try {
@@ -272,6 +273,13 @@ public class App {
             res.type("application/json");
             System.out.println("Spark Called");
             return gson.toJson(new StructuredTask("ok", null, tb.selectAllTasks()));
+        });
+
+        Spark.get("/projects/all",(req,res) -> {
+            res.status(200);
+            res.type("application/json");
+            System.out.println("Spark Called");
+            return gson.toJson(new StructuredTask("ok", null, pb.selectAllProjects()));
         });
 
         Spark.post("/tasks", (request, res) -> {
