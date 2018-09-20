@@ -279,7 +279,7 @@ public class App {
             res.status(200);
             res.type("application/json");
             System.out.println("Spark Called");
-            return gson.toJson(new StructuredTask("ok", null, pb.selectAllProjects()));
+            return gson.toJson(new StructuredProject("ok", null, pb.selectAllProjects()));
         });
 
         Spark.post("/tasks", (request, res) -> {
@@ -288,15 +288,10 @@ public class App {
             res.status(200);
             res.type("application/json");
 
-            System.out.println("In Backend: "+ req.mTaskname);
             int projectId = Integer.parseInt( req.mProjectId );
-            System.out.println("In Backend2: "+ projectId);
             String taskName = req.mTaskname;
-            System.out.println("In Backend3: "+ req.mTaskname);
             String description = req.mDescription;
-            System.out.println("In Backend4: "+ req.mDescription);
             int priority = Integer.parseInt( req.mPriority );
-            System.out.println("In Backend5: "+ req.mPriority);
             String assignee = req.mAssignee;
             String assigner = req.mAssigner;
 

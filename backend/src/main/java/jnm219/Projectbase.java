@@ -123,7 +123,7 @@ public class Projectbase {
             ResultSet rs = mSelectAllProjects.executeQuery();
             System.out.println("IN SELECT ALL PROJECTS");
             while (rs.next()) {
-                ProjectRow Projectrow = new ProjectRow(rs.getInt("id"),rs.getString("Projectname"),
+                ProjectRow Projectrow = new ProjectRow(rs.getInt("id"),rs.getString("name"),
                         rs.getString("description"),rs.getString("owner"),
                         rs.getString("organization"));
                 System.out.println(Projectrow);
