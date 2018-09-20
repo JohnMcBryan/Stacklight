@@ -1,0 +1,30 @@
+<html>
+    
+<head>
+    <script src="jquery.min.js"></script>
+    <script src="projects.js"></script>
+    <title>Project Add Form Page</title>
+</head>
+    
+<body>
+    <b>Add a project</b>
+    <div id="addProject">
+        <h3>Add a New Project</h3>
+        <label>Project Name</label>
+            <input type="text" id="name" /><br>
+        <label>Description</label>
+            <textarea id="description"></textarea><br>
+        <label>Owner</label>
+            <input type="text" id="owner" /><br>
+        <label>Organization</label>
+            <input type="text" id="organization" /><br>
+        <button id="addButton">Add</button>
+        <button id="addCancel">Cancel</button>
+    </div>
+    <form action="https://stoplight-test.herokuapp.com">
+        <input type="submit" value="See all Projects" />
+    </form>
+
+</body>
+    
+</html>

@@ -25,4 +25,7 @@ public class SimpleRequest {
     public String mAssignee;
     public String mAssigner;
 
+    public String mOwner;
+    public String mOrganization;
+
 }

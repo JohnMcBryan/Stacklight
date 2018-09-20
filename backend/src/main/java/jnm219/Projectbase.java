@@ -141,11 +141,11 @@ public class Projectbase {
         int rs=0;
 
         try {
-            System.out.println("Adding: " + name);
+            System.out.println("Adding Project: " + name);
             mAddProject.setString(1,name);
             mAddProject.setString(2,description);
             mAddProject.setString(3,owner);
-            mAddProject.setString(6,organization);
+            mAddProject.setString(4,organization);
             rs +=mAddProject.executeUpdate();
         } catch (SQLException e)
         {

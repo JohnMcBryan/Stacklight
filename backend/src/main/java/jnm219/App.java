@@ -304,6 +304,25 @@ public class App {
             }
         });
 
+        Spark.post("/projects", (request, res) -> {
+            System.out.println("Adding a project....");
+            SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);
+            res.status(200);
+            res.type("application/json");
+
+            String name = req.mName;
+            String description = req.mDescription;
+            String owner = req.mOwner;
+            String organization = req.mOrganization;
+
+            boolean newProject = pb.addProject(name,description, owner,organization);
+            if (!newProject) {
+                return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
+            } else {
+                return gson.toJson(new StructuredResponse("ok", "" + newProject, null));
+            }
+        });
+
         Spark.get("/hello", (request, response) -> {
             return "Hello World!";
         });

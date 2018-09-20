@@ -26,7 +26,7 @@ class NewProjectForm{
         $("#addButton").click(this.submitForm);
     }
     submitForm() {
-        let name = "" + $("#projectName").val();
+        let name = "" + $("#name").val();
         let description = "" + $("#description").val();
         let owner = $("#owner").val();
         let organization = "" + $("#organization").val();

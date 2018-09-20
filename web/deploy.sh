@@ -21,6 +21,7 @@ mkdir $TARGETFOLDER/$WEBFOLDERNAME
 cp index.html $TARGETFOLDER/$WEBFOLDERNAME
 cp tasks.html $TARGETFOLDER/$WEBFOLDERNAME
 cp tasksAddForm.html $TARGETFOLDER/$WEBFOLDERNAME
+cp projectsAddForm.html $TARGETFOLDER/$WEBFOLDERNAME
 
 # step 2: update our npm dependencies
 npm update
