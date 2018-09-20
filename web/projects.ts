@@ -1,5 +1,5 @@
 // Run some configuration code when the web page loads
-const backendUrl = "https://stoplight-test.herokuapp.com";
+const backendUrl = "https://stacklight.herokuapp.com";
 var $: any;
 var projectList: ProjectList;
 var newprojectform: NewProjectForm;
@@ -53,7 +53,7 @@ class NewProjectForm{
         if (data.mStatus === "ok") {
             console.log("Project Added Sucessfully!");
             projectList.refresh();
-            window.location.replace("https://stoplight-test.herokuapp.com/");
+            window.location.replace("https://stacklight.herokuapp.com/");
         }
         // Handle explicit errors with a detailed popup message
         else if (data.mStatus === "error") {

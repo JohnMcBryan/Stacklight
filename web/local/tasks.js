@@ -1,6 +1,6 @@
 "use strict";
 // Run some configuration code when the web page loads
-var backendUrl = "https://stoplight-test.herokuapp.com";
+var backendUrl = "https://stacklight.herokuapp.com";
 var $;
 var taskList;
 var newtaskform;

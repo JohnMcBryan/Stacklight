@@ -1,5 +1,5 @@
 // Run some configuration code when the web page loads
-const backendUrl = "https://stoplight-test.herokuapp.com";
+const backendUrl = "https://stacklight.herokuapp.com";
 var $: any;
 var taskList: TaskList;
 var newtaskform: NewTaskForm;
@@ -56,7 +56,7 @@ class NewTaskForm{
         if (data.mStatus === "ok") {
             console.log("Task Added Sucessfully!");
             taskList.refresh();
-            window.location.replace("https://stoplight-test.herokuapp.com/tasks.html");
+            window.location.replace("https://stacklight.herokuapp.com/tasks.html");
         }
         // Handle explicit errors with a detailed popup message
         else if (data.mStatus === "error") {

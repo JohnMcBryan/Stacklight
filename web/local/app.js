@@ -10,7 +10,7 @@ var $;
 var FileUpload;
 var fileList;
 var subFileList;
-var backendUrl = "https://stoplight-test.herokuapp.com";
+var backendUrl = "https://stacklight.herokuapp.com";
 var SubFileList = /** @class */ (function () {
     function SubFileList() {
     }
@@ -26,7 +26,7 @@ var SubFileList = /** @class */ (function () {
         $("#subFileList").html("<table>");
         for (var i = 0; i < data.mData.length; ++i) {
             var sub = "sub-" + data.mData[i].mId;
-            $("#subFileList").append("<tr><td>ID: " + data.mData[i].mId + " </td><td>PID: " + data.mData[i].mpid + " </td><td> File Name: " + data.mData[i].mfileName + " </td><td> File ID: " + data.mData[i].mfileId + " </td><td><a href= \"https://stoplight-test.herokuapp.com/download/" + data.mData[i].mfileId + "\" download = \"" + data.mData[i].mfileName + "\">Export</a></td>");
+            $("#subFileList").append("<tr><td>ID: " + data.mData[i].mId + " </td><td>PID: " + data.mData[i].mpid + " </td><td> File Name: " + data.mData[i].mfileName + " </td><td> File ID: " + data.mData[i].mfileId + " </td><td><a href= \"https://stacklight.herokuapp.com/download/" + data.mData[i].mfileId + "\" download = \"" + data.mData[i].mfileName + "\">Export</a></td>");
         }
     };
     return SubFileList;
@@ -52,7 +52,7 @@ var FileList2 = /** @class */ (function () {
         $("#fileList").html("<table>");
         for (var i = 0; i < data.mData.length; ++i) {
             var sub = "sub-" + data.mData[i].mId;
-            $("#fileList").append("<tr><td>ID: " + data.mData[i].mId + " </td><td> File Name: " + data.mData[i].mfileName + " </td><td> File ID: " + data.mData[i].mfileId + " </td><td><a href= \"https://stoplight-test.herokuapp.com/download/" + data.mData[i].mfileId + "\" download = \"" + data.mData[i].mfileName + "\">Export</a></td><td><input type= \"file\" id= \"upload-" + data.mData[i].mfileId + "\" /></td><td><button class = \"upload\" id = \"" + data.mData[i].mId + "\">Upload</button></td></tr><tr><td><div id = \"" + sub + "\"></div></td></tr><tr></tr>");
+            $("#fileList").append("<tr><td>ID: " + data.mData[i].mId + " </td><td> File Name: " + data.mData[i].mfileName + " </td><td> File ID: " + data.mData[i].mfileId + " </td><td><a href= \"https://stacklight.herokuapp.com/download/" + data.mData[i].mfileId + "\" download = \"" + data.mData[i].mfileName + "\">Export</a></td><td><input type= \"file\" id= \"upload-" + data.mData[i].mfileId + "\" /></td><td><button class = \"upload\" id = \"" + data.mData[i].mId + "\">Upload</button></td></tr><tr><td><div id = \"" + sub + "\"></div></td></tr><tr></tr>");
             /*
             $.ajax({
                 type: "GET",
@@ -90,7 +90,7 @@ var FileList2 = /** @class */ (function () {
         //alert("#sub-"+pid);
         for (var i = 0; i < data.mData.length; ++i) {
             var sub = "sub-" + data.mData[i].mId;
-            $("#fileList").append("<tr><td>ID: " + data.mData[i].mId + " </td><td>PID: " + data.mData[i].mpid + " </td><td> File Name: " + data.mData[i].mfileName + " </td><td> File ID: " + data.mData[i].mfileId + " </td><td><a href= \"https://stoplight-test.herokuapp.com/download/" + data.mData[i].mfileId + "\" download = \"" + data.mData[i].mfileName + "\">Export</a></td>");
+            $("#fileList").append("<tr><td>ID: " + data.mData[i].mId + " </td><td>PID: " + data.mData[i].mpid + " </td><td> File Name: " + data.mData[i].mfileName + " </td><td> File ID: " + data.mData[i].mfileId + " </td><td><a href= \"https://stacklight.herokuapp.com/download/" + data.mData[i].mfileId + "\" download = \"" + data.mData[i].mfileName + "\">Export</a></td>");
         }
     };
     return FileList2;
