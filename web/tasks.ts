@@ -36,7 +36,9 @@ class TaskList {
 class NewTaskForm{
     constructor() {
         $("#addButton").click(this.submitForm);
+        $("#addCancel").click(this.back);
     }
+
     submitForm() {
         let taskname = "" + $("#taskname").val();
         let description = "" + $("#description").val();
@@ -61,6 +63,11 @@ class NewTaskForm{
             success: newtaskform.onSubmitResponse,
             error: newtaskform.onSubmitResponse
         });
+    }
+    back(){
+        console.log("Task Add Cancelled");
+        taskList.refreshProject();
+        window.location.replace("https://stacklight.herokuapp.com/tasks.html?projectID="+projectID);
     }
 
     private onSubmitResponse(data: any) {
