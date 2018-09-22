@@ -3,22 +3,23 @@
 <head>
     <script src="jquery.min.js"></script>
     <script src="app.js"></script>
-    <script src="tasks.js"></script>
+    <script src="task.js"></script>
     <title>Project Page</title>
 </head>
-    
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>   
 <body>
     <b>Stacklight Project Page <div id = "project"></div></b>
-    <div id="showTasks">
-        <div id="taskList"></div>
+    <div id="showTaskInfo">
+        <div id="taskInfo"></div>
     </div>
-    <form action="https://stacklight.herokuapp.com/tasksAddForm.html">
-        <input type="submit" value="Add a New Task" />
-        <input type= 'hidden' name= 'projectID' id = 'PID'/>
-    </form>
     <form action="https://stacklight.herokuapp.com/">
         <input type="submit" value="Homepage" />
     </form>
+    <button onclick="goBack()">Go Back</button>
 </body>
     
 </html>

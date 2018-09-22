@@ -33,6 +33,8 @@ public class Taskbase {
     private PreparedStatement mSelectTasks;
 
     private PreparedStatement mAddTask;
+
+    private PreparedStatement mSelectTask;
     /**
      * Give the Database object a connection, fail if we cannot get one
      * Must be logged into heroku on a local computer to be able to use mvn heroku:deploy
@@ -106,6 +108,7 @@ public class Taskbase {
             tb.mSelectAllTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks");
             tb.mAddTask = tb.mConnection.prepareStatement("INSERT INTO Tasks Values (default,?,?,?,?,?,?,default)");
             tb.mSelectTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE projectId = ?");
+            tb.mSelectTask = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE id = ?");
 
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
@@ -154,6 +157,25 @@ public class Taskbase {
             }
             rs.close();
             return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    TaskRow selectTask(int taskId) {
+        try {
+            mSelectTask.setInt(1,taskId);
+            ResultSet rs = mSelectTask.executeQuery();
+            System.out.println("Selecting Task: "+taskId);
+            TaskRow taskrow = null;
+            while (rs.next()) {
+                 taskrow = new TaskRow(rs.getInt("id"),rs.getInt("projectId"),rs.getString("taskname"),
+                        rs.getString("description"),rs.getInt("priority"),rs.getString("assignee"),
+                        rs.getString("assigner"));
+                System.out.println(taskrow);
+            }
+            rs.close();
+            return taskrow;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
