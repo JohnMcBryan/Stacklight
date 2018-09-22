@@ -30,6 +30,7 @@ public class Taskbase {
      * A prepared statement for getting all messages
      */
     private PreparedStatement mSelectAllTasks;
+    private PreparedStatement mSelectTasks;
 
     private PreparedStatement mAddTask;
     /**
@@ -104,6 +105,7 @@ public class Taskbase {
         try{
             tb.mSelectAllTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks");
             tb.mAddTask = tb.mConnection.prepareStatement("INSERT INTO Tasks Values (default,?,?,?,?,?,?,default)");
+            tb.mSelectTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE projectId = ?");
 
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
@@ -121,6 +123,27 @@ public class Taskbase {
         ArrayList<TaskRow> res = new ArrayList<TaskRow>();
         try {
             ResultSet rs = mSelectAllTasks.executeQuery();
+            System.out.println("IN SELECT ALL TASKS");
+            while (rs.next()) {
+                TaskRow taskrow = new TaskRow(rs.getInt("id"),rs.getInt("projectId"),rs.getString("taskname"),
+                        rs.getString("description"),rs.getInt("priority"),rs.getString("assignee"),
+                        rs.getString("assigner"));
+                System.out.println(taskrow);
+                res.add(taskrow);
+            }
+            rs.close();
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    ArrayList<TaskRow> selectTasks(int projectId) {
+        ArrayList<TaskRow> res = new ArrayList<TaskRow>();
+        try {
+            mSelectTasks.setInt(1,projectId);
+            ResultSet rs = mSelectTasks.executeQuery();
             System.out.println("IN SELECT ALL TASKS");
             while (rs.next()) {
                 TaskRow taskrow = new TaskRow(rs.getInt("id"),rs.getInt("projectId"),rs.getString("taskname"),

@@ -19,7 +19,7 @@ class ProjectList {
         for (let i = 0; i < data.mProjectData.length; ++i) {
             $("#projectList").append("<tr><td>"+data.mProjectData[i].mId+". </td><td> <b> " +data.mProjectData[i].mName+" :</b></td><td> " +data.mProjectData[i].mDescription+"</td><td><div id = project-"+data.mProjectData[i].mId+" name = tasksLink></div></td><tr>");
             
-            $("#project-"+data.mProjectData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/tasks.html'><input type='submit' value='To Task Page' /></form>");
+            $("#project-"+data.mProjectData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/tasks.html' id = 'PID'><input type='submit' value='To Task Page' /><input type= 'hidden' name= 'projectID' value='"+data.mProjectData[i].mId+"' /></form>");
         }
     }
 }

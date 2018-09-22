@@ -3,12 +3,24 @@ const backendUrl = "https://stacklight.herokuapp.com";
 var $: any;
 var taskList: TaskList;
 var newtaskform: NewTaskForm;
+var helper: Helper;
+var projectID: any;
+
+$.getScript("app.js");
 
 class TaskList {
     refresh() {
         $.ajax({
             type: "GET",
             url: backendUrl + "/tasks/all",
+            dataType: "json",
+            success: taskList.update
+        });
+    }
+    refreshProject(){
+        $.ajax({
+            type: "GET",
+            url: backendUrl + "/tasks/"+projectID,
             dataType: "json",
             success: taskList.update
         });
@@ -68,12 +80,33 @@ class NewTaskForm{
         }
     }
 }
+class Helper{
+    public getUrlParameter(sParam: String) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+    
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+    
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+        }
+    }
+
+}
 
 $(document).ready(function () {
     console.log("Loading Tasks Page......."); 
     
     taskList = new TaskList();
     newtaskform = new NewTaskForm();
+    helper = new Helper();
+    projectID = helper.getUrlParameter('projectID');
+
+    console.log("Project ID: "+projectID);
     
-    taskList.refresh();
+    taskList.refreshProject();
 });
