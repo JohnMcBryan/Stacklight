@@ -55,7 +55,7 @@ class NewTaskForm{
             type: "POST",
             url: backendUrl + "/tasks",
             dataType: "json",
-            data: JSON.stringify({ mProjectId: 1, mTaskname: taskname,
+            data: JSON.stringify({ mProjectId: projectID, mTaskname: taskname,
                 mDescription: description, mPriority: priority, mAssignee: assignee,
             mAssigner: assigner }),
             success: newtaskform.onSubmitResponse,
@@ -67,8 +67,8 @@ class NewTaskForm{
         // If we get an "ok" message, clear the form
         if (data.mStatus === "ok") {
             console.log("Task Added Sucessfully!");
-            taskList.refresh();
-            window.location.replace("https://stacklight.herokuapp.com/tasks.html");
+            taskList.refreshProject();
+            window.location.replace("https://stacklight.herokuapp.com/tasks.html?projectID="+projectID);
         }
         // Handle explicit errors with a detailed popup message
         else if (data.mStatus === "error") {
@@ -107,6 +107,6 @@ $(document).ready(function () {
     projectID = helper.getUrlParameter('projectID');
 
     console.log("Project ID: "+projectID);
-    
+    $("#PID").replaceWith("<input type= 'hidden' name= 'projectID' id = 'PID'value = '"+projectID+"'/>")    
     taskList.refreshProject();
 });
