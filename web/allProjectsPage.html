@@ -4,16 +4,19 @@
     <title>Stacklight</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-signin-client_id" content="797190126682-g4g57tc49te2j0dt30k3hjldhc9u0jhd.apps.googleusercontent.com">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
     <script type="text/javascript" src="allProjectsPage.js"></script>
 </head>
 <body>
 
 <div class="navbar">
     <div class="login navbar-right">
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
         <div><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></div> <!-- replace # to actually log in -->
     </div>
 </div>

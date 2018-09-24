@@ -20,15 +20,23 @@ mkdir $TARGETFOLDER/$WEBFOLDERNAME
 # there are many more steps to be done.  For now, we will just copy an HTML file
 cp index.html $TARGETFOLDER/$WEBFOLDERNAME
 cp tasks.html $TARGETFOLDER/$WEBFOLDERNAME
-cp taskPage.html $TARGETFOLDER/$WEBFOLDERNAME
 cp tasksAddForm.html $TARGETFOLDER/$WEBFOLDERNAME
-cp projectsAddForm.html $TARGETFOLDER/$WEBFOLDERNAME
-
-# step 2: update our npm dependencies
-npm update
-
-# step 3: copy javascript files
+cp app.css $TARGETFOLDER/$WEBFOLDERNAME
+cp style.css $TARGETFOLDER/$WEBFOLDERNAME
 cp node_modules/jquery/dist/jquery.min.js $TARGETFOLDER/$WEBFOLDERNAME
+cp allProjectsPage.html $TARGETFOLDER/$WEBFOLDERNAME
+cp allProjectsPage.js $TARGETFOLDER/$WEBFOLDERNAME
+cp Images/logo.png $TARGETIMAGEFOLDER/$WEBFOLDERNAME
+cp Images/logoWhite.png $TARGETIMAGEFOLDER/$WEBFOLDERNAME
+cp Images/uploadwhite.png $TARGETIMAGEFOLDER/$WEBFOLDERNAME
+cp Images/add-list.png $TARGETIMAGEFOLDER/$WEBFOLDERNAME
+cp Images/newproject.png $TARGETIMAGEFOLDER/$WEBFOLDERNAME
+cp Images/project.png $TARGETIMAGEFOLDER/$WEBFOLDERNAME
+
+# step 4: compile TypeScript files
+node_modules/.bin/tsc app.ts --strict --outFile $TARGETFOLDER/app.js
+node_modules/.bin/tsc tasks.ts --strict --outFile $TARGETFOLDER/tasks.js
+
 
 # step 4: compile TypeScript files
 node_modules/typescript/bin/tsc app.ts --strict --outFile $TARGETFOLDER/$WEBFOLDERNAME/app.js

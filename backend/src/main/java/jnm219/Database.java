@@ -240,12 +240,13 @@ public class Database {
         }
     }
 
-    int selectUser(id) {
+    public User selectUser(int id) {
         System.out.println("selectAllUser");
         try {
-            mInsertUser.setInt(1, id);
+            mSelectUser.setInt(1, id);
             ResultSet rs = mSelectUser.executeQuery();
-                //System.err.println("NAMES: "+rs.getString("name"));
+            rs.next();
+            //System.err.println("NAMES: "+rs.getString("name"));
             User res = new User(rs.getString("firstname"),rs.getString("lastname"),rs.getString("email"));
             rs.close();
             return res;

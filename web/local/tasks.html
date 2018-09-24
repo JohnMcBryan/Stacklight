@@ -2,15 +2,23 @@
     
 <head>
     <script src="jquery.min.js"></script>
+    <script src="app.js"></script>
     <script src="tasks.js"></script>
-    <title>Task Page</title>
+    <title>Project Page</title>
 </head>
     
 <body>
-    <b>Stacklight Task Page</b>
+    <b>Stacklight Project Page <div id = "project"></div></b>
     <div id="showTasks">
         <div id="taskList"></div>
     </div>
+    <form action="https://stacklight.herokuapp.com/tasksAddForm.html">
+        <input type="submit" value="Add a New Task" />
+        <input type= 'hidden' name= 'projectID' id = 'PID'/>
+    </form>
+    <form action="https://stacklight.herokuapp.com/">
+        <input type="submit" value="Homepage" />
+    </form>
 </body>
     
 </html>
