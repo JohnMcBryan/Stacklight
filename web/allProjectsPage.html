@@ -9,6 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="allProjectsPage.js"></script>
+    <script src="projects.js"></script>
 </head>
 <body>
 
@@ -26,6 +27,9 @@
     <br>
     <div class="row content">
         <div class="row" id="projects">
+            <form action="https://stacklight.herokuapp.com/projectsAddForm.html">
+                <input type="submit" value="New Project" />
+            </form>
             <div class="col-sm-3" id="newProject">
                 <div class="well" data-toggle="modal" data-target="#createNewProject">
                     <img src="Images/newproject.png" class="center" alt="Create New Project">
@@ -54,8 +58,15 @@
             </div>
             <div class="modal-body">
                 <form id="uploadFile" enctype="multipart/form-data" method="POST" action="\project">
-                    <label for="projectName">Project Name:</label>
-                    <input type="text" class="form-control" id="projectName">
+                    <label for="name">Project Name:</label>
+                    <input type="text" class="form-control" id="name">
+                    <label for="description">Description:</label>
+                    <input type="text" class="form-control" id="description">
+                    <label for="owner">Owner:</label>
+                    <input type="text" class="form-control" id="owner">
+                    <label for="organization">Organization:</label>
+                    <input type="text" class="form-control" id="organization">
+                    <!--
                     <br>
                     <label for="dueDate">Due Date:</label>
                     <input type="date" id="dueDate">
@@ -71,10 +82,11 @@
                     <input type="text" class="form-control" id="members">
                     <input type="text" class="form-control" id="members">
                     <input type="text" class="form-control" id="members">
+                    -->
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Submit</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="addButton">Submit</button>
             </div>
         </div>
     </div>

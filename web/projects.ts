@@ -14,7 +14,7 @@ class ProjectList {
         });
     }
     private update(data: any) {
-        $("#projectList").html("<table>");
+        $("#projects").html("<table>");
         console.log(data);
         for (let i = 0; i < data.mProjectData.length; ++i) {
             $("#projectList").append("<tr><td>"+data.mProjectData[i].mId+". </td><td> <b> " +data.mProjectData[i].mName+" :</b></td><td> " +data.mProjectData[i].mDescription+"</td><td><div id = project-"+data.mProjectData[i].mId+" name = projectsLink></div></td><tr>");
