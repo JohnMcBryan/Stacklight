@@ -25,24 +25,56 @@
         <span data-toggle="modal" data-target="#createNewTask">
             <a href="#" data-toggle="tooltip" data-placement="bottom" title="Create a new task" class="navelem"><img src="Images/add-list.png" class="center" alt="Create new task" ></a>
         </span>
+        <form action="https://stacklight.herokuapp.com/projectsAddForm.html">
+            <input type="submit" value="New Project" />
+        </form>
         <div class="login navbar-right">
             <a href="#" class="login"><span class="glyphicon glyphicon-user"></span> abc123@lehigh.edu </a>
         </div>
     </div>
 
-    <div class="container-fluid fill">
-        <div class="row content fill">
-            <div class="col-sm-3 col-sm-push sidenav hidden-xs">
+    <div class="container-fluid">
+        <div class="row content">
+            <div class="col-sm-7 sidenav">
                 <h2>Stacklight Homepage</h2>
+            </div>
+            <div class="col-sm-5">
+                <div class="row">
+                <!-- Use Handlebars to loop through messages.
+                Use if statements to show different style bubbles for your vs others messages
+                <div>
+                    <h4 style="margin-top: 30px">Communication Hub</h4>
+                </div>
+                -->
+                <div class="well">
+                    <div>
+                        <div class="speech-bubble">Working on expense report</div>
+                        <div class="from">jnm219@lehigh.edu <span class="glyphicon glyphicon-user messageicon"></span></div>
+                    </div>
+                    <div>
+                        <div class="speech-bubble">Okay. Let me know when you're done so I can send it in</div>
+                        <div class="from">rsg219@lehigh.edu <span class="glyphicon glyphicon-user messageicon"></span></div>
+                    </div>
+                    <div>
+                        <div class="speech-bubble">Sounds good</div>
+                        <div class="from">mts219@lehigh.edu <span class="glyphicon glyphicon-user messageicon"></span></div>
+                    </div>
+                </div>
+                <div>
+                    <form>    <!-- <form action="/action_page.php"> goes to page action_page-->
+                        <input type="text" style="width:100%">
+                        <div class="row">
+                            <input type="submit" value="Send" style="float:right; margin-right:15px;">
+                        </div>
+                    </form>
+                </div>
+                </div>
             </div>
         </div>
     </div>
     <div id="showElements">
         <div id="projectList"></div>
     </div>
-    <form action="https://stacklight.herokuapp.com/projectsAddForm.html">
-        <input type="submit" value="New Project" />
-    </form>
 
 </body>
 
