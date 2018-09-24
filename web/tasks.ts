@@ -1,5 +1,5 @@
 // Run some configuration code when the web page loads
-const backendUrl = "https://stacklight.herokuapp.com";
+const backendUrl = "https://stacklighttest.herokuapp.com";
 var $: any;
 var taskList: TaskList;
 var newtaskform: NewTaskForm;
@@ -29,7 +29,7 @@ class TaskList {
         for (let i = 0; i < data.mTaskData.length; ++i) {
             $("#taskList").append("<tr><td>"+data.mTaskData[i].mId+". </td><td> <b> " +data.mTaskData[i].mName+" :</b></td><td> " +data.mTaskData[i].mDescription+"</td><td><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div></td><tr>");
         
-            $("#task-"+data.mTaskData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/taskPage.html' id = 'TID'><input type='submit' value='To Task Page' /><input type= 'hidden' name= 'taskID' value='"+data.mTaskData[i].mId+"' /></form>");
+            $("#task-"+data.mTaskData[i].mId).replaceWith("<form action= 'https://stacklighttest.herokuapp.com/taskPage.html' id = 'TID'><input type='submit' value='To Task Page' /><input type= 'hidden' name= 'taskID' value='"+data.mTaskData[i].mId+"' /></form>");
 
         }
     }
@@ -68,7 +68,7 @@ class NewTaskForm{
     back(){
         console.log("Task Add Cancelled");
         taskList.refreshProject();
-        window.location.replace("https://stacklight.herokuapp.com/tasks.html?projectID="+projectID);
+        window.location.replace("https://stacklighttest.herokuapp.com/tasks.html?projectID="+projectID);
     }
 
     private onSubmitResponse(data: any) {
@@ -76,7 +76,7 @@ class NewTaskForm{
         if (data.mStatus === "ok") {
             console.log("Task Added Sucessfully!");
             taskList.refreshProject();
-            window.location.replace("https://stacklight.herokuapp.com/tasks.html?projectID="+projectID);
+            window.location.replace("https://stacklighttest.herokuapp.com/tasks.html?projectID="+projectID);
         }
         // Handle explicit errors with a detailed popup message
         else if (data.mStatus === "error") {

@@ -3,7 +3,7 @@
 // methods, without the compiler producing an error.
 var $: any;
 
-const backendUrl = "https://stacklight.herokuapp.com";
+const backendUrl = "https://stacklighttest.herokuapp.com";
 
 class helper2{
     private getUrlParameter(sParam: String) {

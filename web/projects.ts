@@ -1,5 +1,5 @@
 // Run some configuration code when the web page loads
-const backendUrl = "https://stacklight.herokuapp.com";
+const backendUrl = "https://stacklighttest.herokuapp.com";
 var $: any;
 var projectList: ProjectList;
 var newprojectform: NewProjectForm;
@@ -19,7 +19,7 @@ class ProjectList {
         for (let i = 0; i < data.mProjectData.length; ++i) {
             $("#projectList").append("<tr><td>"+data.mProjectData[i].mId+". </td><td> <b> " +data.mProjectData[i].mName+" :</b></td><td> " +data.mProjectData[i].mDescription+"</td><td><div id = project-"+data.mProjectData[i].mId+" name = projectsLink></div></td><tr>");
             
-            $("#project-"+data.mProjectData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/tasks.html' id = 'PID'><input type='submit' value='To Project Page' /><input type= 'hidden' name= 'projectID' value='"+data.mProjectData[i].mId+"' /></form>");
+            $("#project-"+data.mProjectData[i].mId).replaceWith("<form action= 'https://stacklighttest.herokuapp.com/tasks.html' id = 'PID'><input type='submit' value='To Project Page' /><input type= 'hidden' name= 'projectID' value='"+data.mProjectData[i].mId+"' /></form>");
         }
     }
 }
@@ -55,7 +55,7 @@ class NewProjectForm{
         if (data.mStatus === "ok") {
             console.log("Project Added Sucessfully!");
             projectList.refresh();
-            window.location.replace("https://stacklight.herokuapp.com/");
+            window.location.replace("https://stacklighttest.herokuapp.com/");
         }
         // Handle explicit errors with a detailed popup message
         else if (data.mStatus === "error") {
