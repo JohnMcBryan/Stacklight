@@ -2,6 +2,7 @@ $(function () {
     console.log("On page load for all projects page");
     //gapi.load('auth2', function() { // Ready. });
     $('.project').click(goToProject);
+    $('#loginBar').hide();
     $('.navbar').click(signOut);
     $(".abcRioButtonContentWrapper").css("left", "75%");
 });
@@ -37,6 +38,7 @@ function signOut() {
       console.log('User signed out.');
     });
     $('.g-signin2').show();
+    $('#loginBar').hide();
     $('#loginBar').text("Login");
   }
 
@@ -44,5 +46,6 @@ function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
   $('#loginBar').text(profile.getEmail());
+  $('#loginBar').show();
   $('.g-signin2').hide();
 }
