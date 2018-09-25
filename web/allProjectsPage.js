@@ -4,5 +4,6 @@ $(function () {
 });
 
 function goToProject() {
+    console.log("in goToProject");
     location.href = "index.html";
 }

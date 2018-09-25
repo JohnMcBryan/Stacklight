@@ -26,20 +26,14 @@
     <h2>All Projects</h2>
     <br>
     <div class="row content">
+        <div id="showElements">
+            <div id="projectList"></div>
+        </div>
         <div class="row" id="projects">
-            <form action="https://stacklight.herokuapp.com/projectsAddForm.html">
-                <input type="submit" value="New Project" />
-            </form>
             <div class="col-sm-3" id="newProject">
                 <div class="well" data-toggle="modal" data-target="#createNewProject">
                     <img src="Images/newproject.png" class="center" alt="Create New Project">
                     <div class="name">Create New Project</div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="well project">
-                    <img src="Images/project.png" class="center" alt="Project">
-                    <div class="name">Finance Management</div>
                 </div>
             </div>
         </div>
@@ -57,7 +51,8 @@
                 <h4 class="modal-title">Create New Project</h4>
             </div>
             <div class="modal-body">
-                <form id="uploadFile" enctype="multipart/form-data" method="POST" action="\project">
+                <!--<form id="uploadFile" enctype="multipart/form-data" method="POST" action="\project">-->
+                <form action="https://stacklight.herokuapp.com/projectsAddForm.html">
                     <label for="name">Project Name:</label>
                     <input type="text" class="form-control" id="name">
                     <label for="description">Description:</label>
@@ -91,9 +86,6 @@
         </div>
     </div>
 </div>
-
-<footer class="container-fluid text-center">
-</footer>
 
 
 </body>

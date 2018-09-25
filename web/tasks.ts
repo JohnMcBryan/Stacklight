@@ -94,11 +94,14 @@ class Helper{
             sURLVariables = sPageURL.split('&'),
             sParameterName,
             i;
-    
+        console.log("sPageURL: " + sPageURL);
+
         for (i = 0; i < sURLVariables.length; i++) {
             sParameterName = sURLVariables[i].split('=');
+            console.log("sParameterName: "+sParameterName);
     
             if (sParameterName[0] === sParam) {
+                console.log("sParameterName[0]: "+sParameterName[0] + " === " + "sParam: "+sParam);
                 return sParameterName[1] === undefined ? true : sParameterName[1];
             }
         }
