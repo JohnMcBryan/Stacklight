@@ -8,7 +8,6 @@ $(function () {
 });
 
 function goToProject() {
-    console.log("in goToProject");
     location.href = "index.html";
 }
 // Utility method for encapsulating the jQuery Ajax Call

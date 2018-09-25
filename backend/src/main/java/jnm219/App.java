@@ -63,6 +63,10 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.Drive.Files;
 import com.google.api.services.drive.model.File;
@@ -75,10 +79,33 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
+import jnm219.InsertUser;
 
 
 
 public class App {
+
+    private static final HttpTransport transport = new NetHttpTransport();
+    private static final JsonFactory jsonFactory = new JacksonFactory();
+
+    public static GoogleIdToken validateGoogleToken(final String idTokenString) {
+        System.out.println("validating: "+idTokenString);
+        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory).setAudience(Collections.singletonList("1080316803619-flf753te3n99rv3mh90movqrs3eujk3v.apps.googleusercontent.com")).build();
+        // Our CLIENT_ID: 1080316803619-flf753te3n99rv3mh90movqrs3eujk3v.apps.googleusercontent.com
+        GoogleIdToken googleIdToken = null;
+        try{
+            googleIdToken = verifier.verify(idTokenString);
+        } catch(GeneralSecurityException | IOException e){
+            System.out.println("Exception: "+e);
+        }
+        if (googleIdToken != null) {
+            return googleIdToken;
+        } else {
+            System.out.println("Invalid ID token.");
+            return null;
+        }
+    }
+
     public static void main(String[] args) {
         // Get the port on which to listen for requests
         Spark.port(getIntFromEnv("PORT", 4567));
@@ -344,6 +371,41 @@ public class App {
         Spark.get("/hello", (request, response) -> {
             return "Hello World!";
         });
+
+        Spark.post("/tokensignin/:token", (request, response) -> {
+            String token = request.params("token");
+            System.out.println(token);
+            GoogleIdToken ret = validateGoogleToken(token);
+
+            Payload payload = ret.getPayload();
+            String name = (String) payload.get("name");
+            System.out.println("name = " + name);
+            return gson.toJson(new StructuredResponse("ok", null, db.selectUser(1)));
+        });
+
+        Spark.post("/users", (request, response) -> {
+            response.status(200);
+            response.type("application/json");
+            System.out.println("Entering Folder");
+            System.out.println(request.body().toString());
+            InsertUser incoming = gson.fromJson(request.body(), InsertUser.class);
+            System.out.println(incoming.mFirstName);
+            boolean newId = db.insertUser(incoming.mFirstName, incoming.mLastName, incoming.mEmail, incoming.mPass);
+            if (!(newId)) {
+                System.out.println("ERROR");
+                return gson.toJson(new StructuredResponse("error", "error", null));
+            } else {
+                System.out.println("OK");
+                return gson.toJson(new StructuredResponse("ok", "", null));
+            }
+        });
+
+        Spark.get("/users/:id", (request, response) -> {
+            response.status(200);
+            response.type("application/json");
+            int id = Integer.parseInt(request.params("id"));
+            return gson.toJson(new StructuredResponse("ok", null, db.selectUser(id)));
+        });
     }
 
     /**
@@ -457,6 +519,7 @@ public class App {
 
         return ret;
     }
+
 
 }
 

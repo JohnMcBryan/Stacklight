@@ -11,7 +11,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
     <script type="text/javascript" src="allProjectsPage.js"></script>
-    <script src="projects.js"></script>
 </head>
 <body>
 
@@ -29,14 +28,17 @@
     <h2>All Projects</h2>
     <br>
     <div class="row content">
-        <div id="showElements">
-            <div id="projectList"></div>
-        </div>
         <div class="row" id="projects">
             <div class="col-sm-3" id="newProject">
                 <div class="well" data-toggle="modal" data-target="#createNewProject">
                     <img src="Images/newproject.png" class="center" alt="Create New Project">
                     <div class="name">Create New Project</div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="well project">
+                    <img src="Images/project.png" class="center" alt="Project">
+                    <div class="name">Finance Management</div>
                 </div>
             </div>
         </div>
@@ -54,17 +56,9 @@
                 <h4 class="modal-title">Create New Project</h4>
             </div>
             <div class="modal-body">
-                <!--<form id="uploadFile" enctype="multipart/form-data" method="POST" action="\project">-->
-                <form action="https://stacklight.herokuapp.com/projectsAddForm.html">
-                    <label for="name">Project Name:</label>
-                    <input type="text" class="form-control" id="name">
-                    <label for="description">Description:</label>
-                    <input type="text" class="form-control" id="description">
-                    <label for="owner">Owner:</label>
-                    <input type="text" class="form-control" id="owner">
-                    <label for="organization">Organization:</label>
-                    <input type="text" class="form-control" id="organization">
-                    <!--
+                <form id="uploadFile" enctype="multipart/form-data" method="POST" action="\project">
+                    <label for="projectName">Project Name:</label>
+                    <input type="text" class="form-control" id="projectName">
                     <br>
                     <label for="dueDate">Due Date:</label>
                     <input type="date" id="dueDate">
@@ -80,15 +74,17 @@
                     <input type="text" class="form-control" id="members">
                     <input type="text" class="form-control" id="members">
                     <input type="text" class="form-control" id="members">
-                    -->
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" id="addButton">Submit</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Submit</button>
             </div>
         </div>
     </div>
 </div>
+
+<footer class="container-fluid text-center">
+</footer>
 
 
 </body>
