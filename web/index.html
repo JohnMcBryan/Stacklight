@@ -15,7 +15,25 @@
     <script src="app.js"></script>
     <script src="projects.js"></script>
 
+    <script src="/IdeaProjects/Stacklight/backend/node_modules/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+
 </head>
+
+<script>
+    $(function message() {
+      var socket = io();
+      $('form').submit(function(){
+        socket.emit('chat message', $('#m').val());
+        $('#m').val('');
+        return false;
+      });
+      socket.on('chat message', function(msg){
+          $('#messages').append($('<li>').text(msg));
+        });
+    });
+  </script>
 
 <body>
 
@@ -61,11 +79,13 @@
                     </div>
                 </div>
                 <div>
-                    <form>    <!-- <form action="/action_page.php"> goes to page action_page-->
+                    <ul id="messages"></ul>
+                    <form action="">
+                        <input type="text" style="width:100%" id="m" autocomplete="off" /><button>Send</button>
+                    <!-- <form onsubmit="message()">    <!-- <form action="/action_page.php"> goes to page action_page
                         <input type="text" style="width:100%">
                         <div class="row">
-                            <input type="submit" value="Send" style="float:right; margin-right:15px;">
-                        </div>
+                            <input type="submit" id="m" autocomplete="off" value="Send" style="float:right; margin-right:15px;"> -->
                     </form>
                 </div>
                 </div>
