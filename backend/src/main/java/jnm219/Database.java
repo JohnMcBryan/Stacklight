@@ -32,14 +32,12 @@ public class Database {
     /**
      * A prepared statement for getting all messages
      */
-    private PreparedStatement mSelectAllMessage;
     private PreparedStatement mInsertUser;
     private PreparedStatement mSelectUser;
+
     private PreparedStatement mInsertFile;
     private PreparedStatement mSelectAllFiles;
-    private PreparedStatement mSelectSubFiles;
-    private PreparedStatement mInsertSubFile;
-    private PreparedStatement mSelectAllSubFiles;
+    private PreparedStatement mSelectTaskFiles;
 
     /**
      * Give the Database object a connection, fail if we cannot get one
@@ -87,18 +85,13 @@ public class Database {
         }
 
         try{
-            db.mSelectAllMessage = db.mConnection.prepareStatement("SELECT * FROM Users");
 
             db.mInsertUser = db.mConnection.prepareStatement("INSERT INTO Users Values (default,?,?,?,?)");
             db.mSelectUser = db.mConnection.prepareStatement("SELECT firstname, lastname, email from users where userid = ?");
 
             db.mSelectAllFiles = db.mConnection.prepareStatement("SELECT * FROM Files");
+            db.mSelectTaskFiles = db.mConnection.prepareStatement("SELECT * FROM Files WHERE taskid = ?");
             db.mInsertFile = db.mConnection.prepareStatement("INSERT INTO Files Values (default,?,?,?)");
-
-            db.mSelectSubFiles = db.mConnection.prepareStatement("SELECT * FROM SubFiles WHERE parentId = ?");
-            db.mSelectAllSubFiles = db.mConnection.prepareStatement("SELECT * FROM SubFiles");
-            db.mInsertSubFile = db.mConnection.prepareStatement("INSERT INTO SubFiles Values (default,?,?,?,?)");
-
 
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
@@ -134,25 +127,6 @@ public class Database {
         return true;
     }
 
-    /**
-     * Returning arraylist of rowmessages which displays all the message created by
-     * all the users
-     */
-    ArrayList<DataRow> selectAllMessages() {
-        ArrayList<DataRow> res = new ArrayList<DataRow>();
-        try {
-            ResultSet rs = mSelectAllMessage.executeQuery();
-            while (rs.next()) {
-                //System.err.println("NAMES: "+rs.getString("name"));
-                res.add(new DataRow(rs.getInt("your_id"),rs.getString("name")));
-            }
-            rs.close();
-            return res;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
     boolean insertFile(String fileName,String fileId,int taskID)
     {
         int rs=0;
@@ -169,30 +143,11 @@ public class Database {
         }
         return true;
     }
-    boolean insertSubFile(String fileName,String fileId,int pid,String time)
-    {
-        int rs=0;
-        try {
-            System.out.println("FileName: "+ fileName);
-            mInsertSubFile.setString(1,fileName);
-            mInsertSubFile.setString(2,fileId);
-            mInsertSubFile.setInt(3,pid);
-            mInsertSubFile.setString(4,time);
-            rs +=mInsertSubFile.executeUpdate();
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
 
     ArrayList<FileRow> selectAllFiles() {
         ArrayList<FileRow> res = new ArrayList<FileRow>();
         try {
             ResultSet rs = mSelectAllFiles.executeQuery();
-            System.out.println("HERE");
             while (rs.next()) {
                 //System.err.println("NAMES: "+rs.getString("name"));
                 res.add(new FileRow(rs.getInt("id"),rs.getString("fileName"),rs.getString("fileId")));
@@ -204,16 +159,14 @@ public class Database {
             return null;
         }
     }
+    ArrayList<FileRow> selectTaskFiles(int taskID) {
 
-    ArrayList<SubFileRow> selectSubFiles(int pid) {
-        ArrayList<SubFileRow> res = new ArrayList<SubFileRow>();
+        ArrayList<FileRow> res = new ArrayList<FileRow>();
         try {
-            mSelectSubFiles.setInt(1,pid);
-            ResultSet rs = mSelectSubFiles.executeQuery();
-            //System.out.println("SubFiles HERE");
+            mSelectTaskFiles.setInt(1,taskID);
+            ResultSet rs = mSelectTaskFiles.executeQuery();
             while (rs.next()) {
-                //System.err.println("NAMES: "+rs.getString("name"));
-                res.add(new SubFileRow(rs.getInt("id"),rs.getString("fileName"),rs.getString("fileId"),rs.getInt("parentId"),rs.getString("time")));
+                res.add(new FileRow(rs.getInt("id"),rs.getString("fileName"),rs.getString("fileId")));
             }
             rs.close();
             return res;
@@ -223,23 +176,7 @@ public class Database {
         }
     }
 
-    ArrayList<SubFileRow> selectAllSubFiles() {
-        ArrayList<SubFileRow> res = new ArrayList<SubFileRow>();
-        System.out.println("selectAllSubFiles");
-        try {
-            ResultSet rs = mSelectAllSubFiles.executeQuery();
-            System.out.println("SubFiles Are Here");
-            while (rs.next()) {
-                //System.err.println("NAMES: "+rs.getString("name"));
-                res.add(new SubFileRow(rs.getInt("id"),rs.getString("fileName"),rs.getString("fileId"),rs.getInt("parentId"),rs.getString("time")));
-            }
-            rs.close();
-            return res;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+
 
     public User selectUser(int id) {
         System.out.println("selectAllUser");
