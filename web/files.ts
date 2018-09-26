@@ -41,7 +41,7 @@ class FileList2 {
     refresh() {
         $.ajax({
             type: "GET",
-            url: backendUrl + "/file",
+            url: backendUrl + "/file/"+taskID,
             dataType: "json",
             success: fileList.update
         });
@@ -54,15 +54,8 @@ class FileList2 {
 
         for (let i = 0; i < data.mData.length; ++i) {
             let sub = "sub-"+data.mData[i].mId;
-            $("#fileList").append("<tr><td>ID: " + data.mData[i].mId +" </td><td> File Name: "+data.mData[i].mfileName+" </td><td> File ID: "+data.mData[i].mfileId+" </td><td><a href= \"https://stacklight.herokuapp.com/download/"+data.mData[i].mfileId+"\" download = \""+data.mData[i].mfileName+"\">Export</a></td><td><input type= \"file\" id= \"upload-"+data.mData[i].mfileId+"\" /></td><td><button class = \"upload\" id = \""+data.mData[i].mId+"\">Upload</button></td></tr><tr><td><div id = \""+sub+"\"></div></td></tr><tr></tr>");
-            /*
-            $.ajax({
-                type: "GET",
-                url: backendUrl + "/file/"+data.mData[i].mId,
-                dataType: "json",
-                success: fileList.updateSub
-            });
-            */
+            //$("#fileList").append("<tr><td>ID: " + data.mData[i].mId +" </td><td> File Name: "+data.mData[i].mfileName+" </td><td> File ID: "+data.mData[i].mfileId+" </td><td><a href= \"https://stacklight.herokuapp.com/download/"+data.mData[i].mfileId+"\" download = \""+data.mData[i].mfileName+"\">Export</a></td><td><input type= \"file\" id= \"upload-"+data.mData[i].mfileId+"\" /></td><td><button class = \"upload\" id = \""+data.mData[i].mId+"\">Upload</button></td></tr><tr><td><div id = \""+sub+"\"></div></td></tr><tr></tr>");
+            $("#fileList").append("<tr><td>ID: " + data.mData[i].mId +" </td><td> File Name: "+data.mData[i].mfileName+" </td><td> File ID: "+data.mData[i].mfileId+" </td><td><a href= \"https://stacklight.herokuapp.com/download/"+data.mData[i].mfileId+"\" download = \""+data.mData[i].mfileName+"\">Export</a></td></tr>");
         }
         
         $(".upload").click( function(this:HTMLButtonElement){
@@ -111,7 +104,6 @@ class fileUpload{
         //let fileName = $("#fileName").val();
         var formData = new FormData();
         var fileName = "" + $("#fileName").val();
-        alert(fileName);
         formData.append('mFile', file);
         formData.append('mFileName',fileName);
         formData.append('mTaskID',taskID);

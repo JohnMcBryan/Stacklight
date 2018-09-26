@@ -163,48 +163,14 @@ public class App {
             System.out.println(e);
         }
 
-        //Route for uploading a file
-        Spark.post("/file/sub/:pid", (request, response) -> {
-            response.status(200);
-            response.type("application/json");
-            request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
-            int suc = 0;
-            String pidString = request.raw().getParameter("mPid");
-            int pid = Integer.parseInt(pidString);
-            String fileName = request.raw().getParameter("mFileName");
-            String id = "Error";
-            FileRet file = null;
-
-            if (fileName == null) {
-                System.out.println("File Name Null");
-                fileName = "Error";
-            }
-            try (InputStream is = request.raw().getPart("mFile").getInputStream()) {
-                // Use the input stream to create a file
-                file = uploadFile(is, fileName);
-                id = file.id;
-                System.out.println("File Uploaded Successfully");
-            } catch (Exception e) {
-                System.out.println("Failure: " + e);
-            }
-            String timeStamp = new SimpleDateFormat("MM.dd.yyyy.HH.mm").format(new Date());
-            boolean newId = db.insertSubFile(fileName, id,pid,timeStamp);
-
-            if (!newId) {
-                return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
-            } else {
-                return gson.toJson(new StructuredResponse("ok", "", null));
-            }
-        });
 
         //Route For getting one parents sub files
-        Spark.get("/file/:pid", (request, response) -> {
+        Spark.get("/file/:taskID", (request, response) -> {
 
             response.status(200);
             response.type("application/json");
-            String id = request.params("pid");
-            int pid = Integer.parseInt(id);
-            return gson.toJson(new StructuredResponse("ok", null, db.selectSubFiles(pid)));
+            int taskID = Integer.parseInt(request.params("taskID"));
+            return gson.toJson(new StructuredResponse("ok", null, db.selectTaskFiles(taskID)));
 
         });
 
@@ -272,14 +238,6 @@ public class App {
             response.type("application/json");
             return gson.toJson(new StructuredResponse("ok", null, db.selectAllFiles()));
 
-        });
-
-        //Select All Sub Files
-        Spark.get("/file/sub", (request, response) -> {
-            response.status(200);
-            response.type("application/json");
-            System.out.println("Spark Called");
-            return gson.toJson(new StructuredResponse("ok", null, db.selectAllSubFiles()));
         });
 
         Spark.get("/", (req, res) -> {
