@@ -141,8 +141,8 @@ $(document).ready(function () {
     // Create the object that controls the "New Entry" form
     FileUpload = new fileUpload();
     fileList = new FileList2();
-    subFileList = new SubFileList();
+    //subFileList = new SubFileList();
 
     fileList.refresh();
-    subFileList.refresh();
+    //subFileList.refresh();
 });

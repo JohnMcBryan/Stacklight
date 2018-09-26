@@ -21,6 +21,7 @@ mkdir $TARGETFOLDER/$WEBFOLDERNAME
 cp index.html $TARGETFOLDER/$WEBFOLDERNAME
 cp tasks.html $TARGETFOLDER/$WEBFOLDERNAME
 cp tasksAddForm.html $TARGETFOLDER/$WEBFOLDERNAME
+cp taskPage.html $TARGETFOLDER/$WEBFOLDERNAME
 cp app.css $TARGETFOLDER/$WEBFOLDERNAME
 cp style.css $TARGETFOLDER/$WEBFOLDERNAME
 cp node_modules/jquery/dist/jquery.min.js $TARGETFOLDER/$WEBFOLDERNAME
@@ -33,13 +34,18 @@ cp Images/add-list.png $TARGETIMAGEFOLDER/$WEBFOLDERNAME
 cp Images/newproject.png $TARGETIMAGEFOLDER/$WEBFOLDERNAME
 cp Images/project.png $TARGETIMAGEFOLDER/$WEBFOLDERNAME
 
+#Put Client Secret Doc into Resources Folder
+cp ../backend/StoplightCS.json ../backend/src/main/resources/StoplightCS.json
+
 # step 4: compile TypeScript files
 node_modules/.bin/tsc app.ts --strict --outFile $TARGETFOLDER/app.js
 node_modules/.bin/tsc tasks.ts --strict --outFile $TARGETFOLDER/tasks.js
+node_modules/.bin/tsc files.ts --strict --outFile $TARGETFOLDER/files.js
 
 
 # step 4: compile TypeScript files
 node_modules/typescript/bin/tsc app.ts --strict --outFile $TARGETFOLDER/$WEBFOLDERNAME/app.js
 node_modules/typescript/bin/tsc tasks.ts --strict --outFile $TARGETFOLDER/$WEBFOLDERNAME/tasks.js
 node_modules/typescript/bin/tsc task.ts --strict --outFile $TARGETFOLDER/$WEBFOLDERNAME/task.js
+node_modules/typescript/bin/tsc files.ts --strict --outFile $TARGETFOLDER/$WEBFOLDERNAME/files.js
 node_modules/typescript/bin/tsc projects.ts --strict --outFile $TARGETFOLDER/$WEBFOLDERNAME/projects.js
