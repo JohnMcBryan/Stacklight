@@ -10,6 +10,8 @@ var $: any;
 var FileUpload: fileUpload;
 var fileList: FileList2;
 var subFileList: SubFileList;
+var helper: HelperFile;
+var taskID: any;
 
 const backendUrl = "https://stacklight.herokuapp.com";
 
@@ -108,10 +110,11 @@ class fileUpload{
         let file = $("#fileUpload")[0].files[0];
         //let fileName = $("#fileName").val();
         var formData = new FormData();
-        var fileName = $('input[type=file]').val().replace(/C:\\fakepath\\/i, '')
+        var fileName = "" + $("#fileName").val();
+        alert(fileName);
         formData.append('mFile', file);
         formData.append('mFileName',fileName);
-
+        formData.append('mTaskID',taskID);
         $.ajax({
             type: "POST",
             url: backendUrl + "/file",
@@ -133,6 +136,23 @@ class fileUpload{
             fileList.refresh();
         }
 }
+class HelperFile{
+    public getUrlParameter(sParam: String) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+    
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+    
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+        }
+    }
+
+}
 
 
 
@@ -141,6 +161,8 @@ $(document).ready(function () {
     // Create the object that controls the "New Entry" form
     FileUpload = new fileUpload();
     fileList = new FileList2();
+    helper = new HelperFile();
+    taskID = helper.getUrlParameter('taskID');
     //subFileList = new SubFileList();
 
     fileList.refresh();

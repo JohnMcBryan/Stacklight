@@ -93,7 +93,7 @@ public class Database {
             db.mSelectUser = db.mConnection.prepareStatement("SELECT firstname, lastname, email from users where userid = ?");
 
             db.mSelectAllFiles = db.mConnection.prepareStatement("SELECT * FROM Files");
-            db.mInsertFile = db.mConnection.prepareStatement("INSERT INTO Files Values (default,?,?)");
+            db.mInsertFile = db.mConnection.prepareStatement("INSERT INTO Files Values (default,?,?,?)");
 
             db.mSelectSubFiles = db.mConnection.prepareStatement("SELECT * FROM SubFiles WHERE parentId = ?");
             db.mSelectAllSubFiles = db.mConnection.prepareStatement("SELECT * FROM SubFiles");
@@ -153,13 +153,14 @@ public class Database {
             return null;
         }
     }
-    boolean insertFile(String fileName,String fileId)
+    boolean insertFile(String fileName,String fileId,int taskID)
     {
         int rs=0;
         try {
             System.out.println("FileName: "+ fileName);
             mInsertFile.setString(1,fileName);
             mInsertFile.setString(2,fileId);
+            mInsertFile.setInt(3,taskID);
             rs +=mInsertFile.executeUpdate();
         } catch (SQLException e)
         {

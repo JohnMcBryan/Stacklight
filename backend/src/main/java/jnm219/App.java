@@ -215,9 +215,10 @@ public class App {
             request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
             int suc = 0;
             String fileName = request.raw().getParameter("mFileName");
+            int taskID = Integer.parseInt(request.raw().getParameter("mTaskID"));
             String id = "Error";
             FileRet file = null;
-
+            System.out.println("File: "+fileName);
             if (fileName == null) {
                 System.out.println("File Name Null");
                 fileName = "Error";
@@ -230,7 +231,7 @@ public class App {
             } catch (Exception e) {
                 System.out.println("Failure: " + e);
             }
-            boolean newId = db.insertFile(fileName, id);
+            boolean newId = db.insertFile(fileName, id,taskID);
             if (!newId) {
                 return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
             } else {
@@ -485,7 +486,7 @@ public class App {
                 mimeFull = "application/pdf";
             }
             body.setMimeType(mime);
-
+            System.out.println("Uploading File....");
             File file = service.files().insert(body,
                     new InputStreamContent(
                             mimeFull,
