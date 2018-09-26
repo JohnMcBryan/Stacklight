@@ -142,7 +142,6 @@ public class App {
             e.printStackTrace();
         }
 
-        /*
         try {
             // Build a new authorized API client service.
             Drive service = GDrive.getDriveService();
@@ -163,7 +162,7 @@ public class App {
         } catch (IOException e) {
             System.out.println(e);
         }
-        */
+
         //Route for uploading a file
         Spark.post("/file/sub/:pid", (request, response) -> {
             response.status(200);
