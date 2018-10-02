@@ -1,3 +1,5 @@
+var backendUrl = "https://stacklight.herokuapp.com";
+
 $(function () {
     console.log("On page load for all projects page");
     //gapi.load('auth2', function() { // Ready. });
@@ -48,4 +50,19 @@ function onSignIn(googleUser) {
   $('#loginBar').text(profile.getEmail());
   $('#loginBar').show();
   $('.g-signin2').hide();
+
+  var formData = new FormData();
+  formData.append('mFirstName', profile.getGivenName());
+  formData.append('mLastName', profile.getFamilyName());
+  fromData.append('mEmail', profile.getEmail());
+
+  $.ajax({
+    type: "POST",
+    url: backendUrl + "/users",
+    dataType: "json",      // dataType of response to POST
+    data: formData,
+    contentType: false,
+    processData: false,
+    success: console.log('Sent');
+    });
 }

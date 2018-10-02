@@ -35,6 +35,7 @@ public class Database {
     private PreparedStatement mSelectAllMessage;
     private PreparedStatement mInsertUser;
     private PreparedStatement mSelectUser;
+    private PreparedStatement mCheckUser;
     private PreparedStatement mInsertFile;
     private PreparedStatement mSelectAllFiles;
     private PreparedStatement mSelectSubFiles;
@@ -89,8 +90,9 @@ public class Database {
         try{
             db.mSelectAllMessage = db.mConnection.prepareStatement("SELECT * FROM Users");
 
-            db.mInsertUser = db.mConnection.prepareStatement("INSERT INTO Users Values (default,?,?,?,?)");
+            db.mInsertUser = db.mConnection.prepareStatement("INSERT INTO Users Values (default,?,?,?)");
             db.mSelectUser = db.mConnection.prepareStatement("SELECT firstname, lastname, email from users where userid = ?");
+            db.mCheckUser = db.mConnection.prepareStatement("select COUNT(*) as check FROM Users WHERE email = ?");
 
             db.mSelectAllFiles = db.mConnection.prepareStatement("SELECT * FROM Files");
             db.mInsertFile = db.mConnection.prepareStatement("INSERT INTO Files Values (default,?,?)");
@@ -241,13 +243,13 @@ public class Database {
     }
 
     public User selectUser(int id) {
-        System.out.println("selectAllUser");
+        System.out.println("selectUser");
         try {
             mSelectUser.setInt(1, id);
             ResultSet rs = mSelectUser.executeQuery();
             rs.next();
             //System.err.println("NAMES: "+rs.getString("name"));
-            User res = new User(rs.getString("firstname"),rs.getString("lastname"),rs.getString("email"));
+            User res = new User(rs.getString("firstname"), rs.getString("lastname"), rs.getString("email"));
             rs.close();
             return res;
         } catch (SQLException e) {
@@ -256,14 +258,35 @@ public class Database {
         }
     }
 
-    boolean insertUser(String firstName, String lastName, String email, String pass) {
+    boolean checkUser(String email) {
+        System.out.println("checkUser");
+        try {
+            mCheckUser.setString(1, email);
+            ResultSet rs = mCheckUser.executeQuery();
+            rs.next();
+            int check = rs.getInt("check");
+            System.out.println("Check is " + check);
+            rs.close();
+            if (check == 0)
+            {
+                return false;
+            }
+            else {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    boolean insertUser(String firstName, String lastName, String email) {
         int rs = 0;
         try {
             System.out.println("New Name: "+ firstName);
             mInsertUser.setString(1, firstName);
             mInsertUser.setString(2, lastName);
             mInsertUser.setString(3, email);
-            mInsertUser.setString(4, pass);
             rs += mInsertUser.executeUpdate();
         } catch (SQLException e)
         {
