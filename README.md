@@ -3,12 +3,18 @@ Collaboraters:
 
 Jack McBryan johnmcbryan5@gmail.com
 Nicole D'Annibale nid219@lehigh.edu
-
 Mira Straathof mira@straathof.com
-
 Bobby Gould rsg219@lehigh.edu
 
 http://www.cse.lehigh.edu/~spear/cse216_tutorials/
+
+Steps for Merging onto Origin/Master :
+(Assuming you are on your branch)
+1. Git pull
+2. Rebase Current onto Selected (origin/master)
+3. Checkout master branch
+4. Merge Into Current (Select the branch you want to merge in)
+5. Git push
 
 How to Locally Deploy:
 
