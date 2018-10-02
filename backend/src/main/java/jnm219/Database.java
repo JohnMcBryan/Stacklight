@@ -19,6 +19,8 @@ import java.util.TimeZone;
 
 import java.util.ArrayList;
 
+import jnm219.User;
+
 
 public class Database {
     /**
@@ -31,7 +33,8 @@ public class Database {
      * A prepared statement for getting all messages
      */
     private PreparedStatement mSelectAllMessage;
-    private PreparedStatement mInsertName;
+    private PreparedStatement mInsertUser;
+    private PreparedStatement mSelectUser;
     private PreparedStatement mInsertFile;
     private PreparedStatement mSelectAllFiles;
     private PreparedStatement mSelectSubFiles;
@@ -85,7 +88,9 @@ public class Database {
 
         try{
             db.mSelectAllMessage = db.mConnection.prepareStatement("SELECT * FROM Users");
-            db.mInsertName = db.mConnection.prepareStatement("INSERT INTO Users Values (default,?)");
+
+            db.mInsertUser = db.mConnection.prepareStatement("INSERT INTO Users Values (default,?,?,?,?)");
+            db.mSelectUser = db.mConnection.prepareStatement("SELECT firstname, lastname, email from users where userid = ?");
 
             db.mSelectAllFiles = db.mConnection.prepareStatement("SELECT * FROM Files");
             db.mInsertFile = db.mConnection.prepareStatement("INSERT INTO Files Values (default,?,?)");
@@ -235,13 +240,31 @@ public class Database {
         }
     }
 
-    boolean insertName(String name)
-    {
-        int rs=0;
+    public User selectUser(int id) {
+        System.out.println("selectAllUser");
         try {
-            System.out.println("New Name: "+name);
-            mInsertName.setString(1,name);
-            rs +=mInsertName.executeUpdate();
+            mSelectUser.setInt(1, id);
+            ResultSet rs = mSelectUser.executeQuery();
+            rs.next();
+            //System.err.println("NAMES: "+rs.getString("name"));
+            User res = new User(rs.getString("firstname"),rs.getString("lastname"),rs.getString("email"));
+            rs.close();
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    boolean insertUser(String firstName, String lastName, String email, String pass) {
+        int rs = 0;
+        try {
+            System.out.println("New Name: "+ firstName);
+            mInsertUser.setString(1, firstName);
+            mInsertUser.setString(2, lastName);
+            mInsertUser.setString(3, email);
+            mInsertUser.setString(4, pass);
+            rs += mInsertUser.executeUpdate();
         } catch (SQLException e)
         {
             e.printStackTrace();
