@@ -127,6 +127,7 @@ public class App {
         Database db = Database.getDatabase(2);
         Taskbase tb = Taskbase.getTaskbase(2);
         Projectbase pb = Projectbase.getProjectbase(2);
+        Subtaskbase stb = Subtaskbase.getSubtaskbase(2);
 
         // Give the Database object a connection, fail if we cannot get one
         try {
@@ -277,6 +278,14 @@ public class App {
             System.out.println("Task ID: "+taskID);
             return gson.toJson(new StructuredTask("ok", null, tb.selectTask(taskID)));
         });
+        Spark.get("/subtasks/:taskID",(req,res) -> {
+            res.status(200);
+            res.type("application/json");
+            int taskID = Integer.parseInt(req.params("taskID"));
+            System.out.println("Task ID: "+taskID);
+            return gson.toJson(new StructuredTask("ok", null, stb.selectSubtasks(taskID)));
+        });
+
 
         Spark.get("/projects/all",(req,res) -> {
             res.status(200);
