@@ -344,16 +344,25 @@ public class App {
         Spark.post("/users", (request, response) -> {
             response.status(200);
             response.type("application/json");
-            System.out.println("Entering Folder");
             System.out.println(request.body().toString());
             InsertUser incoming = gson.fromJson(request.body(), InsertUser.class);
-            System.out.println(incoming.mFirstName);
-            boolean newId = db.insertUser(incoming.mFirstName, incoming.mLastName, incoming.mEmail, incoming.mPass);
-            if (!(newId)) {
-                System.out.println("ERROR");
-                return gson.toJson(new StructuredResponse("error", "error", null));
-            } else {
-                System.out.println("OK");
+
+            boolean existingUser = db.checkUser(incoming.mEmail);
+
+            if (!(existingUser)) {
+                System.out.println(incoming.mFirstName);
+                boolean newId = db.insertUser(incoming.mFirstName, incoming.mLastName, incoming.mEmail);
+                if (!(newId)) {
+                    System.out.println("ERROR");
+                    return gson.toJson(new StructuredResponse("error", "error", null));
+                } else {
+                    System.out.println("OK");
+                    return gson.toJson(new StructuredResponse("ok", "", null));
+                }
+            }
+            else
+            {
+                System.out.println("User exists");
                 return gson.toJson(new StructuredResponse("ok", "", null));
             }
         });
