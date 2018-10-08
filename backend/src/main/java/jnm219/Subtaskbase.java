@@ -30,6 +30,8 @@ public class Subtaskbase {
      * A prepared statement for getting all messages
      */
     private PreparedStatement mSelectSubTasks;
+
+    private PreparedStatement mAddSubtask;
     /**
      * Give the Database object a connection, fail if we cannot get one
      * Must be logged into heroku on a local computer to be able to use mvn heroku:deploy
@@ -94,6 +96,7 @@ public class Subtaskbase {
 
         try{
             stb.mSelectSubTasks = stb.mConnection.prepareStatement("SELECT * FROM Subtasks WHERE taskId = ?");
+            stb.mAddSubtask = stb.mConnection.prepareStatement("INSERT INTO Subtasks VALUES(default,?,?,?)");
 
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
@@ -112,7 +115,7 @@ public class Subtaskbase {
             ResultSet rs = mSelectSubTasks.executeQuery();
             System.out.println("Selecting All Subtasks for task "+taskId);
             while (rs.next()) {
-                SubtaskRow subtaskrow = new SubtaskRow(rs.getInt("id"),rs.getInt("taskId"),rs.getString("subtaskname"),
+                SubtaskRow subtaskrow = new SubtaskRow(rs.getInt("id"),rs.getInt("taskId"),rs.getString("name"),
                         rs.getInt("status"));
                 res.add(subtaskrow);
             }
@@ -122,6 +125,23 @@ public class Subtaskbase {
             e.printStackTrace();
             return null;
         }
+    }
+
+    //Method for adding a new task
+    boolean addSubtask(int taskId,String name,int status) {
+        int rs=0;
+
+        try {
+            mAddSubtask.setInt(1,taskId);
+            mAddSubtask.setString(2,name);
+            mAddSubtask.setInt(3,status);
+            rs +=mAddSubtask.executeUpdate();
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
 }

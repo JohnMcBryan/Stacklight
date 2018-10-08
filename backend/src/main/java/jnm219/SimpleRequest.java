@@ -28,4 +28,7 @@ public class SimpleRequest {
     public String mOwner;
     public String mOrganization;
 
+    public int mStatus;
+    public int mTaskId;
+
 }

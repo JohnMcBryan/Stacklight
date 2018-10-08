@@ -49,3 +49,5 @@ node_modules/typescript/bin/tsc tasks.ts --strict --outFile $TARGETFOLDER/$WEBFO
 node_modules/typescript/bin/tsc task.ts --strict --outFile $TARGETFOLDER/$WEBFOLDERNAME/task.js
 node_modules/typescript/bin/tsc files.ts --strict --outFile $TARGETFOLDER/$WEBFOLDERNAME/files.js
 node_modules/typescript/bin/tsc projects.ts --strict --outFile $TARGETFOLDER/$WEBFOLDERNAME/projects.js
+node_modules/typescript/bin/tsc subtasks.ts --strict --outFile $TARGETFOLDER/$WEBFOLDERNAME/subtasks.js
+

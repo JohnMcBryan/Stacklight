@@ -1,72 +1,65 @@
 // Run some configuration code when the web page loads
 const backendUrl = "https://stacklight.herokuapp.com";
 var $: any;
-var taskList: SubtaskList;
-var newtaskform: NewSubtaskForm;
+var subtaskList: SubtaskList;
+var newSubtaskform: NewSubtaskForm;
 var helper: Helper;
-var projectID: any;
+var taskID: any;
 
 class SubtaskList {
-
     refresh(){
         $.ajax({
             type: "GET",
-            url: backendUrl + "/tasks/"+projectID,
+            url: backendUrl + "/subtasks/"+taskID,
             dataType: "json",
-            success: taskList.update
+            success: subtaskList.update
         });
     }
     private update(data: any) {
-        $("#taskList").html("<table>");
+        $("#subtaskList").html("<table>");
         console.log(data);
         for (let i = 0; i < data.mSubtaskData.length; ++i) {
-            $("#taskList").append("<tr><td>"+data.mSubtaskData[i].mId+". </td><td> <b> " +data.mSubtaskData[i].mName+" :</b></td><td> " +data.mSubtaskData[i].mDescription+"</td><td><div id = task-"+data.mSubtaskData[i].mId+" name = tasksLink></div></td><tr>");
+            $("#subtaskList").append("<tr><td> "+i+": "+data.mSubtaskData[i].mName+"</td><tr>");
         }
     }
 }
 class NewSubtaskForm{
     constructor() {
-        $("#addButton").click(this.submitForm);
-        $("#addCancel").click(this.back);
+        $("#addSubtaskButton").click(this.submitForm);
+        $("#cancelAdd").click(this.back);
     }
 
     submitForm() {
-        let taskname = "" + $("#taskname").val();
-        let description = "" + $("#description").val();
-        let priority = $('input[name=priority]:checked').val();
-        let assignee = "" + $("#assignee").val();
-        let assigner = "" + $("assigner").val();
-
-        if (taskname === "" || description === "") {
-            window.alert("Error: Subtask is not valid");
+        let name = "" + $("#Subtaskname").val();
+        let status = 0;
+        if (name === "") {
+            window.alert("Error: Task is not valid");
             return;
         }
-        console.log("Priority: "+ priority);
+        console.log("Subtask Name: " +name);
         // set up an AJAX post.  When the server replies, the result will go to
         // onSubmitResponse
         $.ajax({
             type: "POST",
-            url: backendUrl + "/tasks",
+            url: backendUrl + "/subtasks",
             dataType: "json",
-            data: JSON.stringify({ mProjectId: projectID, mSubtaskname: taskname,
-                mDescription: description, mPriority: priority, mAssignee: assignee,
-            mAssigner: assigner }),
-            success: newtaskform.onSubmitResponse,
-            error: newtaskform.onSubmitResponse
+            data: JSON.stringify({ mTaskId: taskID, mName: name, mStatus:status }),
+            success: newSubtaskform.onSubmitResponse,
+            error: newSubtaskform.onSubmitResponse
         });
     }
     back(){
-        console.log("Subtask Add Cancelled");
-        taskList.refreshProject();
-        window.location.replace("https://stacklight.herokuapp.com/tasks.html?projectID="+projectID);
+        console.log("Task Add Cancelled");
+        subtaskList.refresh();
+        $("#Subtaskname").val("");
     }
 
     private onSubmitResponse(data: any) {
+        $("#Subtaskname").val("");
         // If we get an "ok" message, clear the form
         if (data.mStatus === "ok") {
-            console.log("Subtask Added Sucessfully!");
-            taskList.refreshProject();
-            window.location.replace("https://stacklight.herokuapp.com/tasks.html?projectID="+projectID);
+            console.log("Task Added Sucessfully!");
+            subtaskList.refresh();
         }
         // Handle explicit errors with a detailed popup message
         else if (data.mStatus === "error") {
@@ -78,6 +71,7 @@ class NewSubtaskForm{
         }
     }
 }
+
 class Helper{
     public getUrlParameter(sParam: String) {
         var sPageURL = decodeURIComponent(window.location.search.substring(1)),
@@ -99,12 +93,11 @@ class Helper{
 $(document).ready(function () {
     console.log("Loading Subtasks Page......."); 
     
-    taskList = new SubtaskList();
-    newtaskform = new NewSubtaskForm();
+    subtaskList = new SubtaskList();
+    newSubtaskform = new NewSubtaskForm();
     helper = new Helper();
-    projectID = helper.getUrlParameter('projectID');
+    taskID = helper.getUrlParameter('taskID');
 
-    console.log("Project ID: "+projectID);
-    $("#PID").replaceWith("<input type= 'hidden' name= 'projectID' id = 'PID'value = '"+projectID+"'/>")    
-    taskList.refreshProject();
+    console.log("(Subtask) Task ID: "+taskID);
+    subtaskList.refresh();
 });

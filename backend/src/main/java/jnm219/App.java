@@ -283,7 +283,25 @@ public class App {
             res.type("application/json");
             int taskID = Integer.parseInt(req.params("taskID"));
             System.out.println("Task ID: "+taskID);
-            return gson.toJson(new StructuredTask("ok", null, stb.selectSubtasks(taskID)));
+            return gson.toJson(new StructuredSubtask("ok", null, stb.selectSubtasks(taskID)));
+        });
+
+        Spark.post("/subtasks", (request, res) -> {
+            System.out.println("Adding a subtask....");
+            SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);
+            res.status(200);
+            res.type("application/json");
+
+            int taskId = req.mTaskId;
+            String name = req.mName;
+            int status = req.mStatus;
+
+            boolean newSubTask = stb.addSubtask(taskId,name,status);
+            if (!newSubTask) {
+                return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
+            } else {
+                return gson.toJson(new StructuredResponse("ok", "" + newSubTask, null));
+            }
         });
 
 

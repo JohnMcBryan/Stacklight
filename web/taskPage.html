@@ -5,6 +5,7 @@
     <script src="app.js"></script>
     <script src="task.js"></script>
     <script src="files.js"></script>
+    <script src="subtasks.js"></script>
     <title>Project Page</title>
 </head>
 <script>
@@ -28,6 +29,12 @@
     <form action="https://stacklight.herokuapp.com/">
         <input type="submit" value="Homepage" />
     </form>
+    <b>Subtasks:</b>
+    <div id = "showSubTasks">
+        <div id="subtaskList"></div>
+        <input type="text" id="Subtaskname" />
+        <button id="addSubtaskButton">Add Subtask</button>
+    </div>
     <button onclick="goBack()">Go Back</button>
 </body>
     
