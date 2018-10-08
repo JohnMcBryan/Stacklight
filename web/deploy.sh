@@ -22,17 +22,16 @@ cp index.html $TARGETFOLDER/$WEBFOLDERNAME
 cp tasks.html $TARGETFOLDER/$WEBFOLDERNAME
 cp tasksAddForm.html $TARGETFOLDER/$WEBFOLDERNAME
 cp taskPage.html $TARGETFOLDER/$WEBFOLDERNAME
-cp app.css $TARGETFOLDER/$WEBFOLDERNAME
 cp style.css $TARGETFOLDER/$WEBFOLDERNAME
 cp node_modules/jquery/dist/jquery.min.js $TARGETFOLDER/$WEBFOLDERNAME
 cp allProjectsPage.html $TARGETFOLDER/$WEBFOLDERNAME
 cp allProjectsPage.js $TARGETFOLDER/$WEBFOLDERNAME
-cp Images/logo.png $TARGETIMAGEFOLDER/$WEBFOLDERNAME
-cp Images/logoWhite.png $TARGETIMAGEFOLDER/$WEBFOLDERNAME
-cp Images/uploadwhite.png $TARGETIMAGEFOLDER/$WEBFOLDERNAME
-cp Images/add-list.png $TARGETIMAGEFOLDER/$WEBFOLDERNAME
-cp Images/newproject.png $TARGETIMAGEFOLDER/$WEBFOLDERNAME
-cp Images/project.png $TARGETIMAGEFOLDER/$WEBFOLDERNAME
+cp Images/logo.png $TARGETFOLDER/$WEBFOLDERNAME
+cp Images/logoWhite.png $TARGETFOLDER/$WEBFOLDERNAME
+cp Images/uploadwhite.png $TARGETFOLDER/$WEBFOLDERNAME
+cp Images/add-list.png $TARGETFOLDER/$WEBFOLDERNAME
+cp Images/newproject.png $TARGETFOLDER/$WEBFOLDERNAME
+cp Images/project.png $TARGETFOLDER/$WEBFOLDERNAME
 
 #Put Client Secret Doc into Resources Folder
 cp ../backend/StoplightCS.json ../backend/src/main/resources/StoplightCS.json
