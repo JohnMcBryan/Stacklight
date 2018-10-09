@@ -28,9 +28,20 @@ class TaskList {
         console.log(data);
         for (let i = 0; i < data.mTaskData.length; ++i) {
             $("#taskList").append("<tr><td>"+data.mTaskData[i].mId+". </td><td> <b> " +data.mTaskData[i].mName+" :</b></td><td> " +data.mTaskData[i].mDescription+"</td><td><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div></td><tr>");
-        
-            $("#task-"+data.mTaskData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/taskPage.html' id = 'TID'><input type='submit' value='To Task Page' /><input type= 'hidden' name= 'taskID' value='"+data.mTaskData[i].mId+"' /></form>");
+            if(data.mTaskData[i].mPriority == 1)
+            {
+                $("#task-"+data.mTaskData[i].mId).closest('tr').css('background-color','#F53');
+            }
+            if(data.mTaskData[i].mPriority == 2)
+            {
+                $("#task-"+data.mTaskData[i].mId).closest('tr').css('background-color','#FF7');
+            }
+            if(data.mTaskData[i].mPriority == 3)
+            {
+                $("#task-"+data.mTaskData[i].mId).closest('tr').css('background-color','#072');
+            }
 
+            $("#task-"+data.mTaskData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/taskPage.html' id = 'TID'><input type='submit' value='To Task Page' /><input type='hidden' name='taskID' value='"+data.mTaskData[i].mId+"' /> <input type='hidden' name='priority' value='"+data.mTaskData[i].mPriority+"'/> </form>");
         }
     }
 }
