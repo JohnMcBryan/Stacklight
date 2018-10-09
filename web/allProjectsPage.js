@@ -43,5 +43,5 @@ function onSignIn(googleUser) {
   $('#loginBar').show();
   $('.row').show();
   $('.g-signin2').hide();
-
+   localStorage.setItem("email", profile.getEmail());
 }

@@ -197,7 +197,7 @@ public class App {
             } catch (Exception e) {
                 System.out.println("Failure: " + e);
             }
-            boolean newId = db.insertFile(fileName, id,taskID);
+            boolean newId = db.insertFile(fileName,id,taskID);
             if (!newId) {
                 return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
             } else {
@@ -278,11 +278,11 @@ public class App {
             return gson.toJson(new StructuredTask("ok", null, tb.selectTask(taskID)));
         });
 
-        Spark.get("/projects/all",(req,res) -> {
+        Spark.get("/projects/all/:email",(req,res) -> {
             res.status(200);
             res.type("application/json");
             System.out.println("Spark Called");
-            return gson.toJson(new StructuredProject("ok", null, pb.selectAllProjects()));
+            return gson.toJson(new StructuredProject("ok", "", pb.selectAllProjects(req.params("email"))));
         });
 
         Spark.post("/tasks", (request, res) -> {
