@@ -5,6 +5,7 @@ $(function () {
     $('#loginBar').hide();
     $('.navbar').click(signOut);
     $(".abcRioButtonContentWrapper").css("left", "75%");
+    $('#addMemberButton').click(addMember);
 });
 
 function goToProject() {
@@ -49,4 +50,9 @@ function onSignIn(googleUser) {
   $('#loginBar').text(profile.getEmail());
   $('#loginBar').show();
   $('.g-signin2').hide();
+}
+
+
+function addMember() {
+    $('#members').append('<input type="text" class="form-control member">');
 }

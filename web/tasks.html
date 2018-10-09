@@ -21,11 +21,17 @@
 <body>
 
 <div class="navbar">
-    <a href="allProjectsPage.html" data-toggle="tooltip" data-placement="bottom" title="Back to homepage" class="navelem"><img src="Images/logo.png" id="navLogo"></a> <!-- <a href="#home"> tacks url..#home to end -->
-    <!--<a href="allProjectsPage.html"><span class="glyphicon glyphicon-menu-left"></span></a>-->
+    <a href="index.html" data-toggle="tooltip" data-placement="bottom" title="Back to homepage" class="navelem"><img src="Images/logo.png" id="navLogo"></a> <!-- <a href="#home"> tacks url..#home to end -->
+    <!--<a href="allProjectsPage.html"><span class="glyphicon glyphicon-menu-left"></span></a>
     <span data-toggle="modal" data-target="#createNewTask">
             <a href="#" data-toggle="tooltip" data-placement="bottom" title="Create a new task" class="navelem"><img src="Images/add-list.png" class="center" alt="Create new task" ></a>
-        </span>
+    </span>
+    -->
+    <form action="https://stacklight.herokuapp.com/tasksAddForm.html">
+        <input type="image" src="Images/add-list.png" class="navelem"/>
+        <!--<input type="submit" value="Add a New Task" />-->
+        <input type= 'hidden' name= 'projectID' id = 'PID'/>
+    </form>
     <div class="login navbar-right">
         <a href="#" class="login"><span class="glyphicon glyphicon-user"></span> abc123@lehigh.edu </a>
     </div>
