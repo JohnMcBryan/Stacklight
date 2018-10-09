@@ -6,40 +6,36 @@
 # web deploy directory.
 
 # This is the resource folder where maven expects to find our files
-TARGETFOLDER=../backend/src/main/resources
+TARGET=../backend/src/main/resources
 
 # This is the folder that we used with the Spark.staticFileLocation command
-WEBFOLDERNAME=web
+WEB=web
+IMAGE=Images
 
 # step 1: make sure we have someplace to put everything.  We will delete the
 #         old folder tree, and then make it from scratch
-rm -rf $TARGETFOLDER
-mkdir $TARGETFOLDER
-mkdir $TARGETFOLDER/$WEBFOLDERNAME
+rm -rf $TARGET
+mkdir $TARGET
+mkdir $TARGET/$WEB
+mkdir $TARGET/$WEB/$IMAGE
 
 # there are many more steps to be done.  For now, we will just copy an HTML file
-cp index.html $TARGETFOLDER/$WEBFOLDERNAME
-cp tasks.html $TARGETFOLDER/$WEBFOLDERNAME
-cp tasksAddForm.html $TARGETFOLDER/$WEBFOLDERNAME
-cp app.css $TARGETFOLDER/$WEBFOLDERNAME
-cp style.css $TARGETFOLDER/$WEBFOLDERNAME
-cp node_modules/jquery/dist/jquery.min.js $TARGETFOLDER/$WEBFOLDERNAME
-cp allProjectsPage.html $TARGETFOLDER/$WEBFOLDERNAME
-cp allProjectsPage.js $TARGETFOLDER/$WEBFOLDERNAME
-cp Images/logo.png $TARGETIMAGEFOLDER/$WEBFOLDERNAME
-cp Images/logoWhite.png $TARGETIMAGEFOLDER/$WEBFOLDERNAME
-cp Images/uploadwhite.png $TARGETIMAGEFOLDER/$WEBFOLDERNAME
-cp Images/add-list.png $TARGETIMAGEFOLDER/$WEBFOLDERNAME
-cp Images/newproject.png $TARGETIMAGEFOLDER/$WEBFOLDERNAME
-cp Images/project.png $TARGETIMAGEFOLDER/$WEBFOLDERNAME
+cp index.html tasks.html tasksAddForm.html app.css style.css node_modules/jquery/dist/jquery.min.js allProjectsPage.html allProjectsPage.js $TARGET/$WEB
+
+cp Images/logo.png $TARGET/$WEB/$IMAGE
+cp Images/logoWhite.png $TARGET/$WEB/$IMAGE
+cp Images/uploadwhite.png $TARGET/$WEB/$IMAGE
+cp Images/add-list.png $TARGET/$WEB/$IMAGE
+cp Images/newproject.png $TARGET/$WEB/$IMAGE
+cp Images/project.png $TARGET/$WEB/$IMAGE
 
 # step 4: compile TypeScript files
-node_modules/.bin/tsc app.ts --strict --outFile $TARGETFOLDER/app.js
-node_modules/.bin/tsc tasks.ts --strict --outFile $TARGETFOLDER/tasks.js
+node_modules/.bin/tsc app.ts --strict --outFile $TARGET/app.js
+node_modules/.bin/tsc tasks.ts --strict --outFile $TARGET/tasks.js
 
 
 # step 4: compile TypeScript files
-node_modules/typescript/bin/tsc app.ts --strict --outFile $TARGETFOLDER/$WEBFOLDERNAME/app.js
-node_modules/typescript/bin/tsc tasks.ts --strict --outFile $TARGETFOLDER/$WEBFOLDERNAME/tasks.js
-node_modules/typescript/bin/tsc task.ts --strict --outFile $TARGETFOLDER/$WEBFOLDERNAME/task.js
-node_modules/typescript/bin/tsc projects.ts --strict --outFile $TARGETFOLDER/$WEBFOLDERNAME/projects.js
+node_modules/typescript/bin/tsc app.ts --strict --outFile $TARGET/$WEB/app.js
+node_modules/typescript/bin/tsc tasks.ts --strict --outFile $TARGET/$WEB/tasks.js
+node_modules/typescript/bin/tsc task.ts --strict --outFile $TARGET/$WEB/task.js
+node_modules/typescript/bin/tsc projects.ts --strict --outFile $TARGET/$WEB/projects.js
