@@ -7,6 +7,7 @@ var helper: Helper;
 var projectID: any;
 
 class TaskList {
+
     refresh() {
         $.ajax({
             type: "GET",
@@ -27,12 +28,25 @@ class TaskList {
         $("#taskList").html("<table>");
         console.log(data);
         for (let i = 0; i < data.mTaskData.length; ++i) {
-            $("#taskList").append("<tr><td>"+data.mTaskData[i].mId+". </td><td> <b> " +data.mTaskData[i].mName+" :</b></td><td> " +data.mTaskData[i].mDescription+"</td><td><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div></td><tr>");
+            $("#taskList").append("<tr><td>"+data.mTaskData[i].mId+". </td><td> <b> " +data.mTaskData[i].mName+" :</b></td><td> " +data.mTaskData[i].mDescription+"</td><td><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div></td><td><div id = complete-"+data.mTaskData[i].mId+" name = tasksLink></div></td><tr>");
         
-            $("#task-"+data.mTaskData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/taskPage.html' id = 'TID'><input type='submit' value='To Task Page' /><input type= 'hidden' name= 'taskID' value='"+data.mTaskData[i].mId+"' /></form>");
+            $("#task-"+data.mTaskData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/taskPage.html' id = 'TID'><input type='submit' value='To Task Page' /><input type= 'hidden' id = 'taskID' name= 'taskID' value='"+data.mTaskData[i].mId+"' /></form>");
+            $("#complete-"+data.mTaskData[i].mId).replaceWith("<input type='submit' value='Complete' id='completeButton' onClick='completeTask("+data.mTaskData[i].mId+")'/>");
 
         }
     }
+}
+function completeTask(taskID: any){
+    console.log("Task ID: "+taskID);
+
+    $.ajax({
+        type: "POST",
+        url: backendUrl + "/tasks/complete",
+        dataType: "json",
+        data: JSON.stringify({mTaskId: taskID}),
+        success: taskList.refreshProject(),
+    });
+
 }
 class NewTaskForm{
     constructor() {
