@@ -35,6 +35,8 @@ public class Taskbase {
     private PreparedStatement mAddTask;
 
     private PreparedStatement mSelectTask;
+
+    private PreparedStatement mCompleteTask;
     /**
      * Give the Database object a connection, fail if we cannot get one
      * Must be logged into heroku on a local computer to be able to use mvn heroku:deploy
@@ -109,6 +111,7 @@ public class Taskbase {
             tb.mAddTask = tb.mConnection.prepareStatement("INSERT INTO Tasks Values (default,?,?,?,?,?,?,default)");
             tb.mSelectTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE projectId = ?");
             tb.mSelectTask = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE id = ?");
+            tb.mCompleteTask = tb.mConnection.prepareStatement("UPDATE Tasks SET status = 1 WHERE id = ?");
 
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
@@ -201,6 +204,18 @@ public class Taskbase {
             return false;
         }
         return true;
+    }
+
+    boolean completeTask(int taskId){
+        try {
+            mCompleteTask.setInt(1, taskId);
+            mCompleteTask.executeUpdate();
+
+            return true;
+        } catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
 
