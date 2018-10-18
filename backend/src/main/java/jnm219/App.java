@@ -271,6 +271,14 @@ public class App {
             return gson.toJson(new StructuredTask("ok", null, tb.selectTasks(projectID)));
         });
 
+        Spark.get("/completedTasks/:projectID",(req,res) -> {
+            res.status(200);
+            res.type("application/json");
+            int projectID = Integer.parseInt(req.params("projectID"));
+            System.out.println("Completed Tasks for Project: "+projectID);
+            return gson.toJson(new StructuredTask("ok", null, tb.selectCompletedTasks(projectID)));
+        });
+
         Spark.post("/tasks/complete",(request,res) -> {
             System.out.println("Completeing a Task");
             SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);

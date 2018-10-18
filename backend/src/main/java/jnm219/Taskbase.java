@@ -35,6 +35,7 @@ public class Taskbase {
     private PreparedStatement mAddTask;
 
     private PreparedStatement mSelectTask;
+    private PreparedStatement mSelectCompletedTasks;
 
     private PreparedStatement mCompleteTask;
     /**
@@ -109,7 +110,8 @@ public class Taskbase {
         try{
             tb.mSelectAllTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks");
             tb.mAddTask = tb.mConnection.prepareStatement("INSERT INTO Tasks Values (default,?,?,?,?,?,?,default)");
-            tb.mSelectTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE projectId = ?");
+            tb.mSelectTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE projectId = ? AND status = 0");
+            tb.mSelectCompletedTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE projectId = ? AND status = 1");
             tb.mSelectTask = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE id = ?");
             tb.mCompleteTask = tb.mConnection.prepareStatement("UPDATE Tasks SET status = 1 WHERE id = ?");
 
@@ -150,7 +152,26 @@ public class Taskbase {
         try {
             mSelectTasks.setInt(1,projectId);
             ResultSet rs = mSelectTasks.executeQuery();
-            System.out.println("IN SELECT ALL TASKS");
+            while (rs.next()) {
+                TaskRow taskrow = new TaskRow(rs.getInt("id"),rs.getInt("projectId"),rs.getString("taskname"),
+                        rs.getString("description"),rs.getInt("priority"),rs.getString("assignee"),
+                        rs.getString("assigner"));
+                System.out.println(taskrow);
+                res.add(taskrow);
+            }
+            rs.close();
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    ArrayList<TaskRow> selectCompletedTasks(int projectId) {
+        ArrayList<TaskRow> res = new ArrayList<TaskRow>();
+        try {
+            mSelectCompletedTasks.setInt(1,projectId);
+            ResultSet rs = mSelectCompletedTasks.executeQuery();
+            System.out.println("Selecting Completed Tasks.....");
             while (rs.next()) {
                 TaskRow taskrow = new TaskRow(rs.getInt("id"),rs.getInt("projectId"),rs.getString("taskname"),
                         rs.getString("description"),rs.getInt("priority"),rs.getString("assignee"),
