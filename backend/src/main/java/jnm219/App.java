@@ -279,6 +279,14 @@ public class App {
             return gson.toJson(new StructuredTask("ok", null, tb.selectCompletedTasks(projectID)));
         });
 
+        Spark.get("/backlog/:projectID",(req,res) -> {
+            res.status(200);
+            res.type("application/json");
+            int projectID = Integer.parseInt(req.params("projectID"));
+            System.out.println("Backlog Tasks for: "+projectID);
+            return gson.toJson(new StructuredTask("ok", null, tb.selectBacklogTasks(projectID)));
+        });
+
         Spark.post("/tasks/complete",(request,res) -> {
             System.out.println("Completeing a Task");
             SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);
@@ -298,6 +306,17 @@ public class App {
             int taskId = req.mTaskId;
             System.out.println("Uncomplete Task: "+taskId);
             boolean complete = tb.uncompleteTask(taskId);
+            return gson.toJson(new StructuredResponse("ok", complete + " "+ taskId, null));
+        });
+
+        Spark.post("/tasks/backlog",(request,res) -> {
+            System.out.println("Backlogging a Task");
+            SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);
+            res.status(200);
+            res.type("application/json");
+            int taskId = req.mTaskId;
+            System.out.println("Backlog Task: "+taskId);
+            boolean complete = tb.backlogTask(taskId);
             return gson.toJson(new StructuredResponse("ok", complete + " "+ taskId, null));
         });
 

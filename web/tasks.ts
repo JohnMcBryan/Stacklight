@@ -29,25 +29,44 @@ class TaskList {
             dataType: "json",
             success: taskList.update2
         });
+
+        $.ajax({
+            type: "GET",
+            url: backendUrl + "/backlog/"+projectID,
+            dataType: "json",
+            success: taskList.update3
+        });
     }
     private update(data: any) {
         $("#taskList").html("<table>");
         console.log(data);
         for (let i = 0; i < data.mTaskData.length; ++i) {
-            $("#taskList").append("<tr><td>"+data.mTaskData[i].mId+". </td><td> <b> " +data.mTaskData[i].mName+" :</b></td><td> " +data.mTaskData[i].mDescription+"</td><td><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div></td><td><div id = complete-"+data.mTaskData[i].mId+" name = tasksLink></div></td><tr>");
+            $("#taskList").append("<tr><td>"+data.mTaskData[i].mId+". </td><td> <b> " +data.mTaskData[i].mName+" :</b></td><td> " +data.mTaskData[i].mDescription+"</td><td><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div></td><td><div id = complete-"+data.mTaskData[i].mId+" name = completeButton></div></td><td><div id = backlog-"+data.mTaskData[i].mId+" name = backlogButton></div></td><tr>");
         
             $("#task-"+data.mTaskData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/taskPage.html' id = 'TID'><input type='submit' value='To Task Page' /><input type= 'hidden' id = 'taskID' name= 'taskID' value='"+data.mTaskData[i].mId+"' /></form>");
             $("#complete-"+data.mTaskData[i].mId).replaceWith("<input type='submit' value='Complete' id='completeButton' onClick='completeTask("+data.mTaskData[i].mId+")'/>");
+            $("#backlog-"+data.mTaskData[i].mId).replaceWith("<input type='submit' value='Backlog' id='backlogButton' onClick='backlogTask("+data.mTaskData[i].mId+")'/>");
 
         }
     }
     private update2(data: any) {
         $("#completedTaskList").html("<table>");
         for (let i = 0; i < data.mTaskData.length; ++i) {
-            $("#completedTaskList").append("<tr><td>"+data.mTaskData[i].mId+". </td><td> <b> " +data.mTaskData[i].mName+" :</b></td><td> " +data.mTaskData[i].mDescription+"</td><td><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div></td><td><div id = complete-"+data.mTaskData[i].mId+" name = tasksLink></div></td><tr>");
+            $("#completedTaskList").append("<tr><td>"+data.mTaskData[i].mId+". </td><td> <b> " +data.mTaskData[i].mName+" :</b></td><td> " +data.mTaskData[i].mDescription+"</td><td><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div></td><td><div id = uncomplete-"+data.mTaskData[i].mId+" name = uncompleteButton></div></td><tr>");
         
             $("#task-"+data.mTaskData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/taskPage.html' id = 'TID'><input type='submit' value='To Task Page' /><input type= 'hidden' id = 'taskID' name= 'taskID' value='"+data.mTaskData[i].mId+"' /></form>");
-            $("#complete-"+data.mTaskData[i].mId).replaceWith("<input type='submit' value='UnComplete' id='uncompleteButton' onClick='uncompleteTask("+data.mTaskData[i].mId+")'/>");
+            $("#uncomplete-"+data.mTaskData[i].mId).replaceWith("<input type='submit' value='UnComplete' id='uncompleteButton' onClick='uncompleteTask("+data.mTaskData[i].mId+")'/>");
+
+        }
+    }
+
+    private update3(data: any) {
+        $("#backlog").html("<table>");
+        for (let i = 0; i < data.mTaskData.length; ++i) {
+            $("#backlog").append("<tr><td>"+data.mTaskData[i].mId+". </td><td> <b> " +data.mTaskData[i].mName+" :</b></td><td> " +data.mTaskData[i].mDescription+"</td><td><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div></td><td><div id = backlog-"+data.mTaskData[i].mId+" name = tasksLink></div></td><tr>");
+        
+            $("#task-"+data.mTaskData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/taskPage.html' id = 'TID'><input type='submit' value='To Task Page' /><input type= 'hidden' id = 'taskID' name= 'taskID' value='"+data.mTaskData[i].mId+"' /></form>");
+            $("#backlog-"+data.mTaskData[i].mId).replaceWith("<input type='submit' value='To Stack' id='uncompleteButton' onClick='uncompleteTask("+data.mTaskData[i].mId+")'/>");
 
         }
     }
@@ -70,6 +89,18 @@ function uncompleteTask(taskID: any){
     $.ajax({
         type: "POST",
         url: backendUrl + "/tasks/uncomplete",
+        dataType: "json",
+        data: JSON.stringify({mTaskId: taskID}),
+        success: taskList.refreshProject(),
+    });
+
+}
+function backlogTask(taskID: any){
+    console.log("Task ID: "+taskID);
+
+    $.ajax({
+        type: "POST",
+        url: backendUrl + "/tasks/backlog",
         dataType: "json",
         data: JSON.stringify({mTaskId: taskID}),
         success: taskList.refreshProject(),

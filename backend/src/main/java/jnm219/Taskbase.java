@@ -36,9 +36,12 @@ public class Taskbase {
 
     private PreparedStatement mSelectTask;
     private PreparedStatement mSelectCompletedTasks;
+    private PreparedStatement mSelectBacklogTasks;
+
 
     private PreparedStatement mCompleteTask;
     private PreparedStatement mUncompleteTask;
+    private PreparedStatement mBacklogTask;
     /**
      * Give the Database object a connection, fail if we cannot get one
      * Must be logged into heroku on a local computer to be able to use mvn heroku:deploy
@@ -113,9 +116,12 @@ public class Taskbase {
             tb.mAddTask = tb.mConnection.prepareStatement("INSERT INTO Tasks Values (default,?,?,?,?,?,?,default)");
             tb.mSelectTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE projectId = ? AND status = 0");
             tb.mSelectCompletedTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE projectId = ? AND status = 1");
+            tb.mSelectBacklogTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE projectId = ? AND status = 2");
             tb.mSelectTask = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE id = ?");
             tb.mCompleteTask = tb.mConnection.prepareStatement("UPDATE Tasks SET status = 1 WHERE id = ?");
             tb.mUncompleteTask = tb.mConnection.prepareStatement("UPDATE Tasks SET status = 0 WHERE id = ?");
+            tb.mBacklogTask = tb.mConnection.prepareStatement("UPDATE Tasks SET status = 2 WHERE id = ?");
+
 
 
         } catch (SQLException e) {
@@ -189,6 +195,26 @@ public class Taskbase {
             return null;
         }
     }
+    ArrayList<TaskRow> selectBacklogTasks(int projectId) {
+        ArrayList<TaskRow> res = new ArrayList<TaskRow>();
+        try {
+            mSelectBacklogTasks.setInt(1,projectId);
+            ResultSet rs = mSelectBacklogTasks.executeQuery();
+            System.out.println("Selecting Backlog Tasks.....");
+            while (rs.next()) {
+                TaskRow taskrow = new TaskRow(rs.getInt("id"),rs.getInt("projectId"),rs.getString("taskname"),
+                        rs.getString("description"),rs.getInt("priority"),rs.getString("assignee"),
+                        rs.getString("assigner"));
+                System.out.println(taskrow);
+                res.add(taskrow);
+            }
+            rs.close();
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     TaskRow selectTask(int taskId) {
         try {
             mSelectTask.setInt(1,taskId);
@@ -246,6 +272,18 @@ public class Taskbase {
         try {
             mUncompleteTask.setInt(1, taskId);
             mUncompleteTask.executeUpdate();
+
+            return true;
+        } catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    boolean backlogTask(int taskId){
+        try {
+            mBacklogTask.setInt(1, taskId);
+            mBacklogTask.executeUpdate();
 
             return true;
         } catch (SQLException e){
