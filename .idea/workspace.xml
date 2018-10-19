@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="261ae756-dee5-4dc1-b5b8-df69ba2d3787" name="Default" comment="7-Adding-Files:&#10;&#10;-Showing all the files on the Google Drive on the TaskPage&#10;-Need to only show the files related to a specific task">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/jnm219/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/jnm219/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/jnm219/Taskbase.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/jnm219/Taskbase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/tasks.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/tasks.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,134 +17,109 @@
     <session id="2139129983">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="5" />
+          <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.1" value="1" />
-          <entry key="project.open.time.6" value="1" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.open.time.5" value="2" />
+          <entry key="project.open.time.6" value="3" />
+          <entry key="project.opened" value="7" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages">
         <counts>
-          <entry key="git.branch.create.new" value="1" />
-          <entry key="git.branch.rebase" value="2" />
+          <entry key="git.branch.checkout.local" value="6" />
+          <entry key="git.branch.create.new" value="4" />
+          <entry key="git.branch.merge" value="2" />
+          <entry key="git.branch.rebase" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="class" value="1" />
-          <entry key="java" value="6" />
-          <entry key="json" value="4" />
-          <entry key="md" value="1" />
-          <entry key="sh" value="1" />
+          <entry key="class" value="2" />
+          <entry key="java" value="32" />
+          <entry key="json" value="8" />
+          <entry key="md" value="5" />
+          <entry key="sh" value="7" />
+          <entry key="ts" value="1" />
+          <entry key="xml" value="10" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Bash" value="1" />
-          <entry key="CLASS" value="1" />
-          <entry key="JAVA" value="6" />
-          <entry key="JSON" value="4" />
-          <entry key="PLAIN_TEXT" value="1" />
+          <entry key="Bash" value="7" />
+          <entry key="CLASS" value="2" />
+          <entry key="JAVA" value="32" />
+          <entry key="JSON" value="8" />
+          <entry key="PLAIN_TEXT" value="6" />
+          <entry key="XML" value="10" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="class" value="2" />
-          <entry key="java" value="435" />
+          <entry key="java" value="1865" />
           <entry key="md" value="329" />
-          <entry key="sh" value="181" />
-          <entry key="txt" value="486" />
+          <entry key="sh" value="191" />
+          <entry key="txt" value="1504" />
+          <entry key="xml" value="12" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Bash" value="181" />
+          <entry key="Bash" value="191" />
           <entry key="CLASS" value="2" />
-          <entry key="JAVA" value="435" />
-          <entry key="PLAIN_TEXT" value="815" />
+          <entry key="JAVA" value="1865" />
+          <entry key="PLAIN_TEXT" value="1833" />
+          <entry key="XML" value="12" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.46187365">
-      <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/App.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="84">
-                  <caret line="347" column="29" selection-start-line="347" selection-start-column="29" selection-end-line="347" selection-end-column="29" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/web/deploy.sh">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="360">
-                  <caret line="24" column="16" selection-start-line="24" selection-start-column="16" selection-end-line="24" selection-end-column="16" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/Database.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="186">
-                  <caret line="87" selection-start-line="87" selection-end-line="87" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/README.md">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="195">
-                  <caret line="13" column="12" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="12" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/App.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="5925">
-                  <caret line="395" column="20" selection-start-line="395" selection-start-column="20" selection-end-line="395" selection-end-column="20" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/backend/target/StoplightCS.json">
-              <provider selected="true" editor-type-id="text-editor" />
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/Database.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="15" column="21" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/deploy.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="21" column="40" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/App.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="542">
+              <caret line="299" column="54" lean-forward="true" selection-start-line="299" selection-start-column="54" selection-end-line="299" selection-end-column="54" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/Taskbase.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1438">
+              <caret line="122" column="32" lean-forward="true" selection-start-line="122" selection-start-column="32" selection-end-line="122" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>google</find>
-      <find>insertName</find>
-      <find>jetty</find>
-      <find>authorize</find>
-      <find>servlet</find>
-      <find>googlecredential</find>
       <find>javax.servlet-api</find>
       <find>d</find>
       <find>QuickStart</find>
@@ -167,7 +144,16 @@
       <find>here</find>
       <find>integ</find>
       <find>print</find>
+      <find>stacklight</find>
+      <find>selectTas</find>
+      <find>selecttask</find>
+      <find>st</find>
+      <find>mTask</find>
+      <find>subtask</find>
     </findStrings>
+    <replaceStrings>
+      <replace />
+    </replaceStrings>
     <dirStrings>
       <dir>C:\Users\Jack PC\Documents\Stoplight</dir>
     </dirStrings>
@@ -183,7 +169,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/SimpleRequest.java" />
         <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/StructuredResponse.java" />
         <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/DataStore.java" />
         <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/DataRow.java" />
@@ -197,15 +182,23 @@
         <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/File.java" />
         <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/FileRet.java" />
         <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/DownloadRequest.java" />
-        <option value="$PROJECT_DIR$/backend/pom.xml" />
         <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/Download.java" />
         <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/SubFileRow.java" />
         <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/InsertUser.java" />
         <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/User.java" />
-        <option value="$PROJECT_DIR$/web/deploy.sh" />
-        <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/App.java" />
-        <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/Database.java" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/Database.java" />
+        <option value="$PROJECT_DIR$/backend/target/heroku/app/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/SubtaskRow.java" />
+        <option value="$PROJECT_DIR$/web/subtasks.ts" />
+        <option value="$PROJECT_DIR$/backend/pom.xml" />
+        <option value="$PROJECT_DIR$/web/deploy.sh" />
+        <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/StructuredSubTask.java" />
+        <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/StructuredSubtask.java" />
+        <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/SimpleRequest.java" />
+        <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/Subtaskbase.java" />
+        <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/Taskbase.java" />
+        <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/App.java" />
       </list>
     </option>
   </component>
@@ -219,7 +212,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -273,13 +266,22 @@
             <path>
               <item name="Stacklight" type="b2602c69:ProjectViewProjectNode" />
               <item name="Stacklight" type="462c0819:PsiDirectoryNode" />
+              <item name="backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Stacklight" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Stacklight" type="462c0819:PsiDirectoryNode" />
               <item name="web" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="AndroidView" />
     </panes>
   </component>
@@ -391,14 +393,63 @@
       <option name="project" value="LOCAL" />
       <updated>1538000412473</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Bug Fix:&#10;&#10;-Fixed Merge Problem on Database.java&#10;-Should be able to add files again">
+      <created>1538769830693</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1538769830693</updated>
+    </task>
+    <task id="LOCAL-00006" summary="8_Add_Subtasks:&#10;&#10;-Backend should be set up to display subtasks &#10;-Need to work on subtasks.ts to display them&#10;-Need to add the ability to add a new subtask to a task">
+      <created>1538772788072</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1538772788072</updated>
+    </task>
+    <task id="LOCAL-00007" summary="8_Add_Subtasks:&#10;&#10;-Now able to see all subtasks to a certain task&#10;-Added a text box to add a new subtask to a task &#10;-Can now add a new subtask">
+      <created>1538963977488</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1538963977488</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Trying to fix deploy script">
+      <created>1539034198289</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1539034198289</updated>
+    </task>
+    <task id="LOCAL-00009" summary="9_Complete_Tasks:&#10;&#10;-Added a button to the frontend that should send the correct call to the backend to complete a task">
+      <created>1539895672637</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1539895672637</updated>
+    </task>
+    <task id="LOCAL-00010" summary="9_Complete_Tasks:&#10;&#10;-Button now completes Tasks (Setting the 'Status' column to 1 instead of 0)">
+      <created>1539897749137</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1539897749137</updated>
+    </task>
+    <task id="LOCAL-00011" summary="9_Complete_Tasks:&#10;&#10;-Task page should now being showing two different task lists, one for all completed tasks and one for uncompleted tasks&#10;-Want to be able to send completed tasks back to uncopleted with a different button &#10;-Also want to be able to send tasks to a &quot;Backlog&quot; (This will probably be handled on a different issue though)">
+      <created>1539899566571</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1539899566571</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16117217" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17032968" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -414,8 +465,8 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" weight="0.32905984" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="9" visible="true" weight="0.30408162" />
-      <window_info anchor="bottom" id="Messages" order="10" visible="true" weight="0.32899868" />
+      <window_info anchor="bottom" id="Version Control" order="9" visible="true" weight="0.23367347" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.32899868" />
       <window_info anchor="bottom" id="Inspection Results" order="11" visible="true" weight="0.32899868" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -458,6 +509,16 @@
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.ts" />
   </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
@@ -493,7 +554,14 @@
     <MESSAGE value="7-Adding-Files:&#10;&#10;-Showing all the files on the Google Drive on the TaskPage&#10;-Need to only show the files related to a specific task" />
     <MESSAGE value="7-Adding-Files:&#10;&#10;-Uploading Files with the correct TaskID is working&#10;-Now need to display only the files with the correct TaskID" />
     <MESSAGE value="7-Adding-Files:&#10;&#10;-Files are being added to a specific task now&#10;-Cleaned up some old code that had to do with sub-files&#10;-Still need to manually enter the file name, need to change that and add support for more file types" />
-    <option name="LAST_COMMIT_MESSAGE" value="7-Adding-Files:&#10;&#10;-Files are being added to a specific task now&#10;-Cleaned up some old code that had to do with sub-files&#10;-Still need to manually enter the file name, need to change that and add support for more file types" />
+    <MESSAGE value="Bug Fix:&#10;&#10;-Fixed Merge Problem on Database.java&#10;-Should be able to add files again" />
+    <MESSAGE value="8_Add_Subtasks:&#10;&#10;-Backend should be set up to display subtasks &#10;-Need to work on subtasks.ts to display them&#10;-Need to add the ability to add a new subtask to a task" />
+    <MESSAGE value="8_Add_Subtasks:&#10;&#10;-Now able to see all subtasks to a certain task&#10;-Added a text box to add a new subtask to a task &#10;-Can now add a new subtask" />
+    <MESSAGE value="Trying to fix deploy script" />
+    <MESSAGE value="9_Complete_Tasks:&#10;&#10;-Added a button to the frontend that should send the correct call to the backend to complete a task" />
+    <MESSAGE value="9_Complete_Tasks:&#10;&#10;-Button now completes Tasks (Setting the 'Status' column to 1 instead of 0)" />
+    <MESSAGE value="9_Complete_Tasks:&#10;&#10;-Task page should now being showing two different task lists, one for all completed tasks and one for uncompleted tasks&#10;-Want to be able to send completed tasks back to uncopleted with a different button &#10;-Also want to be able to send tasks to a &quot;Backlog&quot; (This will probably be handled on a different issue though)" />
+    <option name="LAST_COMMIT_MESSAGE" value="9_Complete_Tasks:&#10;&#10;-Task page should now being showing two different task lists, one for all completed tasks and one for uncompleted tasks&#10;-Want to be able to send completed tasks back to uncopleted with a different button &#10;-Also want to be able to send tasks to a &quot;Backlog&quot; (This will probably be handled on a different issue though)" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/backend/src/main/java/com/Stoplight/app/App.java" />
@@ -531,13 +599,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="47" column="33" selection-start-line="47" selection-start-column="33" selection-end-line="47" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/SubFileRow" />
     <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/Download.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -559,13 +620,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="14" column="34" selection-start-line="14" selection-start-column="34" selection-end-line="14" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/SimpleRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="19" />
         </state>
       </provider>
     </entry>
@@ -614,47 +668,114 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/Taskbase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="334">
-          <caret line="190" column="12" selection-start-line="190" selection-start-column="12" selection-end-line="190" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/deploy.sh">
+    <entry file="file://$PROJECT_DIR$/web/subtasks.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
-          <caret line="24" column="16" selection-start-line="24" selection-start-column="16" selection-end-line="24" selection-end-column="16" />
+          <caret line="24" column="13" lean-forward="true" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/Database.java">
+    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/SubtaskRow.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="87" selection-start-line="87" selection-end-line="87" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="195">
+          <caret line="13" column="25" selection-start-line="13" selection-start-column="25" selection-end-line="13" selection-end-column="25" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/App.java">
+    <entry file="file://$PROJECT_DIR$/backend/target/classes/jnm219/StructuredTask.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5925">
-          <caret line="395" column="20" selection-start-line="395" selection-start-column="20" selection-end-line="395" selection-end-column="20" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="75">
+          <caret line="5" selection-start-line="5" selection-end-line="17" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/StructuredTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="6" lean-forward="true" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/TaskRow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/Subtaskbase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="337">
+          <caret line="128" lean-forward="true" selection-start-line="128" selection-end-line="128" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/SimpleRequest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="30" column="1" selection-start-line="30" selection-start-column="1" selection-end-line="30" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/StructuredSubtask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="22" lean-forward="true" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="12" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/target/heroku/app/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="41" column="14" selection-start-line="41" selection-start-column="14" selection-end-line="41" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="42" column="30" selection-start-line="42" selection-start-column="30" selection-end-line="42" selection-end-column="30" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/target/StoplightCS.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
+    <entry file="file://$PROJECT_DIR$/web/deploy.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="12" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="12" />
+        <state relative-caret-position="315">
+          <caret line="21" column="40" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/Database.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="21" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/App.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="542">
+          <caret line="299" column="54" lean-forward="true" selection-start-line="299" selection-start-column="54" selection-end-line="299" selection-end-column="54" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/Taskbase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1438">
+          <caret line="122" column="32" lean-forward="true" selection-start-line="122" selection-start-column="32" selection-end-line="122" selection-end-column="32" />
         </state>
       </provider>
     </entry>

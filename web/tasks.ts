@@ -47,7 +47,7 @@ class TaskList {
             $("#completedTaskList").append("<tr><td>"+data.mTaskData[i].mId+". </td><td> <b> " +data.mTaskData[i].mName+" :</b></td><td> " +data.mTaskData[i].mDescription+"</td><td><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div></td><td><div id = complete-"+data.mTaskData[i].mId+" name = tasksLink></div></td><tr>");
         
             $("#task-"+data.mTaskData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/taskPage.html' id = 'TID'><input type='submit' value='To Task Page' /><input type= 'hidden' id = 'taskID' name= 'taskID' value='"+data.mTaskData[i].mId+"' /></form>");
-            $("#complete-"+data.mTaskData[i].mId).replaceWith("<input type='submit' value='Complete' id='completeButton' onClick='completeTask("+data.mTaskData[i].mId+")'/>");
+            $("#complete-"+data.mTaskData[i].mId).replaceWith("<input type='submit' value='UnComplete' id='uncompleteButton' onClick='uncompleteTask("+data.mTaskData[i].mId+")'/>");
 
         }
     }
@@ -58,6 +58,18 @@ function completeTask(taskID: any){
     $.ajax({
         type: "POST",
         url: backendUrl + "/tasks/complete",
+        dataType: "json",
+        data: JSON.stringify({mTaskId: taskID}),
+        success: taskList.refreshProject(),
+    });
+
+}
+function uncompleteTask(taskID: any){
+    console.log("Task ID: "+taskID);
+
+    $.ajax({
+        type: "POST",
+        url: backendUrl + "/tasks/uncomplete",
         dataType: "json",
         data: JSON.stringify({mTaskId: taskID}),
         success: taskList.refreshProject(),

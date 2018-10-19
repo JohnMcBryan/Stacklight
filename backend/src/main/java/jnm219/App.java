@@ -290,6 +290,17 @@ public class App {
             return gson.toJson(new StructuredResponse("ok", complete + " "+ taskId, null));
         });
 
+        Spark.post("/tasks/uncomplete",(request,res) -> {
+            System.out.println("Uncompleteing a Task");
+            SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);
+            res.status(200);
+            res.type("application/json");
+            int taskId = req.mTaskId;
+            System.out.println("Uncomplete Task: "+taskId);
+            boolean complete = tb.uncompleteTask(taskId);
+            return gson.toJson(new StructuredResponse("ok", complete + " "+ taskId, null));
+        });
+
         Spark.get("/task/:taskID",(req,res) -> {
             res.status(200);
             res.type("application/json");
