@@ -1,6 +1,7 @@
 // Run some configuration code when the web page loads
 const backendUrl = "https://stacklight.herokuapp.com";
 var $: any;
+var projId = 0;
 var projectList: ProjectList;
 var newprojectform: NewProjectForm;
 
@@ -23,6 +24,7 @@ class ProjectList {
         }
     }
 }
+
 class NewProjectForm{
     constructor() {
         $("#addButton").click(this.submitForm);
@@ -48,11 +50,21 @@ class NewProjectForm{
             success: newprojectform.onSubmitResponse,
             error: newprojectform.onSubmitResponse
         });
+
+        $("#member").each(() => {
+            $.ajax({
+                type: "POST",
+                url: backendUrl + "/projects/users",
+                dataType: "json",
+                data: JSON.stringify({  mId: projId, mEmail: $(this).val()})
+            });
+        });
     }
 
     private onSubmitResponse(data: any) {
         // If we get an "ok" message, clear the form
         if (data.mStatus === "ok") {
+            projId = data.mData;
             console.log("Project Added Sucessfully!");
             projectList.refresh();
             window.location.replace("https://stacklight.herokuapp.com/");
