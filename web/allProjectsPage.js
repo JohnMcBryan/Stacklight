@@ -8,12 +8,35 @@ $(function () {
     $('.row').hide();
     $('.navbar').click(signOut);
     $(".abcRioButtonContentWrapper").css("left", "75%");
+    $('#addMemberButton').click(addMember);
 });
 
 function goToProject() {
+    console.log("in goToProject");
     location.href = "index.html";
 }
-
+// Utility method for encapsulating the jQuery Ajax Call
+function doAjaxCall(method, cmd, params, fcn) {
+    $.ajax(
+            SERVER + cmd,
+            {
+                type: method,
+                processData: true,
+                data: JSON.stringify(params),
+                //data: params,
+                dataType: "json",
+                success: function (result) {
+                    fcn(result)
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log("params: "+params);
+                    console.log("Error: " + jqXHR.responseText);
+                    console.log("Error: " + textStatus);
+                    console.log("Error: " + errorThrown);
+                }
+            }
+    );
+}
 function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
@@ -44,4 +67,9 @@ function onSignIn(googleUser) {
   $('.row').show();
   $('.g-signin2').hide();
 
+}
+
+
+function addMember() {
+    $('#members').append('<input type="text" class="form-control member">');
 }

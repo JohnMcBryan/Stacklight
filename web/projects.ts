@@ -1,7 +1,7 @@
 // Run some configuration code when the web page loads
 const backendUrl = "https://stacklight.herokuapp.com";
 var $: any;
-var projectList: ProjectList;
+var projects: ProjectList;
 var newprojectform: NewProjectForm;
 
 class ProjectList {
@@ -10,17 +10,19 @@ class ProjectList {
             type: "GET",
             url: backendUrl + "/projects/all",
             dataType: "json",
-            success: projectList.update
+            success: projects.update
         });
     }
     private update(data: any) {
-        $("#projectList").html("<table>");
         console.log(data);
         for (let i = 0; i < data.mProjectData.length; ++i) {
-            $("#projectList").append("<tr><td>"+data.mProjectData[i].mId+". </td><td> <b> " +data.mProjectData[i].mName+" :</b></td><td> " +data.mProjectData[i].mDescription+"</td><td><div id = project-"+data.mProjectData[i].mId+" name = projectsLink></div></td><tr>");
-            
-            $("#project-"+data.mProjectData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/tasks.html' id = 'PID'><input type='submit' value='To Project Page' /><input type= 'hidden' name= 'projectID' value='"+data.mProjectData[i].mId+"' /></form>");
+            $("#projects").append("<div class='col-sm-3'> <form action= 'https://stacklight.herokuapp.com/tasks.html' id='PID'> <div class='well project'> <img src='Images/project.png' class='center' alt='Project'> <input type='submit' value='"+data.mProjectData[i].mName+"'/> </div><input type='hidden' name='projectID' value='"+data.mProjectData[i].mId+"'/></form></div>");
         }
+        //for (let i = 0; i < data.mProjectData.length; ++i) {
+        //    $("#projectList").append("<tr><td>"+data.mProjectData[i].mId+". </td><td> <b> " +data.mProjectData[i].mName+" :</b></td><td> " +data.mProjectData[i].mDescription+"</td><td><div id = project-"+data.mProjectData[i].mId+" name = projectsLink></div></td><tr>");
+
+        //    $("#project-"+data.mProjectData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/tasks.html' id='PID'><input type='submit' value='T' /><input type= 'hidden' name= 'projectID' value='"+data.mProjectData[i].mId+"' /></form>");
+        //}
     }
 }
 class NewProjectForm{
@@ -54,7 +56,7 @@ class NewProjectForm{
         // If we get an "ok" message, clear the form
         if (data.mStatus === "ok") {
             console.log("Project Added Sucessfully!");
-            projectList.refresh();
+            projects.refresh();
             window.location.replace("https://stacklight.herokuapp.com/");
         }
         // Handle explicit errors with a detailed popup message
@@ -71,8 +73,16 @@ class NewProjectForm{
 $(document).ready(function () {
     console.log("Loading Projects Page.......");
     
-    projectList = new ProjectList();
+    projects = new ProjectList();
     newprojectform = new NewProjectForm();
     
-    projectList.refresh();
+    projects.refresh();
+});
+
+
+$(".project").each(function(index) {
+    $(this).closest("form").on("click", function(){
+        console.log("here");
+        $(this).closest("form").submit();
+    });
 });
