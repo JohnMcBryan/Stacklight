@@ -143,7 +143,7 @@ public class App {
             e.printStackTrace();
         }
 
-        try {
+        /*try {
             // Build a new authorized API client service.
             Drive service = GDrive.getDriveService();
             // Print the names and IDs for up to 10 files.
@@ -162,7 +162,7 @@ public class App {
             }
         } catch (IOException e) {
             System.out.println(e);
-        }
+        }*/
 
 
         //Route For getting one parents sub files
@@ -398,8 +398,43 @@ public class App {
             if (!newProject) {
                 return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
             } else {
-                return gson.toJson(new StructuredResponse("ok", "" + newProject, null));
+
+                return gson.toJson(new StructuredResponse("ok", "" + newProject, pb.checkIndex(name)));
             }
+        });
+
+        Spark.post("/projects/users", (request, res) -> {
+            System.out.println("Adding users");
+            AddUserToProject[] req = gson.fromJson(request.body(), AddUserToProject[].class);
+            res.status(200);
+            res.type("application/json");
+
+            String email;
+            int id;
+            for(int i = 0; i < req.length; i++) {
+                email = req[i].mEmail;
+                id = req[i].mId;
+                boolean newUser = pb.addUser(email, id);
+                if (!(newUser)) {
+                    return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
+                }
+            }
+            return gson.toJson(new StructuredResponse("ok", "", null));
+        });
+
+        Spark.post("/projects/user", (request, res) -> {
+            System.out.println("Adding user");
+            AddUserToProject req = gson.fromJson(request.body(), AddUserToProject.class);
+            res.status(200);
+            res.type("application/json");
+
+            String email = req.mEmail;
+            int id = req.mId;
+            boolean newUser = pb.addUser(email, id);
+                if (!(newUser)) {
+                    return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
+                }
+            return gson.toJson(new StructuredResponse("ok", "", null));
         });
 
         Spark.get("/hello", (request, response) -> {

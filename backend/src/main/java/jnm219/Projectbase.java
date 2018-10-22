@@ -34,6 +34,8 @@ public class Projectbase {
     private PreparedStatement mAddProject;
 
     private PreparedStatement mCheckProjects;
+    private PreparedStatement mAddUser;
+    private PreparedStatement mCheckIndex;
     /**
      * Give the Database object a connection, fail if we cannot get one
      * Must be logged into heroku on a local computer to be able to use mvn heroku:deploy
@@ -106,6 +108,8 @@ public class Projectbase {
         try{
             pb.mSelectAllProjects = pb.mConnection.prepareStatement("SELECT * FROM projects");
             pb.mAddProject = pb.mConnection.prepareStatement("INSERT INTO projects Values (default,?,?,?,?,default)");
+            pb.mAddUser = pb.mConnection.prepareStatement("INSERT into user_project values (?,?)");
+            pb.mCheckIndex = pb.mConnection.prepareStatement("select id FROM projects WHERE name = ?");
             pb.mCheckProjects = pb.mConnection.prepareStatement("SELECT * FROM  user_project WHERE email = ?");
 
         } catch (SQLException e) {
@@ -170,6 +174,41 @@ public class Projectbase {
             return false;
         }
         return true;
+    }
+    //Adds a User to a Project
+    boolean addUser(String email, int projectId){
+        try{
+            System.out.println("Adding user: " + email);
+            mAddUser.setInt(1, projectId);
+            mAddUser.setString(2, email);
+            mAddUser.executeUpdate();
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+        return  true;
+    }
+    int checkIndex(String name) {
+        System.out.println("checkIndex");
+        try {
+            mCheckIndex.setString(1, name);
+            ResultSet rs = mCheckIndex.executeQuery();
+            rs.next();
+            int check = rs.getInt("id");
+            System.out.println("Check is " + check);
+            rs.close();
+            if (check == 0)
+            {
+                return 0;
+            }
+            else {
+                return check;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
 
