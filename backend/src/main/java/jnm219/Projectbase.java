@@ -32,6 +32,8 @@ public class Projectbase {
     private PreparedStatement mSelectAllProjects;
 
     private PreparedStatement mAddProject;
+
+    private PreparedStatement mCheckProjects;
     /**
      * Give the Database object a connection, fail if we cannot get one
      * Must be logged into heroku on a local computer to be able to use mvn heroku:deploy
@@ -104,6 +106,7 @@ public class Projectbase {
         try{
             pb.mSelectAllProjects = pb.mConnection.prepareStatement("SELECT * FROM projects");
             pb.mAddProject = pb.mConnection.prepareStatement("INSERT INTO projects Values (default,?,?,?,?,default)");
+            pb.mCheckProjects = pb.mConnection.prepareStatement("SELECT * FROM  user_project WHERE email = ?");
 
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
@@ -117,19 +120,33 @@ public class Projectbase {
     /**
      * Returning arraylist of projects which displays all the projects ever made
      */
-    ArrayList<ProjectRow> selectAllProjects() {
+    ArrayList<ProjectRow> selectAllProjects(String email) {
         ArrayList<ProjectRow> res = new ArrayList<ProjectRow>();
         try {
             ResultSet rs = mSelectAllProjects.executeQuery();
+            mCheckProjects.setString(1, email);
+            ResultSet checkSet = mCheckProjects.executeQuery();
+            checkSet.next();
+            System.out.println("SubFiles Are Here");
+
             System.out.println("IN SELECT ALL PROJECTS");
             while (rs.next()) {
-                ProjectRow Projectrow = new ProjectRow(rs.getInt("id"),rs.getString("name"),
-                        rs.getString("description"),rs.getString("owner"),
-                        rs.getString("organization"));
-                System.out.println(Projectrow);
-                res.add(Projectrow);
+                System.out.println("projectid:" + checkSet.getInt("projectid") + " id:" +rs.getInt("id"));
+                if(checkSet.getInt("projectid") == rs.getInt("id")) {
+                    ProjectRow Projectrow = new ProjectRow(rs.getInt("id"), rs.getString("name"),
+                            rs.getString("description"), rs.getString("owner"),
+                            rs.getString("organization"));
+                    System.out.println(Projectrow);
+                    res.add(Projectrow);
+                    if(!(checkSet.next())){
+                        rs.close();
+                        checkSet.close();
+                        return res;
+                    }
+                }
             }
             rs.close();
+            checkSet.close();
             return res;
         } catch (SQLException e) {
             e.printStackTrace();

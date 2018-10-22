@@ -28,6 +28,8 @@ cp Images/uploadwhite.png $TARGET/$WEB/$IMAGE
 cp Images/add-list.png $TARGET/$WEB/$IMAGE
 cp Images/newproject.png $TARGET/$WEB/$IMAGE
 cp Images/project.png $TARGET/$WEB/$IMAGE
+cp googleSignIn.js $TARGET/$WEB
+
 
 #Put Client Secret Doc into Resources Folder
 cp ../backend/StoplightCS.json ../backend/src/main/resources/StoplightCS.json

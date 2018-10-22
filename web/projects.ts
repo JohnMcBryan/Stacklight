@@ -6,12 +6,14 @@ var newprojectform: NewProjectForm;
 
 class ProjectList {
     refresh() {
+        $('#loginBar').text(localStorage.getItem("email"));
         $.ajax({
             type: "GET",
-            url: backendUrl + "/projects/all",
+            url: backendUrl + "/projects/all/" + localStorage.getItem("email"),
             dataType: "json",
             success: projects.update
         });
+        $('#loginBar').text(localStorage.getItem("email"));
     }
     private update(data: any) {
         console.log(data);
