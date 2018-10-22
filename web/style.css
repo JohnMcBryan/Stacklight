@@ -5,6 +5,13 @@ html, body {
     margin: 0;
 }
 
+td {
+    width: 30%;
+}
+td .yellow,.red,.green {
+    width: 20px;
+}
+
 .center {
     display: block;
     margin-left: auto;
