@@ -373,6 +373,21 @@ public class App {
             return gson.toJson(new StructuredResponse("ok", "", null));
         });
 
+        Spark.post("/projects/user", (request, res) -> {
+            System.out.println("Adding user");
+            AddUserToProject req = gson.fromJson(request.body(), AddUserToProject.class);
+            res.status(200);
+            res.type("application/json");
+
+            String email = req.mEmail;
+            int id = req.mId;
+            boolean newUser = pb.addUser(email, id);
+                if (!(newUser)) {
+                    return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
+                }
+            return gson.toJson(new StructuredResponse("ok", "", null));
+        });
+
         Spark.get("/hello", (request, response) -> {
             return "Hello World!";
         });

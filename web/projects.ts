@@ -54,7 +54,7 @@ class NewProjectForm{
         $("#member").each(() => {
             $.ajax({
                 type: "POST",
-                url: backendUrl + "/projects/users",
+                url: backendUrl + "/projects/user",
                 dataType: "json",
                 data: JSON.stringify({  mId: projId, mEmail: $(this).val()})
             });
