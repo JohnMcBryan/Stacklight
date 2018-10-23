@@ -24,17 +24,100 @@ var TaskList = /** @class */ (function () {
             dataType: "json",
             success: taskList.update
         });
+        $.ajax({
+            type: "GET",
+            url: backendUrl + "/completedTasks/" + projectID,
+            dataType: "json",
+            success: taskList.update2
+        });
+        $.ajax({
+            type: "GET",
+            url: backendUrl + "/backlog/" + projectID,
+            dataType: "json",
+            success: taskList.update3
+        });
     };
     TaskList.prototype.update = function (data) {
-        $("#taskList").html("<table>");
+        $("#taskListRed").html("</table><table>");
+        $("#taskListYellow").html("</table><table>");
+        $("#taskListGreen").html("</table><table>");
+        $("#taskList").html("</table><table>");
         console.log(data);
         for (var i = 0; i < data.mTaskData.length; ++i) {
-            $("#taskList").append("<tr><td>" + data.mTaskData[i].mId + ". </td><td> <b> " + data.mTaskData[i].mName + " :</b></td><td> " + data.mTaskData[i].mDescription + "</td><td><div id = task-" + data.mTaskData[i].mId + " name = tasksLink></div></td><tr>");
-            $("#task-" + data.mTaskData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/taskPage.html' id = 'TID'><input type='submit' value='To Task Page' /><input type= 'hidden' name= 'taskID' value='" + data.mTaskData[i].mId + "' /></form>");
+            if (data.mTaskData[i].mPriority == 1 || data.mTaskData[i].mPriority == 2 || data.mTaskData[i].mPriority == 3) {
+                if (data.mTaskData[i].mPriority == 1) {
+                    $("#taskListRed").append("<tr><td class='red'>" + data.mTaskData[i].mId + " </td><td> <b> " + data.mTaskData[i].mName + " :</b></td><td> " + data.mTaskData[i].mDescription + "</td><td><div id = task-" + data.mTaskData[i].mId + " name = tasksLink></div></td><td><input type='checkbox'></td><tr>");
+                    $(".red").css('background-color', '#F53');
+                    //$("#task-"+data.mTaskData[i].mId).closest('tr').css('background-color','#F53');
+                }
+                if (data.mTaskData[i].mPriority == 2) {
+                    $("#taskListYellow").append("<tr><td class='yellow'>" + data.mTaskData[i].mId + " </td><td> <b> " + data.mTaskData[i].mName + " :</b></td><td> " + data.mTaskData[i].mDescription + "</td><td><div id = task-" + data.mTaskData[i].mId + " name = tasksLink></div></td><td><input type='checkbox'></td><tr>");
+                    $(".yellow").css('background-color', '#FF7');
+                    //$("#task-"+data.mTaskData[i].mId).closest('tr').css('background-color','#FF7');
+                }
+                if (data.mTaskData[i].mPriority == 3) {
+                    $("#taskListGreen").append("<tr><td class='green'>" + data.mTaskData[i].mId + " </td><td> <b> " + data.mTaskData[i].mName + " :</b></td><td> " + data.mTaskData[i].mDescription + "</td><td><div id = task-" + data.mTaskData[i].mId + " name = tasksLink></div></td><td><input type='checkbox'></td><tr>");
+                    $(".green").css('background-color', '#072');
+                    //$("#task-"+data.mTaskData[i].mId).closest('tr').css('background-color','#072');
+                }
+                else {
+                    $("#taskList").append("<tr><td>" + data.mTaskData[i].mId + " </td><td> <b> " + data.mTaskData[i].mName + " :</b></td><td> " + data.mTaskData[i].mDescription + "</td><td><div id = task-" + data.mTaskData[i].mId + " name = tasksLink></div></td><td><input type='checkbox'></td><tr>");
+                }
+                $("#task-" + data.mTaskData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/taskPage.html' id = 'TID'><input type='submit' value='To Task Page' /><input type= 'hidden' id = 'taskID' name= 'taskID' value='" + data.mTaskData[i].mId + "' /></form>");
+                $("#complete-" + data.mTaskData[i].mId).replaceWith("<input type='submit' value='Complete' id='completeButton' onClick='completeTask(" + data.mTaskData[i].mId + ")'/>");
+                $("#backlog-" + data.mTaskData[i].mId).replaceWith("<input type='submit' value='Backlog' id='backlogButton' onClick='backlogTask(" + data.mTaskData[i].mId + ")'/>");
+                $("#task-" + data.mTaskData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/taskPage.html' id = 'TID'><input type='submit' value='To Task Page' /><input type='hidden' name='taskID' value='" + data.mTaskData[i].mId + "' /> <input type='hidden' name='priority' value='" + data.mTaskData[i].mPriority + "'/> </form>");
+            }
+        }
+    };
+    TaskList.prototype.update2 = function (data) {
+        $("#completedTaskList").html("<table>");
+        for (var i = 0; i < data.mTaskData.length; ++i) {
+            $("#completedTaskList").append("<tr><td>" + data.mTaskData[i].mId + ". </td><td> <b> " + data.mTaskData[i].mName + " :</b></td><td> " + data.mTaskData[i].mDescription + "</td><td><div id = task-" + data.mTaskData[i].mId + " name = tasksLink></div></td><td><div id = uncomplete-" + data.mTaskData[i].mId + " name = uncompleteButton></div></td><tr>");
+            $("#task-" + data.mTaskData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/taskPage.html' id = 'TID'><input type='submit' value='To Task Page' /><input type= 'hidden' id = 'taskID' name= 'taskID' value='" + data.mTaskData[i].mId + "' /></form>");
+            $("#uncomplete-" + data.mTaskData[i].mId).replaceWith("<input type='submit' value='UnComplete' id='uncompleteButton' onClick='uncompleteTask(" + data.mTaskData[i].mId + ")'/>");
+        }
+    };
+    TaskList.prototype.update3 = function (data) {
+        $("#backlog").html("<table>");
+        for (var i = 0; i < data.mTaskData.length; ++i) {
+            $("#backlog").append("<tr><td>" + data.mTaskData[i].mId + ". </td><td> <b> " + data.mTaskData[i].mName + " :</b></td><td> " + data.mTaskData[i].mDescription + "</td><td><div id = task-" + data.mTaskData[i].mId + " name = tasksLink></div></td><td><div id = backlog-" + data.mTaskData[i].mId + " name = tasksLink></div></td><tr>");
+            $("#task-" + data.mTaskData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/taskPage.html' id = 'TID'><input type='submit' value='To Task Page' /><input type= 'hidden' id = 'taskID' name= 'taskID' value='" + data.mTaskData[i].mId + "' /></form>");
+            $("#backlog-" + data.mTaskData[i].mId).replaceWith("<input type='submit' value='To Stack' id='uncompleteButton' onClick='uncompleteTask(" + data.mTaskData[i].mId + ")'/>");
         }
     };
     return TaskList;
 }());
+function completeTask(taskID) {
+    console.log("Task ID: " + taskID);
+    $.ajax({
+        type: "POST",
+        url: backendUrl + "/tasks/complete",
+        dataType: "json",
+        data: JSON.stringify({ mTaskId: taskID }),
+        success: taskList.refreshProject()
+    });
+}
+function uncompleteTask(taskID) {
+    console.log("Task ID: " + taskID);
+    $.ajax({
+        type: "POST",
+        url: backendUrl + "/tasks/uncomplete",
+        dataType: "json",
+        data: JSON.stringify({ mTaskId: taskID }),
+        success: taskList.refreshProject()
+    });
+}
+function backlogTask(taskID) {
+    console.log("Task ID: " + taskID);
+    $.ajax({
+        type: "POST",
+        url: backendUrl + "/tasks/backlog",
+        dataType: "json",
+        data: JSON.stringify({ mTaskId: taskID }),
+        success: taskList.refreshProject()
+    });
+}
 var NewTaskForm = /** @class */ (function () {
     function NewTaskForm() {
         $("#addButton").click(this.submitForm);
@@ -92,9 +175,12 @@ var Helper = /** @class */ (function () {
     }
     Helper.prototype.getUrlParameter = function (sParam) {
         var sPageURL = decodeURIComponent(window.location.search.substring(1)), sURLVariables = sPageURL.split('&'), sParameterName, i;
+        console.log("sPageURL: " + sPageURL);
         for (i = 0; i < sURLVariables.length; i++) {
             sParameterName = sURLVariables[i].split('=');
+            console.log("sParameterName: " + sParameterName);
             if (sParameterName[0] === sParam) {
+                console.log("sParameterName[0]: " + sParameterName[0] + " === " + "sParam: " + sParam);
                 return sParameterName[1] === undefined ? true : sParameterName[1];
             }
         }

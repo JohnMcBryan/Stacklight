@@ -11,7 +11,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
-    <script src="app.js"></script>
+    <!--<script src="app.js"></script>-->
     <script type="text/javascript" src="allProjectsPage.js"></script>
     <script src="projects.js"></script>
 
@@ -42,64 +42,10 @@
                     <img src="Images/newproject.png" class="center" alt="Create New Project">
                     <div class="name">Create New Project</div>
                 </div>
-                -->
-                <div class="well">
-                    <head>
-                        <title>Live Chat</title>
-                        <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
-    </style>
-                    </head>
-                    <script> type="text/javascript"></script>
-                    <script> src="/api/socket.io/socket.io.js"></script>
-                    <!-- <script src="http:/stacklight.herokuapp:3000/socket.io/socket.io.js"></script> -->
-                    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <script>
-      $(function () {
-      var socket = io();
-      $('form').submit(function(){
-        socket.emit('chat message', $('#m').val());
-        $('#m').val('');
-        return false;
-      });
-      socket.on('chat message', function(msg){
-          $('#messages').append($('<li>').text(msg));
-        });
-    });
-  </script>
-
-                    <body>
-                    <ul id="messages"></ul>
-                    <form action="">
-                        <input id="m" autocomplete="off" /><button>Send</button>
-                    </form>
-                    </body>
-
-                </div>
-                <div>
-                    <ul id="messages"></ul>
-                    <form action="">
-                        <input type="text" style="width:100%" id="m" autocomplete="off" /><button>Send</button>
-                    <!-- <form onsubmit="message()">    <!-- <form action="/action_page.php"> goes to page action_page
-                        <input type="text" style="width:100%">
-                        <div class="row">
-                            <input type="submit" id="m" autocomplete="off" value="Send" style="float:right; margin-right:15px;"> -->
-                    </form>
-                </div>
-                </div>
             </div>
         </div>
     </div>
-    <div id="showElements">
-        <div id="projectList"></div>
-    </div>
+</div>
 <!-- Upload File Modal -->
 <div id="createNewProject" class="modal fade" role="dialog">
     <div class="modal-dialog">
