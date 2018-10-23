@@ -128,6 +128,7 @@ public class App {
         Taskbase tb = Taskbase.getTaskbase(2);
         Projectbase pb = Projectbase.getProjectbase(2);
         Subtaskbase stb = Subtaskbase.getSubtaskbase(2);
+        Messagebase mb = Messagebase.getMessagebase(2);
 
         // Give the Database object a connection, fail if we cannot get one
         try {
@@ -484,6 +485,33 @@ public class App {
             int id = Integer.parseInt(request.params("id"));
             return gson.toJson(new StructuredResponse("ok", null, db.selectUser(id)));
         });
+
+        Spark.get("/messages/:projectID",(req,res) -> {
+            res.status(200);
+            res.type("application/json");
+            int projectID = Integer.parseInt(req.params("projectID"));
+            System.out.println("Project ID: "+projectID);
+            return gson.toJson(new StructuredTask("ok", null, mb.selectMessages(projectID)));
+        });
+
+        Spark.post("/messages", (request, res) -> {
+            System.out.println("Adding a message....");
+            SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);
+            res.status(200);
+            res.type("application/json");
+
+            int projectId = Integer.parseInt( req.mProjectId );
+            String content = req.mContent;
+            String owner = req.mOwner;
+
+            boolean newMessage = mb.addMessage(projectId,content,owner);
+            if (!newMessage) {
+                return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
+            } else {
+                return gson.toJson(new StructuredResponse("ok", "" + newMessage, null));
+            }
+        });
+
     }
 
     /**

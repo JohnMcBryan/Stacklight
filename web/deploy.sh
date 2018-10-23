@@ -50,3 +50,4 @@ node_modules/typescript/bin/tsc task.ts --strict --outFile $TARGET/$WEB/task.js
 node_modules/typescript/bin/tsc projects.ts --strict --outFile $TARGET/$WEB/projects.js
 node_modules/typescript/bin/tsc files.ts --strict --outFile $TARGET/$WEB/files.js
 node_modules/typescript/bin/tsc subtasks.ts --strict --outFile $TARGET/$WEB/subtasks.js
+node_modules/typescript/bin/tsc messages.ts --strict --outFile $TARGET/$WEB/messages.js
