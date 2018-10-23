@@ -45,6 +45,8 @@ $(document).ready(function () {
     taskInfo = new TaskInfo();
     helper = new HelperTask();
     taskID = helper.getUrlParameter('taskID');
+    $('.login').text(localStorage.getItem("email"));
+
 
     console.log("Task ID: "+taskID);
     taskInfo.refresh();

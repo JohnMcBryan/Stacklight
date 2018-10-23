@@ -213,6 +213,8 @@ $(document).ready(function () {
     newtaskform = new NewTaskForm();
     helper = new Helper();
     projectID = helper.getUrlParameter('projectID');
+    $('.login').text(localStorage.getItem("email"));
+
 
     console.log("Project ID: "+projectID);
     $("#PID").replaceWith("<input type= 'hidden' name= 'projectID' id = 'PID'value = '"+projectID+"'/>")
