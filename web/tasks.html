@@ -12,9 +12,34 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!--<script type="text/javascript" src="projectPage.js"></script>-->
 
+    <!-- For Nicole's chat
+    <script type="text/javascript"></script> -->
+    <script src="/api/socket.io/socket.io.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-1.11.1.js"></script>-->
+
     <script src="app.js"></script>
     <script src="projects.js"></script>
     <script src="tasks.js"></script>
+
+    <!-- For Nicole's chat
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+    </style>-->
+    <style>
+      #messages form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      #messages form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      #messages form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+    </style>
 
 </head>
 
@@ -62,6 +87,17 @@
                 -->
                 <div class="well">
                     <div>
+                        <ul id="messages"></ul>
+                        <form action="">
+                            <input type="text" id="m" autocomplete="off" /><button>Send</button>
+                            <!-- <form onsubmit="message()">    <!-- <form action="/action_page.php"> goes to page action_page
+                                <input type="text" style="width:100%">
+                                <div class="row">
+                                    <input type="submit" id="m" autocomplete="off" value="Send" style="float:right; margin-right:15px;"> -->
+                        </form>
+                    </div>
+                    <!--
+                    <div>
                         <div class="speech-bubble">Working on expense report</div>
                         <div class="from">jnm219@lehigh.edu <span class="glyphicon glyphicon-user messageicon"></span></div>
                     </div>
@@ -70,17 +106,14 @@
                         <div class="from">rsg219@lehigh.edu <span class="glyphicon glyphicon-user messageicon"></span></div>
                     </div>
                     <div>
-                        <div class="speech-bubble">Sounds good</div>
-                        <div class="from">mts219@lehigh.edu <span class="glyphicon glyphicon-user messageicon"></span></div>
+                        <form>
+                            <input type="text">
+                            <div class="row">
+                                <input type="submit" value="Send" style="float:right; margin-right:15px;">
+                            </div>
+                        </form>
                     </div>
-                </div>
-                <div>
-                    <form>    <!-- <form action="/action_page.php"> goes to page action_page-->
-                        <input type="text" style="width:100%">
-                        <div class="row">
-                            <input type="submit" value="Send" style="float:right; margin-right:15px;">
-                        </div>
-                    </form>
+                    -->
                 </div>
             </div>
         </div>
