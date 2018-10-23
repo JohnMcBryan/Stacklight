@@ -491,7 +491,7 @@ public class App {
             res.type("application/json");
             int projectID = Integer.parseInt(req.params("projectID"));
             System.out.println("Project ID: "+projectID);
-            return gson.toJson(new StructuredTask("ok", null, mb.selectMessages(projectID)));
+            return gson.toJson(new StructuredMessage("ok", null, mb.selectMessages(projectID)));
         });
 
         Spark.post("/messages", (request, res) -> {
