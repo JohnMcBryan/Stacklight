@@ -95,9 +95,11 @@ $(document).ready(function () {
 });
 
 
+/*
 $(".project").each(function(index) {
     $(this).closest("form").on("click", function(){
         console.log("here");
         $(this).closest("form").submit();
     });
 });
+*/

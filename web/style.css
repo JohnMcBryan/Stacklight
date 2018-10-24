@@ -5,11 +5,25 @@ html, body {
     margin: 0;
 }
 
-td {
-    width: 30%;
+table, td{
+    border: 1px solid #b2b2b2;
 }
-td .yellow,.red,.green {
+td {
+    padding: 10px;
+    text-align:left;
+}
+
+td.priorityCol {
     width: 20px;
+}
+td.taskCol {
+    width: 270px;
+}
+td.descCol {
+    width: 300px;
+}
+td.buttonCol {
+    width: 40%;
 }
 
 .center {
