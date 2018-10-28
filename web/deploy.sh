@@ -12,42 +12,47 @@ then
 fi
 
 # This is the folder that we used with the Spark.staticFileLocation command
-WEB=web
-IMAGE=images
+WEB=$TARGET/web
+IMAGE=Images
+JS=js
+VIEW=hbs        # templates
+STYLE=css
 
 # step 1: make sure we have someplace to put everything.  We will delete the
 #         old folder tree, and then make it from scratch
 rm -rf $TARGET
-mkdir $TARGET
-mkdir $TARGET/$WEB
-mkdir $TARGET/$WEB/$IMAGE
+mkdir $TARGET $WEB $WEB/$IMAGE $WEB/$JS $WEB/$VIEW $WEB/$STYLE
 
-# there are many more steps to be done.  For now, we will just copy an HTML file
-cp index.html tasks.html taskPage.html tasksAddForm.html app.css style.css node_modules/jquery/dist/jquery.min.js allProjectsPage.html allProjectsPage.js $TARGET/$WEB
+# copy only known/needed files to the respective deployment directories.
+# test files will remain local.
 
-cp images/logo.png $TARGET/$WEB/$IMAGE
-cp images/logoWhite.png $TARGET/$WEB/$IMAGE
-cp images/uploadwhite.png $TARGET/$WEB/$IMAGE
-cp images/add-list.png $TARGET/$WEB/$IMAGE
-cp images/newproject.png $TARGET/$WEB/$IMAGE
-cp images/project.png $TARGET/$WEB/$IMAGE
-cp googleSignIn.js $TARGET/$WEB
+for html in index.html tasks.html taskPage.html tasksAddForm.html
+do
+    cp $html $WEB
+done
+for css in style.css
+do
+    cp $STYLE/$css $WEB/$STYLE
+done
+for image in logo.png logoWhite.png uploadwhite.png add-list.png newproject.png project.png
+do
+    cp $IMAGE/$image $WEB/$IMAGE
+done
+for script in googleSignIn.js allProjectsPage.js
+do
+    cp $JS/$script $WEB/$JS
+done
+cp node_modules/jquery/dist/jquery.min.js $WEB/$JS      # special case because jquery is not in js subdirectory
+for view in allProjects.js
+do
+    cp $VIEW/$view $WEB/$VIEW
+done
 
+# compile TypeScript files
+for ts in app tasks task projects files subtasks messages
+do
+    node_modules/typescript/bin/tsc ts/${ts}.ts --strict --outFile $WEB/$JS/${ts}.js
+done
 
 #Put Client Secret Doc into Resources Folder
 cp ../backend/StoplightCS.json ../backend/src/main/resources/StoplightCS.json
-
-# step 4: compile TypeScript files
-node_modules/.bin/tsc app.ts --strict --outFile $TARGET/app.js
-node_modules/.bin/tsc tasks.ts --strict --outFile $TARGET/tasks.js
-node_modules/.bin/tsc files.ts --strict --outFile $TARGET/files.js
-
-
-# step 4: compile TypeScript files
-node_modules/typescript/bin/tsc app.ts --strict --outFile $TARGET/$WEB/app.js
-node_modules/typescript/bin/tsc tasks.ts --strict --outFile $TARGET/$WEB/tasks.js
-node_modules/typescript/bin/tsc task.ts --strict --outFile $TARGET/$WEB/task.js
-node_modules/typescript/bin/tsc projects.ts --strict --outFile $TARGET/$WEB/projects.js
-node_modules/typescript/bin/tsc files.ts --strict --outFile $TARGET/$WEB/files.js
-node_modules/typescript/bin/tsc subtasks.ts --strict --outFile $TARGET/$WEB/subtasks.js
-node_modules/typescript/bin/tsc messages.ts --strict --outFile $TARGET/$WEB/messages.js

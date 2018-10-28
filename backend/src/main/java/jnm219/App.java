@@ -243,7 +243,7 @@ public class App {
         });
 
         Spark.get("/", (req, res) -> {
-            res.redirect("/allProjectsPage.html");  //index.html Mira
+            res.redirect("/index.html");  //index.html Mira
             return "";
         });
 
