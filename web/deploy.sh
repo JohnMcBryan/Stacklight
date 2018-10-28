@@ -13,7 +13,7 @@ fi
 
 # This is the folder that we used with the Spark.staticFileLocation command
 WEB=web
-IMAGE=Images
+IMAGE=images
 
 # step 1: make sure we have someplace to put everything.  We will delete the
 #         old folder tree, and then make it from scratch
@@ -25,12 +25,12 @@ mkdir $TARGET/$WEB/$IMAGE
 # there are many more steps to be done.  For now, we will just copy an HTML file
 cp index.html tasks.html taskPage.html tasksAddForm.html app.css style.css node_modules/jquery/dist/jquery.min.js allProjectsPage.html allProjectsPage.js $TARGET/$WEB
 
-cp Images/logo.png $TARGET/$WEB/$IMAGE
-cp Images/logoWhite.png $TARGET/$WEB/$IMAGE
-cp Images/uploadwhite.png $TARGET/$WEB/$IMAGE
-cp Images/add-list.png $TARGET/$WEB/$IMAGE
-cp Images/newproject.png $TARGET/$WEB/$IMAGE
-cp Images/project.png $TARGET/$WEB/$IMAGE
+cp images/logo.png $TARGET/$WEB/$IMAGE
+cp images/logoWhite.png $TARGET/$WEB/$IMAGE
+cp images/uploadwhite.png $TARGET/$WEB/$IMAGE
+cp images/add-list.png $TARGET/$WEB/$IMAGE
+cp images/newproject.png $TARGET/$WEB/$IMAGE
+cp images/project.png $TARGET/$WEB/$IMAGE
 cp googleSignIn.js $TARGET/$WEB
 
 
