@@ -8,6 +8,7 @@ var newprojectform: NewProjectForm;
 
 class ProjectList {
     refresh() {
+        // assume logged in
         $('#loginBar').text(localStorage.getItem("email"));
         $.ajax({
             type: "GET",
@@ -15,12 +16,22 @@ class ProjectList {
             dataType: "json",
             success: projects.update
         });
-        $('#loginBar').text(localStorage.getItem("email"));
+        //$('#loginBar').text(localStorage.getItem("email"));   // why again? -Mira
     }
     private update(data: any) {
         console.log(data);
         for (let i = 0; i < data.mProjectData.length; ++i) {
-            $("#projects").append("<div class='col-sm-3'> <form action= 'https://stacklight.herokuapp.com/tasks.html' id='PID'> <div class='well project'> <img src='Images/project.png' class='center' alt='Project'> <input type='submit' value='"+data.mProjectData[i].mName+"'/> </div><input type='hidden' name='projectID' value='"+data.mProjectData[i].mId+"'/></form></div>");
+            $("#projectList").append("\
+                <div style='display:inline-block;'>\
+                    <form action='https://stacklight.herokuapp.com/tasks.html' method='get' id='PID'>\
+                        <div class='well project'>\
+                            <img src='Images/project.png' class='center' alt='Project'>\
+                            <input type='submit' value='" + data.mProjectData[i].mName + "'/>\
+                        </div>\
+                        <input type='hidden' name='projectID' value='" + data.mProjectData[i].mId + "'/>\
+                        <input type='hidden' name='projectName' value='" + data.mProjectData[i].mName + "'/>\
+                    </form>\
+                </div>");
         }
         //for (let i = 0; i < data.mProjectData.length; ++i) {
         //    $("#projectList").append("<tr><td>"+data.mProjectData[i].mId+". </td><td> <b> " +data.mProjectData[i].mName+" :</b></td><td> " +data.mProjectData[i].mDescription+"</td><td><div id = project-"+data.mProjectData[i].mId+" name = projectsLink></div></td><tr>");

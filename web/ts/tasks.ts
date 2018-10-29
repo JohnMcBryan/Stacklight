@@ -2,137 +2,180 @@
 const backendUrl = "https://stacklight.herokuapp.com";
 var $: any;
 var taskList: TaskList;
-var newtaskform: NewTaskForm;
-var helper: Helper;
+var newTaskForm: NewTaskForm;
+var getUrlParameters: GetUrlParameters;
 var projectID: any;
+var projectName: any;
+var incompleteTasks: any;        // just the array of tasks, not the project info that accompanies it
 
 class TaskList {
 
     refresh() {
         $.ajax({
             type: "GET",
-            url: backendUrl + "/tasks/all",
+            //url: backendUrl + "/tasks/all",
+            url: backendUrl + "/tasks/" + projectID,
             dataType: "json",
-            success: taskList.update
+            success: taskList.getCompleteTasks
         });
     }
-    refreshProject(){
-        $.ajax({
-            type: "GET",
-            url: backendUrl + "/tasks/"+projectID,
-            dataType: "json",
-            success: taskList.update
-        });
-        $.ajax({
-            type: "GET",
-            url: backendUrl + "/completedTasks/"+projectID,
-            dataType: "json",
-            success: taskList.update2
-        });
 
-        $.ajax({
-            type: "GET",
-            url: backendUrl + "/backlog/"+projectID,
-            dataType: "json",
-            success: taskList.update3
-        });
-    }
-    private update(data: any) {
-        $("#taskListRed").html("<table>");
-        $("#taskListYellow").html("<table>");
-        $("#taskListGreen").html("<table>");
-        $("#taskList").html("<table>");
+    getCompleteTasks(data: any) {
         console.log(data);
-        for (let i = 0; i < data.mTaskData.length; ++i) {
-            if (data.mTaskData[i].mPriority == 1 || data.mTaskData[i].mPriority == 2 || data.mTaskData[i].mPriority == 3) {
-                if(data.mTaskData[i].mPriority == 1)
-                {
-                    $("#taskListRed").append("<tr><td class='red priorityCol'> </td><td class='taskCol'> <b> " +data.mTaskData[i].mName+" :</b></td><td class='descCol'> " +data.mTaskData[i].mDescription+"</td><td class='buttonCol'><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div><div id = complete-"+data.mTaskData[i].mId+" name = completeButton></div><div id = backlog-"+data.mTaskData[i].mId+" name = backlogButton></div></td></tr>");
+        incompleteTasks = data.mTaskData;
+        for (let task of incompleteTasks)
+            task.mStatus = "incomplete";
+        $.ajax({
+            type: "GET",
+            url: backendUrl + "/completedTasks/" + projectID,
+            dataType: "json",
+            success: taskList.concatenateTasks
+        });
+    }
 
-                    $(".red").css('background-color','#F53');
-                }
-                if(data.mTaskData[i].mPriority == 2)
-                {
-                    $("#taskListYellow").append("<tr><td class='yellow priorityCol'> </td><td class='taskCol'> <b> " +data.mTaskData[i].mName+" :</b></td><td class='descCol'> " +data.mTaskData[i].mDescription+"</td><td class='buttonCol'><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div><div id = complete-"+data.mTaskData[i].mId+" name = completeButton></div><div id = backlog-"+data.mTaskData[i].mId+" name = backlogButton></div></td></tr>");
-                    $(".yellow").css('background-color','#FF7');
-                }
-                if(data.mTaskData[i].mPriority == 3)
-                {
-                    $("#taskListGreen").append("<tr><td class='green priorityCol'></td><td class='taskCol'> <b> " +data.mTaskData[i].mName+" :</b></td><td class='descCol'> " +data.mTaskData[i].mDescription+"</td><td class='buttonCol'><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div><div id = complete-"+data.mTaskData[i].mId+" name = completeButton></div><div id = backlog-"+data.mTaskData[i].mId+" name = backlogButton></div></td></tr>");
-                    $(".green").css('background-color','#072');
-                }
-                $("#taskList").append("<tr><td class='priorityCol'>"+data.mTaskData[i].mId+". </td><td class='taskCol'> <b> " +data.mTaskData[i].mName+" :</b></td><td class='descCol'> " +data.mTaskData[i].mDescription+"</td><td class='buttonCol'><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div><div id = complete-"+data.mTaskData[i].mId+" name = completeButton></div><div id = backlog-"+data.mTaskData[i].mId+" name = backlogButton></div></td></tr>");
+    concatenateTasks(data: any) {
+        console.log(data);
+        for (let task of data.mTaskData)
+            task.mStatus = "complete";
+        data.mTaskData = data.mTaskData.concat(incompleteTasks);
+        console.log(data);
+        taskList.update(data);
+    }
 
-                $("#task-"+data.mTaskData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/taskPage.html' id = 'TID'><input type='submit' value='To Task Page' /><input type= 'hidden' id = 'taskID' name= 'taskID' value='"+data.mTaskData[i].mId+"' /></form>");
-                $("#complete-"+data.mTaskData[i].mId).replaceWith("<input type='submit' value='Complete' id='completeButton' onClick='completeTask("+data.mTaskData[i].mId+")'/>");
-                $("#backlog-"+data.mTaskData[i].mId).replaceWith("<input type='submit' value='Backlog' id='backlogButton' onClick='backlogTask("+data.mTaskData[i].mId+")'/>");
+    private compare(a: any, b: any)
+    {
+        // 0, 1, 2, 3
+        // 3 == undefined
 
-                $("#task-"+data.mTaskData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/taskPage.html' id = 'TID'><input type='submit' value='To Task Page' /><input type='hidden' name='taskID' value='"+data.mTaskData[i].mId+"' /> <input type='hidden' name='priority' value='"+data.mTaskData[i].mPriority+"'/> </form>");
+        // sort incomplete before complete
+
+        if (a.mStatus == "complete" && b.mStatus == "complete")
+        {
+            if (a.mName < b.mName)        // minor sort
+                return -1;
+            else if (a.mName > b.mName)
+                return 1;
+            else
+                return 0;
+        }
+        if (a.mStatus == "complete")
+            return 1;   // b is not complete
+        if (b.mStatus == "complete")
+            return -1;  // a is not complete
+
+        // neither task is complete
+        if (a.mPriority == 3 && b.mPriority == 3)       // 3 is undefined
+        {
+            if (a.mName < b.mName)        // minor sort
+                return -1;
+            else if (a.mName > b.mName)
+                return 1;
+            else
+                return 0;
+        }
+        if (a.mPriority < b.mPriority)
+            return -1;
+        if (a.mPriority > b.mPriority)
+            return 1;
+
+        // same priority
+        if (a.mName < b.mName)        // minor sort
+            return -1;
+        else if (a.mName > b.mName)
+            return 1;
+        return 0;
+    }
+
+    private update(data: any) {
+        console.log(data);
+        data.mTaskData.sort(taskList.compare);
+        console.log(data);
+        $("#projectHeader").html("<h2>Project: " + projectName + "</h2>");
+
+        var table: any;
+        table = "<table width='100%'>\
+            <tr>\
+                <th>&nbsp;</th>\
+                <th>Task</th>\
+                <th>Description</th>\
+                <th>&nbsp;</th>\
+            </tr>";
+        for (let i = 0; i < data.mTaskData.length; ++i)
+        {
+            var task: any;
+            task = data.mTaskData[i];
+
+            var color: any;
+            if (task.mStatus == "incomplete" && task.mPriority == 0)
+                color = '#F53';         // todo: include style='background-color:
+            else if (task.mStatus == "incomplete" && task.mPriority == 1)
+                color = '#FF7';
+            else if (task.mStatus == "incomplete" && task.mPriority == 2)
+                color = '#072';
+            else
+                color = '#fff';     // todo: omit style attribute altogether
+
+            table += "<tr><td class='priorityCol' style='background-color:" + color + ";'>&nbsp;</td>\
+                <td class='taskCol'><b>" + task.mName + "</b></td>\
+                <td class='descCol'>" + task.mDescription + "</td>\
+                <td class='buttonCol'>\
+                    <form action='https://stacklight.herokuapp.com/taskPage.html'><input type='submit' value='See details' /><input type='hidden' id='taskID' name='taskID' value='" + task.mId + "' /></form>";
+            if (task.mStatus == "incomplete")
+            {
+                table += "<input type='submit' value='Complete' onClick='completeTask(" + task.mId + ")'/>";
             }
+            else if (task.mStatus == "complete")
+            {
+                table += "<input type='submit' value='Un-complete' onClick='uncompleteTask(" + task.mId + ")'/>";
+            }
+            table += "<input type='submit' value='Backlog' id='backlogButton' onClick='backlogTask(" + task.mId + ")'/>\
+                </td>\
+                </tr>";
         }
-        $("#taskListRed").append("</table>");
-        $("#taskListYellow").append("</table>");
-        $("#taskListGreen").append("</table>");
-        $("#taskList").append("</table>");
-}
-    private update2(data: any) {
-        $("#completedTaskList").html("<table>");
-        for (let i = 0; i < data.mTaskData.length; ++i) {
-            $("#completedTaskList").append("<tr><td>"+data.mTaskData[i].mId+". </td><td> <b> " +data.mTaskData[i].mName+" :</b></td><td> " +data.mTaskData[i].mDescription+"</td><td><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div></td><td><div id = uncomplete-"+data.mTaskData[i].mId+" name = uncompleteButton></div></td><tr>");
+        table += "</table>";
 
-            $("#task-"+data.mTaskData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/taskPage.html' id = 'TID'><input type='submit' value='To Task Page' /><input type= 'hidden' id = 'taskID' name= 'taskID' value='"+data.mTaskData[i].mId+"' /></form>");
-            $("#uncomplete-"+data.mTaskData[i].mId).replaceWith("<input type='submit' value='UnComplete' id='uncompleteButton' onClick='uncompleteTask("+data.mTaskData[i].mId+")'/>");
-
-        }
-    }
-
-    private update3(data: any) {
-        $("#backlog").html("<table>");
-        for (let i = 0; i < data.mTaskData.length; ++i) {
-            $("#backlog").append("<tr><td>"+data.mTaskData[i].mId+". </td><td> <b> " +data.mTaskData[i].mName+" :</b></td><td> " +data.mTaskData[i].mDescription+"</td><td><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div></td><td><div id = backlog-"+data.mTaskData[i].mId+" name = tasksLink></div></td><tr>");
-
-            $("#task-"+data.mTaskData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/taskPage.html' id = 'TID'><input type='submit' value='To Task Page' /><input type= 'hidden' id = 'taskID' name= 'taskID' value='"+data.mTaskData[i].mId+"' /></form>");
-            $("#backlog-"+data.mTaskData[i].mId).replaceWith("<input type='submit' value='To Stack' id='uncompleteButton' onClick='uncompleteTask("+data.mTaskData[i].mId+")'/>");
-
-        }
+        $("#taskList").html(table);
     }
 }
+
 function completeTask(taskID: any){
-    console.log("Task ID: "+taskID);
+    console.log("completeTask "+taskID);
 
     $.ajax({
         type: "POST",
         url: backendUrl + "/tasks/complete",
         dataType: "json",
         data: JSON.stringify({mTaskId: taskID}),
-        success: taskList.refreshProject(),
+        success: taskList.refresh,
     });
 
 }
+
 function uncompleteTask(taskID: any){
-    console.log("Task ID: "+taskID);
+    console.log("uncompleteTask "+taskID);
 
     $.ajax({
         type: "POST",
         url: backendUrl + "/tasks/uncomplete",
         dataType: "json",
         data: JSON.stringify({mTaskId: taskID}),
-        success: taskList.refreshProject(),
+        success: taskList.refresh,
     });
 
 }
 function backlogTask(taskID: any){
-    console.log("Task ID: "+taskID);
+    console.log("backlogTask "+taskID);
 
     $.ajax({
         type: "POST",
         url: backendUrl + "/tasks/backlog",
         dataType: "json",
         data: JSON.stringify({mTaskId: taskID}),
-        success: taskList.refreshProject(),
+        success: taskList.refresh
     });
 
 }
+
 class NewTaskForm{
     constructor() {
         $("#addButton").click(this.submitForm);
@@ -147,7 +190,7 @@ class NewTaskForm{
         let assigner = "" + $("assigner").val();
 
         if (taskname === "" || description === "") {
-            window.alert("Error: Task is not valid");
+            window.alert("Task name and task description cannot be black.");
             return;
         }
         console.log("Priority: "+ priority);
@@ -160,13 +203,13 @@ class NewTaskForm{
             data: JSON.stringify({ mProjectId: projectID, mTaskname: taskname,
                 mDescription: description, mPriority: priority, mAssignee: assignee,
             mAssigner: assigner }),
-            success: newtaskform.onSubmitResponse,
-            error: newtaskform.onSubmitResponse
+            success: newTaskForm.onSubmitResponse,
+            error: newTaskForm.onSubmitResponse
         });
     }
     back(){
         console.log("Task Add Cancelled");
-        taskList.refreshProject();
+        taskList.refresh();
         window.location.replace("https://stacklight.herokuapp.com/tasks.html?projectID="+projectID);
     }
 
@@ -174,7 +217,7 @@ class NewTaskForm{
         // If we get an "ok" message, clear the form
         if (data.mStatus === "ok") {
             console.log("Task Added Sucessfully!");
-            taskList.refreshProject();
+            taskList.refresh();
             window.location.replace("https://stacklight.herokuapp.com/tasks.html?projectID="+projectID);
         }
         // Handle explicit errors with a detailed popup message
@@ -187,7 +230,9 @@ class NewTaskForm{
         }
     }
 }
-class Helper{
+
+class GetUrlParameters
+{
     public getUrlParameter(sParam: String) {
         var sPageURL = decodeURIComponent(window.location.search.substring(1)),
             sURLVariables = sPageURL.split('&'),
@@ -205,20 +250,20 @@ class Helper{
             }
         }
     }
-
 }
 
 $(document).ready(function () {
     console.log("Loading Tasks Page.......");
 
     taskList = new TaskList();
-    newtaskform = new NewTaskForm();
-    helper = new Helper();
-    projectID = helper.getUrlParameter('projectID');
+    newTaskForm = new NewTaskForm();
+    getUrlParameters = new GetUrlParameters();
+    projectID = getUrlParameters.getUrlParameter('projectID');
+    projectName = getUrlParameters.getUrlParameter('projectName');
     $('.login').text(localStorage.getItem("email"));
 
 
     console.log("Project ID: "+projectID);
     $("#PID").replaceWith("<input type= 'hidden' name= 'projectID' id = 'PID'value = '"+projectID+"'/>")
-    taskList.refreshProject();
+    taskList.refresh();
 });

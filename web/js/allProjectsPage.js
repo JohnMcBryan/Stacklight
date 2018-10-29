@@ -1,20 +1,22 @@
 var backendUrl = "https://stacklight.herokuapp.com";
 
 $(function () {
-    console.log("On page load for all projects page");
+    console.log("On page load allProjectsPage.js");
     //gapi.load('auth2', function() { // Ready. });
-    $('.project').click(goToProject);
+    //$('.project').click(goToProject);
     $('#loginBar').hide();
-    $('.row').hide();
+    //$('.row').hide();
+    $('#projectWindow').hide();
     $('.navbar').click(signOut);
     $(".abcRioButtonContentWrapper").css("left", "75%");
     $('#addMemberButton').click(addMember);
-});
+})
 
-function goToProject() {
-    console.log("in goToProject");
-    location.href = "index.html";
-}
+//function goToProject() {
+    //console.log("in goToProject");
+    //location.href = "index.html";
+//}
+
 // Utility method for encapsulating the jQuery Ajax Call
 function doAjaxCall(method, cmd, params, fcn) {
     $.ajax(
@@ -44,8 +46,9 @@ function signOut() {
     });
     $('.g-signin2').show();
     $('#loginBar').hide();
-    $('.row').hide();
-    $('#loginBar').text("Login");
+    //$('.row').hide();
+    $('#projectWindow').hide();
+    //$('#loginBar').text("Login");
   }
 
 function onSignIn(googleUser) {
@@ -64,11 +67,11 @@ function onSignIn(googleUser) {
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
   $('#loginBar').text(profile.getEmail());
   $('#loginBar').show();
-  $('.row').show();
+  //$('.row').show();
+  $('#projectWindow').show();
   $('.g-signin2').hide();
    localStorage.setItem("email", profile.getEmail());
 }
-
 
 function addMember() {
     $('#members').append('<input type="text" class="form-control member">');
