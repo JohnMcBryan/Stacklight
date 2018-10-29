@@ -38,6 +38,7 @@ public class Database {
     private PreparedStatement mInsertFile;
     private PreparedStatement mSelectAllFiles;
     private PreparedStatement mSelectTaskFiles;
+    private PreparedStatement mStarFile;
 
     /**
      * Give the Database object a connection, fail if we cannot get one
@@ -93,6 +94,9 @@ public class Database {
             db.mSelectAllFiles = db.mConnection.prepareStatement("SELECT * FROM Files");
             db.mSelectTaskFiles = db.mConnection.prepareStatement("SELECT * FROM Files WHERE taskid = ?");
             db.mInsertFile = db.mConnection.prepareStatement("INSERT INTO Files Values (default,?,?,?)");
+
+            db.mStarFile = db.mConnection.prepareStatement("UPDATE Files SET status = 1 WHERE id = ?");
+
 
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
@@ -231,6 +235,19 @@ public class Database {
             return false;
         }
         return true;
+    }
+
+    boolean starFile(int fileId){
+        try {
+            System.out.println("Starring File: "+fileId);
+            mStarFile.setInt(1, fileId);
+            mStarFile.executeUpdate();
+
+            return true;
+        } catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

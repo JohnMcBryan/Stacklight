@@ -32,4 +32,6 @@ public class SimpleRequest {
     public int mStatus;
     public int mTaskId;
 
+    public int mFileId;
+
 }

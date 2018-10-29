@@ -93,7 +93,7 @@ function starFile(fileID: any){
         type: "POST",
         url: backendUrl + "/file/star",
         dataType: "json",
-        data: JSON.stringify({mfileId: fileID}),
+        data: JSON.stringify({mFileId: fileID}),
         success: fileList.refresh,
     });
 
