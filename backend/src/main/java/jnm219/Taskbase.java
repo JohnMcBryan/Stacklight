@@ -33,6 +33,7 @@ public class Taskbase {
     private PreparedStatement mSelectTasks;
 
     private PreparedStatement mAddTask;
+    private PreparedStatement mAddTaskMessage;
 
     private PreparedStatement mSelectTask;
     private PreparedStatement mSelectCompletedTasks;
@@ -114,7 +115,7 @@ public class Taskbase {
         try{
             tb.mSelectAllTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks");
             tb.mAddTask = tb.mConnection.prepareStatement("INSERT INTO Tasks Values (default,?,?,?,?,?,?,default)");
-            tb.mAddTaskMessage = tb.mConnection.prepareStatement("INSERT INTO Messages Values (default,?,?,?)")
+            tb.mAddTaskMessage = tb.mConnection.prepareStatement("INSERT INTO Messages Values (default,?,?,?)");
             tb.mSelectTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE projectId = ? AND status = 0");
             tb.mSelectCompletedTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE projectId = ? AND status = 1");
             tb.mSelectBacklogTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE projectId = ? AND status = 2");
@@ -248,7 +249,12 @@ public class Taskbase {
             mAddTask.setInt(4,priority);
             mAddTask.setString(5,assignee);
             mAddTask.setString(6,assigner);
+            mAddTaskMessage.setInt(1,projectId);
+            String notification = "New Task: "+taskname;
+            mAddTaskMessage.setString(2,notification);
+            mAddTaskMessage.setString(3,"Notification");
             rs +=mAddTask.executeUpdate();
+            mAddTaskMessage.executeUpdate();
         } catch (SQLException e)
         {
             e.printStackTrace();
@@ -259,9 +265,16 @@ public class Taskbase {
 
     boolean completeTask(int taskId){
         try {
+            mSelectTask.setInt(1,taskId);
+            ResultSet rs = mSelectTask.executeQuery();
+            rs.next();
             mCompleteTask.setInt(1, taskId);
             mCompleteTask.executeUpdate();
-
+            mAddTaskMessage.setInt(1,rs.getInt("projectId"));
+            String notification = "Completing Task: "+rs.getString("taskname");
+            mAddTaskMessage.setString(2,notification);
+            mAddTaskMessage.setString(3,"Notification");
+            mAddTaskMessage.executeUpdate();
             return true;
         } catch (SQLException e){
             e.printStackTrace();
