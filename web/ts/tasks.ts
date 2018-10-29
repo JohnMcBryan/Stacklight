@@ -6,7 +6,6 @@ var newTaskForm: NewTaskForm;
 var getUrlParameters: GetUrlParameters;
 var projectID: any;
 var projectName: any;
-var incompleteTasks: any;        // just the array of tasks, not the project info that accompanies it
 
 class TaskList {
 
@@ -16,32 +15,11 @@ class TaskList {
             //url: backendUrl + "/tasks/all",
             url: backendUrl + "/tasks/" + projectID,
             dataType: "json",
-            success: taskList.getCompleteTasks
+            success: taskList.update
         });
     }
 
-    getCompleteTasks(data: any) {
-        console.log(data);
-        incompleteTasks = data.mTaskData;
-        for (let task of incompleteTasks)
-            task.mStatus = "incomplete";
-        $.ajax({
-            type: "GET",
-            url: backendUrl + "/completedTasks/" + projectID,
-            dataType: "json",
-            success: taskList.concatenateTasks
-        });
-    }
-
-    concatenateTasks(data: any) {
-        console.log(data);
-        for (let task of data.mTaskData)
-            task.mStatus = "complete";
-        data.mTaskData = data.mTaskData.concat(incompleteTasks);
-        console.log(data);
-        taskList.update(data);
-    }
-
+    // todo: handle backlogged tasks when status == 2
     private compare(a: any, b: any)
     {
         // 0, 1, 2, 3
@@ -49,8 +27,9 @@ class TaskList {
 
         // sort incomplete before complete
 
-        if (a.mStatus == "complete" && b.mStatus == "complete")
+        if (a.mStatus == "1" && b.mStatus == "1")
         {
+            // both are complete
             if (a.mName < b.mName)        // minor sort
                 return -1;
             else if (a.mName > b.mName)
@@ -58,9 +37,9 @@ class TaskList {
             else
                 return 0;
         }
-        if (a.mStatus == "complete")
+        if (a.mStatus == "1")
             return 1;   // b is not complete
-        if (b.mStatus == "complete")
+        if (b.mStatus == "1")
             return -1;  // a is not complete
 
         // neither task is complete
@@ -87,7 +66,7 @@ class TaskList {
     }
 
     private update(data: any) {
-        console.log(data);
+        //console.log(data);
         data.mTaskData.sort(taskList.compare);
         console.log(data);
         $("#projectHeader").html("<h2>Project: " + projectName + "</h2>");
@@ -106,11 +85,11 @@ class TaskList {
             task = data.mTaskData[i];
 
             var color: any;
-            if (task.mStatus == "incomplete" && task.mPriority == 0)
+            if (task.mStatus == /*incomplete*/"0" && task.mPriority == 0)
                 color = '#F53';         // todo: include style='background-color:
-            else if (task.mStatus == "incomplete" && task.mPriority == 1)
+            else if (task.mStatus == "0" && task.mPriority == 1)
                 color = '#FF7';
-            else if (task.mStatus == "incomplete" && task.mPriority == 2)
+            else if (task.mStatus == "0" && task.mPriority == 2)
                 color = '#072';
             else
                 color = '#fff';     // todo: omit style attribute altogether
@@ -119,16 +98,21 @@ class TaskList {
                 <td class='taskCol'><b>" + task.mName + "</b></td>\
                 <td class='descCol'>" + task.mDescription + "</td>\
                 <td class='buttonCol'>\
-                    <form action='https://stacklight.herokuapp.com/taskPage.html'><input type='submit' value='See details' /><input type='hidden' id='taskID' name='taskID' value='" + task.mId + "' /></form>";
-            if (task.mStatus == "incomplete")
+                    <form action='https://stacklight.herokuapp.com/taskPage.html'><input type='submit' value='See details";
+                    if (task.mSubtasks > 0)
+                        table += " (" + task.mSubtasks + ")";
+                    table += "' /><input type='hidden' id='taskID' name='taskID' value='" + task.mId + "' /></form>";
+            if (task.mStatus == /*incomplete*/"0")
             {
                 table += "<input type='submit' value='Complete' onClick='completeTask(" + task.mId + ")'/>";
             }
-            else if (task.mStatus == "complete")
+            else if (task.mStatus == /*complete*/"1")
             {
                 table += "<input type='submit' value='Un-complete' onClick='uncompleteTask(" + task.mId + ")'/>";
             }
-            table += "<input type='submit' value='Backlog' id='backlogButton' onClick='backlogTask(" + task.mId + ")'/>\
+            // todo: don't display backlog button is task is already backlogged.
+            // input type='submit' value='Backlog' id='backlogButton' onClick='backlogTask(" + task.mId + ")'/>
+            table += "\
                 </td>\
                 </tr>";
         }

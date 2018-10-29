@@ -116,7 +116,13 @@ public class Taskbase {
             tb.mSelectAllTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks");
             tb.mAddTask = tb.mConnection.prepareStatement("INSERT INTO Tasks Values (default,?,?,?,?,?,?,default)");
             tb.mAddTaskMessage = tb.mConnection.prepareStatement("INSERT INTO Messages Values (default,?,?,?)");
-            tb.mSelectTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE projectId = ? AND status = 0");
+            //tb.mSelectTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE projectId = ?");       // 10/29/18 Mira selected all statuses
+            tb.mSelectTasks = tb.mConnection.prepareStatement("SELECT T.*, COUNT(S.id) as subtasks" +
+                    " FROM Tasks as T" +
+                    " LEFT JOIN Subtasks as S" +
+                    " ON T.id = S.taskId" +
+                    " WHERE T.projectId = ? AND T.status <> 2" +
+                    " GROUP BY T.id");       // 10/29/18 Mira selected all statuses. Todo: deal with backlogged tasks in the client.
             tb.mSelectCompletedTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE projectId = ? AND status = 1");
             tb.mSelectBacklogTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE projectId = ? AND status = 2");
             tb.mSelectTask = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE id = ?");
@@ -146,7 +152,7 @@ public class Taskbase {
             while (rs.next()) {
                 TaskRow taskrow = new TaskRow(rs.getInt("id"),rs.getInt("projectId"),rs.getString("taskname"),
                         rs.getString("description"),rs.getInt("priority"),rs.getString("assignee"),
-                        rs.getString("assigner"));
+                        rs.getString("assigner"),rs.getInt("status"));   // 10/29/18 Mira added status
                 System.out.println(taskrow);
                 res.add(taskrow);
             }
@@ -166,7 +172,7 @@ public class Taskbase {
             while (rs.next()) {
                 TaskRow taskrow = new TaskRow(rs.getInt("id"),rs.getInt("projectId"),rs.getString("taskname"),
                         rs.getString("description"),rs.getInt("priority"),rs.getString("assignee"),
-                        rs.getString("assigner"));
+                        rs.getString("assigner"),rs.getInt("status"),rs.getInt("subtasks"));  // 10/29/18 Mira added status and subtasks
                 System.out.println(taskrow);
                 res.add(taskrow);
             }
@@ -186,7 +192,7 @@ public class Taskbase {
             while (rs.next()) {
                 TaskRow taskrow = new TaskRow(rs.getInt("id"),rs.getInt("projectId"),rs.getString("taskname"),
                         rs.getString("description"),rs.getInt("priority"),rs.getString("assignee"),
-                        rs.getString("assigner"));
+                        rs.getString("assigner"),/*completed*/1);
                 System.out.println(taskrow);
                 res.add(taskrow);
             }
@@ -206,7 +212,7 @@ public class Taskbase {
             while (rs.next()) {
                 TaskRow taskrow = new TaskRow(rs.getInt("id"),rs.getInt("projectId"),rs.getString("taskname"),
                         rs.getString("description"),rs.getInt("priority"),rs.getString("assignee"),
-                        rs.getString("assigner"));
+                        rs.getString("assigner"),/*backlog*/2);
                 System.out.println(taskrow);
                 res.add(taskrow);
             }
@@ -226,7 +232,7 @@ public class Taskbase {
             while (rs.next()) {
                  taskrow = new TaskRow(rs.getInt("id"),rs.getInt("projectId"),rs.getString("taskname"),
                         rs.getString("description"),rs.getInt("priority"),rs.getString("assignee"),
-                        rs.getString("assigner"));
+                        rs.getString("assigner"),rs.getInt("status"));
                 System.out.println(taskrow);
             }
             rs.close();
