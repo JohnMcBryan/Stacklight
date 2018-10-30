@@ -9,8 +9,11 @@
     <title>Project Page</title>
 </head>
 <script>
-    function goBack() {
-        window.history.back();
+    function goBackWithRefresh(event) {
+        if ('referrer' in document)
+            window.location = document.referrer;
+        else
+            window.history.back();
     }
 </script>   
 <body>
@@ -26,16 +29,18 @@
     <input type="text" id="fileName" />
     <input type="file" id="fileUpload" name="file" /> <button id="addFile">Add File</button>
     
-    <form action="https://stacklight.herokuapp.com/">
+    <!--<form action="https://stacklight.herokuapp.com/">
         <input type="submit" value="Homepage" />
-    </form>
-    <b>Subtasks:</b>
+    </form>-->
+    <div>
+        <b>Subtasks:</b>
+    </div>
     <div id = "showSubTasks">
         <div id="subtaskList"></div>
         <input type="text" id="Subtaskname" />
         <button id="addSubtaskButton">Add Subtask</button>
     </div>
-    <button onclick="goBack()">Go Back</button>
+    <button onclick="goBackWithRefresh();return false;">Go Back</button>
 </body>
     
 </html>
