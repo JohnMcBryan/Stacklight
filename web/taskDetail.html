@@ -1,0 +1,33 @@
+<html>
+    
+<head>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/taskDetail.js"></script>
+    <script src="js/taskFiles.js"></script>
+    <title>Task Detail</title>
+</head>
+<script>
+    function goBackWithRefresh(event) {
+        if ('referrer' in document)
+            window.location = document.referrer;
+        else
+            window.history.back();
+    }
+</script>   
+<body>
+    <h2 id="projectHeader"></h2>
+    <h2 id="taskHeader"></h2>
+    <div id="taskInfo"></div>
+    <h2>Files:</h2>
+    <div id="fileList"></div>
+    <input type="text" id="fileName" />
+    <input type="file" id="fileUpload" name="file" /> <button id="addFile">Add File</button>
+    
+    <h2>Subtasks:</h2>
+    <div id="subtaskList"></div>
+    <input type="text" id="Subtaskname" />
+    <button id="addSubtaskButton">Add Subtask</button>
+    <button onclick="goBackWithRefresh();return false;">Go Back</button>
+</body>
+</html>

@@ -1,31 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>Stacklight</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script src="js/jquery.min.js"></script>    <!-- must load before bootstrap -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <script src="js/app.js"></script>
-    <script src="js/projects.js"></script>
-    <script src="js/tasks.js"></script>
+    <script src="js/project.js"></script>
     <script src="js/messages.js"></script>
-
-    <style>
-      #messages form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      #messages form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      #messages form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
-    </style>
 </head>
-
-<body onload="update()">
+<body>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -54,6 +46,8 @@
     </div>
     <div class="row content">
         <div class="col-md-8">
+            <div id="miraList">
+            </div>
             <div id="taskList">
             </div>
         </div>

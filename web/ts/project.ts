@@ -1,9 +1,7 @@
-// Run some configuration code when the web page loads
-const backendUrl = "https://stacklight.herokuapp.com";
-var $: any;
+///<reference path="app.ts" />
+var helper: AppHelper;
 var taskList: TaskList;
 var newTaskForm: NewTaskForm;
-var getUrlParameters: GetUrlParameters;
 var projectID: any;
 var projectName: any;
 
@@ -70,6 +68,64 @@ class TaskList {
         data.mTaskData.sort(taskList.compare);
         console.log(data);
         $("#projectHeader").html("<h2>Project: " + projectName + "</h2>");
+
+        var cards: any;
+        cards = "";
+        cards += "<div class='bs-component'>\
+            <div class='card text-white bg-primary mb-3'>\
+                 <div class='card-header'>\
+                     Task Name\
+                 </div>\
+                 <div class='card-body'>\
+                     <h4 class='card-title'>Task Name</h4>\
+                     <p class='card-text'>Task details</p>\
+                     <div class='progress'>\
+                        <div class='progress-bar bg-info' role='progressbar' style='width: 50%' aria-valuenow='50' aria-valuemin='0' aria-valuemax='100'>\
+                     </div>\
+                 </div>\
+            </div></div>";
+
+        for (let i = 0; i < data.mTaskData.length; ++i)
+        {
+            var task: any;
+            task = data.mTaskData[i];
+
+            var color: any;
+            if (task.mStatus == /*incomplete*/"0" && task.mPriority == 0)
+                color = 'danger';
+            else if (task.mStatus == "0" && task.mPriority == 1)
+                color = 'warning';
+            else if (task.mStatus == "0" && task.mPriority == 2)
+                color = 'success';
+            else if (task.mStatus == "0")   // no priority set
+                color = 'light';
+            else
+                color = 'secondary';          // complete
+
+            cards += "<div class='bs-component'>\
+                <div class='card text-white border-" + color + " mb-3'>\
+                    <div class='card-header text-" + color + "'><h4>" + task.mName + "</h4></div>\
+                    <div class='card-body'>\
+                        <div class='row'>\
+                            <div class='col-md-8'>\
+                                <p class='card-text'><i class='fas fa-2x fa-angle-right'></i> " + task.mDescription + "</p></div>\
+                                <div class='col-md-4'>\
+                                    <div class='float-right'>\
+                                    <a href='/taskPage.html?taskId=" + task.mId + "'><button class='btn btn-primary'>See details";
+                                        if (task.mSubtasks > 0)
+                                            cards += " (" + task.mSubtasks + ")";
+                                        cards += "</button></a>";
+                                    if (task.mStatus == /*incomplete*/"0")
+                                    {
+                                        cards += "<button class='btn btn-primary' onclick='completeTask(" + task.mId + ")'>Complete</button>";
+                                    }
+                                    else if (task.mStatus == /*complete*/"1")
+                                    {
+                                        cards += "<button class='btn btn-primary' onclick='uncompleteTask(" + task.mId + ")'>Un-complete</button>";
+                                    }
+                cards += "</div></div></div></div></div></div></div>";
+        }
+        $("#miraList").html(cards);
 
         var table: any;
         table = "<table width='100%'>\
@@ -215,35 +271,12 @@ class NewTaskForm{
     }
 }
 
-class GetUrlParameters
-{
-    public getUrlParameter(sParam: String) {
-        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-            sURLVariables = sPageURL.split('&'),
-            sParameterName,
-            i;
-        console.log("sPageURL: " + sPageURL);
-
-        for (i = 0; i < sURLVariables.length; i++) {
-            sParameterName = sURLVariables[i].split('=');
-            console.log("sParameterName: "+sParameterName);
-
-            if (sParameterName[0] === sParam) {
-                console.log("sParameterName[0]: "+sParameterName[0] + " === " + "sParam: "+sParam);
-                return sParameterName[1] === undefined ? true : sParameterName[1];
-            }
-        }
-    }
-}
-
 $(document).ready(function () {
-    console.log("Loading Tasks Page.......");
-
+    helper = new AppHelper();
     taskList = new TaskList();
     newTaskForm = new NewTaskForm();
-    getUrlParameters = new GetUrlParameters();
-    projectID = getUrlParameters.getUrlParameter('projectID');
-    projectName = getUrlParameters.getUrlParameter('projectName');
+    projectID = helper.getUrlParameter('projectID');
+    projectName = helper.getUrlParameter('projectName');
     $('.login').text(localStorage.getItem("email"));
 
 

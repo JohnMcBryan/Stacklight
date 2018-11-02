@@ -1,7 +1,4 @@
-// Prevent compiler errors when using jQuery.  "$" will be given a type of
-// "any", so that we can use it anywhere, and assume it has any fields or
-// methods, without the compiler producing an error.
-var $: any;
+///<reference path="app.ts" />
 
 // The 'this' keyword does not behave in JavaScript/TypeScript like it does in
 // Java.  Since there is only one NewEntryForm, we will save it to a global, so
@@ -10,10 +7,7 @@ var $: any;
 var FileUpload: fileUpload;
 var fileList: FileList2;
 var subFileList: SubFileList;
-var helper: HelperFile;
-var taskID: any;
-
-const backendUrl = "https://stacklight.herokuapp.com";
+var taskId: any;        // assigned in refresh()
 
 class SubFileList{
     refresh() {
@@ -31,17 +25,17 @@ class SubFileList{
             $("#subFileList").append("<tr><td>ID: " + data.mData[i].mId +" </td><td>PID: "+data.mData[i].mpid+" </td><td> File Name: "+data.mData[i].mfileName+" </td><td> File ID: "+data.mData[i].mfileId+" </td><td><a href= \"https://stacklight.herokuapp.com/download/"+data.mData[i].mfileId+"\" download = \""+data.mData[i].mfileName+"\">Export</a></td>");
         }
     }
-
-
 }
+
 class FileList2 {
     private download(data:String){
         alert("Infunction");
     }
-    refresh() {
+    refresh(id: any) {
+        taskId = id;        // save for update()
         $.ajax({
             type: "GET",
-            url: backendUrl + "/file/"+taskID,
+            url: backendUrl + "/file/"+taskId,
             dataType: "json",
             success: fileList.update
         });
@@ -106,7 +100,7 @@ class fileUpload{
         var fileName = "" + $("#fileName").val();
         formData.append('mFile', file);
         formData.append('mFileName',fileName);
-        formData.append('mTaskID',taskID);
+        formData.append('mTaskID',taskId);
         $.ajax({
             type: "POST",
             url: backendUrl + "/file",
@@ -125,38 +119,6 @@ class fileUpload{
          */
         private static onSubmitResponse(data: any) {
             fileList = new FileList2();
-            fileList.refresh();
+            fileList.refresh(taskId);
         }
 }
-class HelperFile{
-    public getUrlParameter(sParam: String) {
-        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-            sURLVariables = sPageURL.split('&'),
-            sParameterName,
-            i;
-    
-        for (i = 0; i < sURLVariables.length; i++) {
-            sParameterName = sURLVariables[i].split('=');
-    
-            if (sParameterName[0] === sParam) {
-                return sParameterName[1] === undefined ? true : sParameterName[1];
-            }
-        }
-    }
-
-}
-
-
-
-// Run some configuration code when the web page loads
-$(document).ready(function () {
-    // Create the object that controls the "New Entry" form
-    FileUpload = new fileUpload();
-    fileList = new FileList2();
-    helper = new HelperFile();
-    taskID = helper.getUrlParameter('taskID');
-    //subFileList = new SubFileList();
-
-    fileList.refresh();
-    //subFileList.refresh();
-});

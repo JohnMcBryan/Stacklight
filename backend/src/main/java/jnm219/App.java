@@ -248,7 +248,7 @@ public class App {
         });
 
         Spark.get("/tasks",(req,res) -> {
-            res.redirect("/tasks.html");
+            res.redirect("/project.html");
            return "";
         });
 

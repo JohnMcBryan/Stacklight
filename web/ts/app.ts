@@ -5,8 +5,8 @@ var $: any;
 
 const backendUrl = "https://stacklight.herokuapp.com";
 
-class helper2{
-    private getUrlParameter(sParam: String) {
+class AppHelper{
+    public getUrlParameter(sParam: String) {
         var sPageURL = decodeURIComponent(window.location.search.substring(1)),
             sURLVariables = sPageURL.split('&'),
             sParameterName,
@@ -20,5 +20,4 @@ class helper2{
             }
         }
     }
-
 }

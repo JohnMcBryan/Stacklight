@@ -26,11 +26,11 @@ mkdir $TARGET $WEB $WEB/$IMAGE $WEB/$JS $WEB/$VIEW $WEB/$STYLE
 # copy only known/needed files to the respective deployment directories.
 # test files will remain local.
 
-for html in index.html tasks.html taskPage.html tasksAddForm.html
+for html in index.html project.html taskDetail.html tasksAddForm.html
 do
     cp $html $WEB
 done
-for css in style.css
+for css in style.css bootstrap.css
 do
     cp $STYLE/$css $WEB/$STYLE
 done
@@ -49,7 +49,7 @@ do
 done
 
 # compile TypeScript files
-for ts in app tasks task projects files subtasks messages
+for ts in app index project taskDetail taskFiles messages
 do
     node_modules/typescript/bin/tsc ts/${ts}.ts --strict --outFile $WEB/$JS/${ts}.js
 done
