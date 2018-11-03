@@ -74,6 +74,7 @@ class NewSubtaskForm{
 
     private onSubmitResponse(data: any) {
         $("#Subtaskname").val("");
+        console.log(data);
         // If we get an "ok" message, clear the form
         if (data.mStatus === "ok") {
             console.log("Task Added Sucessfully!");

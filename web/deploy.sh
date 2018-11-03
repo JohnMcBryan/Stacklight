@@ -49,11 +49,14 @@ do
 done
 
 # compile TypeScript files
+retVal=0
 for ts in app index project taskDetail taskFiles messages
 do
     node_modules/typescript/bin/tsc ts/${ts}.ts --strict --outFile $WEB/$JS/${ts}.js
+    retVal=$(($retVal + $?))
 done
 
-#Put Client Secret Doc into Resources Folder
 cp ../backend/StoplightCS.json ../backend/src/main/resources/StoplightCS.json
 #cp StacklightLocalhostServiceKey.json ../backend/src/main/resources/StoplightCS.json
+
+exit $retVal

@@ -4,6 +4,7 @@ var taskList: TaskList;
 var newTaskForm: NewTaskForm;
 var projectID: any;
 var projectName: any;
+var savedTaskId: any;        // todo: make subtasks/ return taskId and eliminate this hack
 
 class TaskList {
 
@@ -102,122 +103,172 @@ class TaskList {
             else
                 color = 'secondary';          // complete
 
-            cards += "<div class='bs-component'>\
+            cards += "<div class='bs-component' taskId='" + task.mId + "'>\
                 <div class='card text-white border-" + color + " mb-3'>\
                     <div class='card-header text-" + color + "'><h4>" + task.mName + "</h4></div>\
                     <div class='card-body'>\
                         <div class='row'>\
                             <div class='col-md-8'>\
-                                <p class='card-text'><i class='fas fa-2x fa-angle-right'></i> " + task.mDescription + "</p></div>\
-                                <div class='col-md-4'>\
-                                    <div class='float-right'>\
-                                    <a href='/taskPage.html?taskId=" + task.mId + "'><button class='btn btn-primary'>See details";
-                                        if (task.mSubtasks > 0)
-                                            cards += " (" + task.mSubtasks + ")";
-                                        cards += "</button></a>";
-                                    if (task.mStatus == /*incomplete*/"0")
-                                    {
-                                        cards += "<button class='btn btn-primary' onclick='completeTask(" + task.mId + ")'>Complete</button>";
-                                    }
-                                    else if (task.mStatus == /*complete*/"1")
-                                    {
-                                        cards += "<button class='btn btn-primary' onclick='uncompleteTask(" + task.mId + ")'>Un-complete</button>";
-                                    }
-                cards += "</div></div></div></div></div></div></div>";
+                                <p class='card-text'>\
+                                <button class='btn btn-primary' onClick='onDetail(this, " + task.mId + ")'><i class='fas fa-lg fa-angle-right'></i></button>&nbsp;"
+                                + task.mDescription + "</p>\
+                            </div>\
+                            <div class='col-md-4'>\
+                                <a href='/taskDetail.html?taskId=" + task.mId + "'><button class='btn btn-primary float-right'>See details";
+                                    if (task.mSubtasks > 0)
+                                        cards += " (" + task.mSubtasks + ")";
+                                    cards += "</button></a>";
+                                if (task.mStatus == /*incomplete*/"0")
+                                {
+                                    cards += "<button class='btn btn-primary float-right' onclick='completeTask(" + task.mId + ")'>Complete</button>";
+                                }
+                                else if (task.mStatus == /*complete*/"1")
+                                {
+                                    cards += "<button class='btn btn-primary float-right' onclick='uncompleteTask(" + task.mId + ")'>Un-complete</button>";
+                                }
+            cards += "\
+                            </div>\
+                        </div>";
+            cards += "\
+                        <div class='row'>\
+                            <div class='col-md-12'>\
+                                <div id='taskDetail" + task.mId + "' style='display:none'>\
+                                    <div>\
+                                    </div>\
+                                    <p>\
+                                        <input type='text' class='form-control-sm col-9' id='addSubtask" + task.mId + "'>\
+                                        <button class='btn btn-primary btn-sm float-right' onClick='onAddSubtask(this, " + task.mId + ")'>Add Subtask</button>\
+                                    </p>\
+                                </div>\
+                            </div>\
+                        </div>\
+                    </div>\
+                </div>\
+            </div>";
         }
         $("#miraList").html(cards);
+    }
 
-        var table: any;
-        table = "<table width='100%'>\
-            <tr>\
-                <th>&nbsp;</th>\
-                <th>Task</th>\
-                <th>Description</th>\
-                <th>&nbsp;</th>\
-            </tr>";
-        for (let i = 0; i < data.mTaskData.length; ++i)
+    public updateDetail(data: any)
+    {
+        if (data.mSubtaskData && data.mSubtaskData[0].mTaskId)     // guard against empty result
         {
-            var task: any;
-            task = data.mTaskData[i];
-
-            var color: any;
-            if (task.mStatus == /*incomplete*/"0" && task.mPriority == 0)
-                color = '#F53';         // todo: include style='background-color:
-            else if (task.mStatus == "0" && task.mPriority == 1)
-                color = '#FF7';
-            else if (task.mStatus == "0" && task.mPriority == 2)
-                color = '#072';
-            else
-                color = '#fff';     // todo: omit style attribute altogether
-
-            table += "<tr><td class='priorityCol' style='background-color:" + color + ";'>&nbsp;</td>\
-                <td class='taskCol'><b>" + task.mName + "</b></td>\
-                <td class='descCol'>" + task.mDescription + "</td>\
-                <td class='buttonCol'>\
-                    <form action='https://stacklight.herokuapp.com/taskPage.html'><input type='submit' value='See details";
-                    if (task.mSubtasks > 0)
-                        table += " (" + task.mSubtasks + ")";
-                    table += "' /><input type='hidden' id='taskID' name='taskID' value='" + task.mId + "' /></form>";
-            if (task.mStatus == /*incomplete*/"0")
+            var detail: any;
+            detail = "";
+            for (let i = 0; i < data.mSubtaskData.length; ++i)
             {
-                table += "<input type='submit' value='Complete' onClick='completeTask(" + task.mId + ")'/>";
+                var subtask: any;
+                subtask = data.mSubtaskData[i];
+                detail += "<p>" + subtask.mName + "</p><hr>";
             }
-            else if (task.mStatus == /*complete*/"1")
-            {
-                table += "<input type='submit' value='Un-complete' onClick='uncompleteTask(" + task.mId + ")'/>";
-            }
-            // todo: don't display backlog button is task is already backlogged.
-            // input type='submit' value='Backlog' id='backlogButton' onClick='backlogTask(" + task.mId + ")'/>
-            table += "\
-                </td>\
-                </tr>";
+            console.log(detail);
+            $('#taskDetail' + data.mSubtaskData[0].mTaskId).children().first().html(detail);   // put subtasks in the DOM
         }
-        table += "</table>";
-
-        $("#taskList").html(table);
     }
 }
 
-function completeTask(taskID: any){
-    console.log("completeTask "+taskID);
+function getSubtasksForSavedId(data: any)
+{
+    if (data.mStatus == "ok")
+        getSubtasks(savedTaskId);
+    else if (data.mMessage)
+        alert(data.mMessage);
+}
+
+function getSubtasks(taskId: any)
+{
+    if (taskId)     // should never be false
+    {
+        $.ajax({
+            type: "GET",
+            url: backendUrl + "/subtasks/" + taskId,
+            dataType: "json",
+            success: taskList.updateDetail,
+        });
+    }
+}
+
+function onDetail(element: any, taskId: any)
+{
+    $(element).toggleClass('checked');
+    if ($(element).hasClass('checked'))
+    {
+        // show details
+        $(element).html("<i class='fas fa-lg fa-angle-down'></i>");     // change icon in button
+        $('#taskDetail' + taskId).show();
+        getSubtasks(taskId);
+    }
+    else
+    {
+        // hide details
+        $(element).html("<i class='fas fa-lg fa-angle-right'></i>");
+        $('#taskDetail' + taskId).hide();
+    }
+}
+
+function onAddSubtask(element: any, taskId: any)
+{
+    var addSubtask: any;
+    addSubtask = $("#addSubtask" + taskId);
+    if (addSubtask.val())
+    {
+        console.log("valid input");
+        savedTaskId = taskId;        // todo: get rid of this
+        $.ajax({
+            type: "POST",
+            url: backendUrl + "/subtasks",
+            dataType: "json",
+            data: JSON.stringify({ mTaskId: taskId, mName: addSubtask.val(), mStatus: /*incomplete*/0 }),
+            success: getSubtasksForSavedId,
+            error: onDetail         // close details
+        });
+    }
+}
+
+function completeTask(taskId: any)
+{
+    console.log("completeTask "+taskId);
 
     $.ajax({
         type: "POST",
         url: backendUrl + "/tasks/complete",
         dataType: "json",
-        data: JSON.stringify({mTaskId: taskID}),
+        data: JSON.stringify({mTaskId: taskId}),
         success: taskList.refresh,
     });
-
 }
 
-function uncompleteTask(taskID: any){
-    console.log("uncompleteTask "+taskID);
+function uncompleteTask(taskId: any)
+{
+    console.log("uncompleteTask "+taskId);
 
     $.ajax({
         type: "POST",
         url: backendUrl + "/tasks/uncomplete",
         dataType: "json",
-        data: JSON.stringify({mTaskId: taskID}),
+        data: JSON.stringify({mTaskId: taskId}),
         success: taskList.refresh,
     });
-
 }
-function backlogTask(taskID: any){
-    console.log("backlogTask "+taskID);
+
+function backlogTask(taskId: any)
+{
+    console.log("backlogTask "+taskId);
 
     $.ajax({
         type: "POST",
         url: backendUrl + "/tasks/backlog",
         dataType: "json",
-        data: JSON.stringify({mTaskId: taskID}),
+        data: JSON.stringify({mTaskId: taskId}),
         success: taskList.refresh
     });
 
 }
 
-class NewTaskForm{
-    constructor() {
+class NewTaskForm
+{
+    constructor()
+    {
         $("#addButton").click(this.submitForm);
         $("#addCancel").click(this.back);
     }
