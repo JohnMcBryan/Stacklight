@@ -108,36 +108,42 @@ class TaskList {
                     <div class='card-header text-" + color + "'><h4>" + task.mName + "</h4></div>\
                     <div class='card-body'>\
                         <div class='row'>\
-                            <div class='col-md-8'>\
+                            <div class='col-md-12'>\
                                 <p class='card-text'>\
-                                <button class='btn btn-primary' onClick='onDetail(this, " + task.mId + ")'><i class='fas fa-lg fa-angle-right'></i></button>&nbsp;"
-                                + task.mDescription + "</p>\
-                            </div>\
-                            <div class='col-md-4'>\
-                                <a href='/taskDetail.html?taskId=" + task.mId + "'><button class='btn btn-primary float-right'>See details";
+                                    <button class='btn btn-primary btn-sm' onclick='onDetail(this, " + task.mId + ")' title='Toggle detail'><i class='fas fa-lg fa-angle-right'></i></button>&nbsp;"
+                                    + task.mDescription + "\
+                                <a href='/taskDetail.html?taskId=" + task.mId + "'><button class='btn btn-primary btn-sm float-right'>See details";
                                     if (task.mSubtasks > 0)
                                         cards += " (" + task.mSubtasks + ")";
                                     cards += "</button></a>";
                                 if (task.mStatus == /*incomplete*/"0")
                                 {
-                                    cards += "<button class='btn btn-primary float-right' onclick='completeTask(" + task.mId + ")'>Complete</button>";
+                                    cards += "<button class='btn btn-primary btn-sm float-right' onclick='completeTask(" + task.mId + ")' title='Mark task as complete'>Complete</button>";
                                 }
                                 else if (task.mStatus == /*complete*/"1")
                                 {
-                                    cards += "<button class='btn btn-primary float-right' onclick='uncompleteTask(" + task.mId + ")'>Un-complete</button>";
+                                    cards += "<button class='btn btn-primary btn-sm float-right' onclick='uncompleteTask(" + task.mId + ")' title='Mark task as not complete'>Un-complete</button>";
                                 }
             cards += "\
+                                </p><p></p>\
                             </div>\
                         </div>";
             cards += "\
                         <div class='row'>\
                             <div class='col-md-12'>\
                                 <div id='taskDetail" + task.mId + "' style='display:none'>\
-                                    <div>\
+                                    <div id='taskSubtasks" + task.mId + "'>\
                                     </div>\
                                     <p>\
-                                        <input type='text' class='form-control-sm col-9' id='addSubtask" + task.mId + "'>\
-                                        <button class='btn btn-primary btn-sm float-right' onClick='onAddSubtask(this, " + task.mId + ")'>Add Subtask</button>\
+                                        <input type='text' class='form-control-sm col-9' id='addSubtask" + task.mId + "' oninput='onAddSubtaskInput(this, " + task.mId + ")'>\
+                                        <button class='btn btn-primary btn-sm float-right' onclick='onAddSubtask(this, " + task.mId + ")'>Add Subtask</button>\
+                                        <div id='addSubtaskFeedback" + task.mId + "' class='invalid-feedback' style='display:none;'>Description of subtask is required.</div>\
+                                    </p>\
+                                    <div id='taskFiles" + task.mId + "'>\
+                                    </div>\
+                                    <p>\
+                                        <input type='file' class='form-control-file' style='display:inline; width:auto;' id='uploadFile" + task.mId + "'>\
+                                        <button class='btn btn-primary btn-sm float-right' onclick='onUpload(this, " + task.mId + ")'>Upload</button>\
                                     </p>\
                                 </div>\
                             </div>\
@@ -149,9 +155,9 @@ class TaskList {
         $("#miraList").html(cards);
     }
 
-    public updateDetail(data: any)
+    public updateSubtasks(data: any)
     {
-        if (data.mSubtaskData && data.mSubtaskData[0].mTaskId)     // guard against empty result
+        if (data && data.mSubtaskData && data.mSubtaskData.length>0 && data.mSubtaskData[0].mTaskId)     // guard against empty result
         {
             var detail: any;
             detail = "";
@@ -162,7 +168,29 @@ class TaskList {
                 detail += "<p>" + subtask.mName + "</p><hr>";
             }
             console.log(detail);
-            $('#taskDetail' + data.mSubtaskData[0].mTaskId).children().first().html(detail);   // put subtasks in the DOM
+            $('#taskSubtasks' + data.mSubtaskData[0].mTaskId).html(detail);   // put subtasks in the DOM
+        }
+    }
+
+    public updateFiles(data: any)
+    {
+        // {"mStatus":"ok","mData":[{"mId":23,"mfileName":"","mfileId":"Error"},{"mId":24,"mfileName":"","mfileId":"Error"}]}
+        // todo: get taskId in response, or GET subtasks and files in one response to one request.
+
+        if (data && data.mData && data.mData.length>0)     // guard against empty result
+        {
+            var detail: any;
+            detail = "";
+            for (let i = 0; i < data.mData.length; ++i)
+            {
+                var f: any;     // filename
+                f = data.mData[i].mfileName;
+                if (!f)
+                    f = "mId:" + data.mData[i].mId + " mfileId:" + data.mData[i].mfileId; // todo: remove mId when mfileName is not empty
+                detail += "<p>" + f + "</p><hr>";
+            }
+            console.log(detail);
+            $('#taskFiles' + savedTaskId).html(detail);
         }
     }
 }
@@ -183,7 +211,21 @@ function getSubtasks(taskId: any)
             type: "GET",
             url: backendUrl + "/subtasks/" + taskId,
             dataType: "json",
-            success: taskList.updateDetail,
+            success: taskList.updateSubtasks,
+        });
+    }
+}
+
+function getFiles(taskId: any)
+{
+    if (taskId)     // should never be false
+    {
+        savedTaskId = taskId;        // todo: get rid of this
+        $.ajax({
+            type: "GET",
+            url: backendUrl + "/file/" + taskId,
+            dataType: "json",
+            success: taskList.updateFiles,
         });
     }
 }
@@ -197,6 +239,7 @@ function onDetail(element: any, taskId: any)
         $(element).html("<i class='fas fa-lg fa-angle-down'></i>");     // change icon in button
         $('#taskDetail' + taskId).show();
         getSubtasks(taskId);
+        getFiles(taskId);
     }
     else
     {
@@ -204,6 +247,11 @@ function onDetail(element: any, taskId: any)
         $(element).html("<i class='fas fa-lg fa-angle-right'></i>");
         $('#taskDetail' + taskId).hide();
     }
+}
+
+function onAddSubtaskInput(element: any, taskId: any)
+{
+    $("#addSubtaskFeedback" + taskId).hide();
 }
 
 function onAddSubtask(element: any, taskId: any)
@@ -222,6 +270,10 @@ function onAddSubtask(element: any, taskId: any)
             success: getSubtasksForSavedId,
             error: onDetail         // close details
         });
+    }
+    else
+    {
+        $("#addSubtaskFeedback" + taskId).show();
     }
 }
 
