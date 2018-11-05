@@ -12,6 +12,7 @@
 
     <script src="js/app.js"></script>
     <script src="js/projects.js"></script>
+    <script src="js/profile.js"></script>
     <script src="js/tasks.js"></script>
     <script src="js/messages.js"></script>
 
@@ -41,7 +42,7 @@
                     <!--<input type="submit" value="Add a New Task" />-->
                     <input type= 'hidden' name= 'projectID' id = 'PID'/>
                 </form>
-                <div class="login navbar-right">
+                <div class="login navbar-right" data-toggle="modal" data-target="#showProfile">
                     <a href="#" class="login"><span class="glyphicon glyphicon-user"></span> abc123@lehigh.edu </a>
                 </div>
             </div>
@@ -70,6 +71,28 @@
                     <input type="text" id="message" autocomplete="off" />
                     <input id="addMessage" type="submit" value="Send" style="float:right; margin-right:15px;">
                 </div>
+        </div>
+    </div>
+</div>
+<div id="showProfile" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Profile</h4>
+            </div>
+            <div class="modal-body">
+                <!--<form id="uploadFile" enctype="multipart/form-data" method="POST" action="\project">-->
+                <form action="https://stacklight.herokuapp.com/profile.html">
+                    <label for="name">Name:</label>
+                    <div id="name"></div>
+                    <label for="name">Email:</label>
+                    <div id="email"></div>
+                    <label for="projects">Projects:</label>
+                    <div id="projects"></div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
