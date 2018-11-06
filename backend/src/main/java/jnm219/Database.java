@@ -37,8 +37,10 @@ public class Database {
     private PreparedStatement mCheckUser;
     private PreparedStatement mInsertFile;
     private PreparedStatement mSelectAllFiles;
+    private PreparedStatement mSelectFile;
     private PreparedStatement mSelectTaskFiles;
     private PreparedStatement mStarFile;
+    private PreparedStatement mUnstarFile;
 
     /**
      * Give the Database object a connection, fail if we cannot get one
@@ -96,6 +98,8 @@ public class Database {
             db.mInsertFile = db.mConnection.prepareStatement("INSERT INTO Files Values (default,?,?,?)");
 
             db.mStarFile = db.mConnection.prepareStatement("UPDATE Files SET status = 1 WHERE id = ?");
+            db.mSelectFile = db.mConnection.prepareStatement("SELECT * FROM Files where id = ?");
+            db.mUnstarFile = db.mConnection.prepareStatement("UPDATE Files SET status = 0 WHERE taskid = ? AND status = 1");
 
 
         } catch (SQLException e) {
@@ -155,7 +159,7 @@ public class Database {
             ResultSet rs = mSelectAllFiles.executeQuery();
             while (rs.next()) {
                 //System.err.println("NAMES: "+rs.getString("name"));
-                res.add(new FileRow(rs.getInt("id"),rs.getString("fileName"),rs.getString("fileId")));
+                res.add(new FileRow(rs.getInt("id"),rs.getString("fileName"),rs.getString("fileId"),rs.getInt("status")));
             }
             rs.close();
             return res;
@@ -171,7 +175,7 @@ public class Database {
             mSelectTaskFiles.setInt(1,taskID);
             ResultSet rs = mSelectTaskFiles.executeQuery();
             while (rs.next()) {
-                res.add(new FileRow(rs.getInt("id"),rs.getString("fileName"),rs.getString("fileId")));
+                res.add(new FileRow(rs.getInt("id"),rs.getString("fileName"),rs.getString("fileId"), rs.getInt("status")));
             }
             rs.close();
             return res;
@@ -240,8 +244,20 @@ public class Database {
     boolean starFile(int fileId){
         try {
             System.out.println("Starring File: "+fileId);
+
+            mSelectFile.setInt(1,fileId);
+            ResultSet rs = mSelectFile.executeQuery();
+            rs.next();
+            int taskId = rs.getInt("taskid");
+
+            mUnstarFile.setInt(1,taskId);
+            mUnstarFile.executeUpdate();
+
             mStarFile.setInt(1, fileId);
             mStarFile.executeUpdate();
+
+
+
 
             return true;
         } catch (SQLException e){

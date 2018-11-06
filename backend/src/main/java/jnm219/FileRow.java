@@ -18,6 +18,8 @@ public class FileRow {
     //What the Unique file Id is to look for inside of the google drive
     public String mfileId;
 
+    public int mStatus;
+
     /**
      * Create a new DataRow with the provided id and title/content, and a
      * creation date based on the system clock at the time the constructor was
@@ -30,10 +32,11 @@ public class FileRow {
      *
      * @param content The content string for this row of data
      */
-    FileRow(int id, String fileName, String fileId) {
+    FileRow(int id, String fileName, String fileId, int status) {
         mId = id;
         mfileName = fileName;
         mfileId = fileId;
+        mStatus = status;
     }
 
 }

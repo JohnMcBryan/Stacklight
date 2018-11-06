@@ -1,6 +1,5 @@
 ///<reference path="app.ts" />
 ///<reference path="taskFiles.ts" />
-
 var helper: AppHelper;
 var taskId: any;
 
@@ -94,6 +93,8 @@ class NewSubtaskForm{
 $(document).ready(function () {
     helper = new AppHelper();
     taskId = helper.getUrlParameter('taskId');
+    
+    console.log("Task ID: "+taskId);
 
     task = new Task();
     subtaskList = new SubtaskList();

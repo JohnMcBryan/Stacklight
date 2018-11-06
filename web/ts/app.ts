@@ -7,6 +7,7 @@ const backendUrl = "https://stacklight.herokuapp.com";
 
 class AppHelper{
     public getUrlParameter(sParam: String) {
+        alert("Here");
         var sPageURL = decodeURIComponent(window.location.search.substring(1)),
             sURLVariables = sPageURL.split('&'),
             sParameterName,
