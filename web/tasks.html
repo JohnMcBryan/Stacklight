@@ -14,6 +14,7 @@
     <script src="js/projects.js"></script>
     <script src="js/tasks.js"></script>
     <script src="js/messages.js"></script>
+    <script type="text/javascript" src="js/addUser.js"></script>
 
     <style>
       #messages form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
@@ -38,6 +39,9 @@
                 -->
                 <form action="https://stacklight.herokuapp.com/tasksAddForm.html">
                     <input type="image" src="Images/add-list.png" class="navelem"/>
+                    <div class="navelem" data-toggle="modal" data-target="#addUser">
+                        <img src="Images/add-user.png" class="center" alt="Show Profile">
+                    </div>
                     <!--<input type="submit" value="Add a New Task" />-->
                     <input type= 'hidden' name= 'projectID' id = 'PID'/>
                 </form>
@@ -70,6 +74,34 @@
                     <input type="text" id="message" autocomplete="off" />
                     <input id="addMessage" type="submit" value="Send" style="float:right; margin-right:15px;">
                 </div>
+        </div>
+    </div>
+</div>
+<div id="addUser" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Users</h4>
+            </div>
+            <div class="modal-body">
+                <!--<form id="uploadFile" enctype="multipart/form-data" method="POST" action="\project">-->
+                <form action="https://stacklight.herokuapp.com/projectsAddForm.html">
+                    <!--
+                    <label for="admins">Admins:</label>
+                    <button type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                    <input type="text" class="form-control" id="admins">
+                    -->
+                    <label for="members">Users:</label>
+                    <button type="button" id="addFormButton"><span class="glyphicon glyphicon-plus"></span></button>
+                    <div id="members">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="addUserButton">Submit</button>
+            </div>
         </div>
     </div>
 </div>
