@@ -50,8 +50,8 @@ class FileList2 {
             let sub = "sub-"+data.mData[i].mId;
             //$("#fileList").append("<tr><td>ID: " + data.mData[i].mId +" </td><td> File Name: "+data.mData[i].mfileName+" </td><td> File ID: "+data.mData[i].mfileId+" </td><td><a href= \"https://stacklight.herokuapp.com/download/"+data.mData[i].mfileId+"\" download = \""+data.mData[i].mfileName+"\">Export</a></td><td><input type= \"file\" id= \"upload-"+data.mData[i].mfileId+"\" /></td><td><button class = \"upload\" id = \""+data.mData[i].mId+"\">Upload</button></td></tr><tr><td><div id = \""+sub+"\"></div></td></tr><tr></tr>");
             let star = data.mData[i].mStatus;
-            alert("Star: "+star);
-            console.log("File: "+data.mData[i].mFileName+" Star: "+star);
+            // alert("Star: "+star);
+            console.log("File: "+data.mData[i].mfileName+" Star: "+star);
 
             $("#fileList").append("<tr><td>ID: " + data.mData[i].mId +" </td><td> File Name: "+data.mData[i].mfileName+" </td><td> File ID: "+data.mData[i].mfileId+" </td><td><a href= \"https://stacklight.herokuapp.com/download/"+data.mData[i].mfileId+"\" download = \""+data.mData[i].mfileName+"\">Export</a></td><td><div id = star-"+data.mData[i].mId+" name = starButton></div></td></tr>");
             $("#star-"+data.mData[i].mId).replaceWith("<input type='submit' value='Star' id='starButton' onClick='starFile("+data.mData[i].mId+")'/>");
@@ -98,7 +98,7 @@ function starFile(fileID: any){
         url: backendUrl + "/file/star",
         dataType: "json",
         data: JSON.stringify({mFileId: fileID}),
-        success: fileList.refresh,
+        success: fileList.refresh(taskId),
     });
 
 }
