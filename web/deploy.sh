@@ -26,7 +26,7 @@ mkdir $TARGET $WEB $WEB/$IMAGE $WEB/$JS $WEB/$VIEW $WEB/$STYLE
 # copy only known/needed files to the respective deployment directories.
 # test files will remain local.
 
-for html in index.html project.html taskDetail.html tasksAddForm.html
+for html in index.html project.html taskDetail.html tasksAddForm.html taskEdit.html
 do
     cp $html $WEB
 done

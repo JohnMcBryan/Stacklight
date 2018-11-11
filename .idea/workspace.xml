@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="261ae756-dee5-4dc1-b5b8-df69ba2d3787" name="Default" comment="Merge_Conflict_Fix:&#10;&#10;-Fixed Conflict with tasks button">
+    <list default="true" id="261ae756-dee5-4dc1-b5b8-df69ba2d3787" name="Default" comment="12_Edit_Tasks:&#10;&#10;-Added an Edit button that takes you to a yet to be created html page for editing&#10;-I messed up the css in the project page because I am not good at handlebars">
+      <change afterPath="$PROJECT_DIR$/web/taskEdit.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/ts/tasksEdit.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/ts/project.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/ts/project.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/ts/tasks (before array sort).ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/ts/tasks (before array sort).ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/deploy.sh" beforeDir="false" afterPath="$PROJECT_DIR$/web/deploy.sh" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,13 +37,13 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="class" value="3" />
-          <entry key="html" value="8" />
+          <entry key="html" value="10" />
           <entry key="java" value="44" />
           <entry key="js" value="3" />
           <entry key="json" value="8" />
           <entry key="md" value="5" />
           <entry key="sh" value="9" />
-          <entry key="ts" value="10" />
+          <entry key="ts" value="11" />
           <entry key="xml" value="10" />
         </counts>
       </usages-collector>
@@ -50,31 +51,33 @@
         <counts>
           <entry key="Bash" value="9" />
           <entry key="CLASS" value="3" />
-          <entry key="HTML" value="8" />
+          <entry key="HTML" value="10" />
           <entry key="JAVA" value="44" />
           <entry key="JSON" value="8" />
           <entry key="JavaScript" value="3" />
-          <entry key="PLAIN_TEXT" value="15" />
+          <entry key="PLAIN_TEXT" value="16" />
           <entry key="XML" value="10" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="class" value="2" />
+          <entry key="html" value="14" />
           <entry key="java" value="2300" />
           <entry key="md" value="329" />
-          <entry key="sh" value="191" />
-          <entry key="ts" value="2" />
-          <entry key="txt" value="1898" />
+          <entry key="sh" value="205" />
+          <entry key="ts" value="7" />
+          <entry key="txt" value="2093" />
           <entry key="xml" value="12" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Bash" value="191" />
+          <entry key="Bash" value="205" />
           <entry key="CLASS" value="2" />
+          <entry key="HTML" value="14" />
           <entry key="JAVA" value="2300" />
-          <entry key="PLAIN_TEXT" value="2229" />
+          <entry key="PLAIN_TEXT" value="2429" />
           <entry key="XML" value="12" />
         </counts>
       </usages-collector>
@@ -122,39 +125,47 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/deploy.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="825">
-              <caret line="55" column="28" selection-start-line="55" selection-start-column="28" selection-end-line="55" selection-end-column="28" />
+            <state relative-caret-position="271">
+              <caret line="34" column="30" lean-forward="true" selection-start-line="34" selection-start-column="30" selection-end-line="34" selection-end-column="30" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/ts/taskFiles.ts">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/taskDetail.html">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/files.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="21" column="49" selection-start-line="21" selection-start-column="49" selection-end-line="21" selection-end-column="49" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/ts/project.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
-              <caret line="367" column="42" selection-start-line="367" selection-start-column="42" selection-end-line="367" selection-end-column="42" />
+            <state relative-caret-position="410">
+              <caret line="371" column="14" selection-start-line="371" selection-start-column="14" selection-end-line="371" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/tasksAddForm.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret selection-end-line="33" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/taskEdit.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="24" column="39" selection-start-line="24" selection-start-column="39" selection-end-line="24" selection-end-column="39" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/ts/tasksEdit.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="436">
+              <caret line="65" selection-start-line="65" selection-end-line="65" />
             </state>
           </provider>
         </entry>
@@ -162,8 +173,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/ts/tasks (before array sort).ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="31" selection-start-line="31" selection-end-line="31" />
+            <state relative-caret-position="180">
+              <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -288,7 +299,6 @@
         <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/StructuredSubtask.java" />
         <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/SimpleRequest.java" />
         <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/Subtaskbase.java" />
-        <option value="$PROJECT_DIR$/web/deploy.sh" />
         <option value="$PROJECT_DIR$/web/index.html" />
         <option value="$PROJECT_DIR$/web/tasks.html" />
         <option value="$PROJECT_DIR$/web/task.ts" />
@@ -296,6 +306,9 @@
         <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/StructuredMessage.java" />
         <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/App.java" />
         <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/Taskbase.java" />
+        <option value="$PROJECT_DIR$/web/taskEdit.html" />
+        <option value="$PROJECT_DIR$/web/ts/tasksEdit.ts" />
+        <option value="$PROJECT_DIR$/web/deploy.sh" />
       </list>
     </option>
   </component>
@@ -541,7 +554,14 @@
       <option name="project" value="LOCAL" />
       <updated>1540845234261</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="12_Edit_Tasks:&#10;&#10;-Added an Edit button that takes you to a yet to be created html page for editing&#10;-I messed up the css in the project page because I am not good at handlebars">
+      <created>1541975675959</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1541975675959</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TodoView">
@@ -557,7 +577,7 @@
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18315019" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18315019" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -573,7 +593,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32959184" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.10204082" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" weight="0.32905984" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="9" visible="true" weight="0.34591836" />
+      <window_info anchor="bottom" id="Version Control" order="9" visible="true" weight="0.34591836" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.32899868" />
       <window_info anchor="bottom" id="Inspection Results" order="11" visible="true" weight="0.32899868" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -674,7 +694,8 @@
     <MESSAGE value="Adding_Messages:&#10;&#10;- Messages are being added and displayed correctly &#10;- The message input is being cleared upon successful message input" />
     <MESSAGE value="10_Task_Notifications:&#10;-Interim" />
     <MESSAGE value="10_Task_Notifications:&#10;-There is a notification in the message board whenever you add or complete a task" />
-    <option name="LAST_COMMIT_MESSAGE" value="10_Task_Notifications:&#10;-There is a notification in the message board whenever you add or complete a task" />
+    <MESSAGE value="12_Edit_Tasks:&#10;&#10;-Added an Edit button that takes you to a yet to be created html page for editing&#10;-I messed up the css in the project page because I am not good at handlebars" />
+    <option name="LAST_COMMIT_MESSAGE" value="12_Edit_Tasks:&#10;&#10;-Added an Edit button that takes you to a yet to be created html page for editing&#10;-I messed up the css in the project page because I am not good at handlebars" />
   </component>
   <component name="WindowStateProjectService">
     <state width="820" height="1470" key="Git.Branch.Popup" />
@@ -682,32 +703,6 @@
     <state width="820" height="1470" key="Git.Branch.Popup@3360.2100@192dpi" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/backend/target/classes/web/jquery.min.js" />
-    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/fileRequest.java" />
-    <entry file="file://$PROJECT_DIR$/web/app.ts" />
-    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/FileRet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/DownloadRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/SubFileRow" />
-    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/Download.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="21" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/1.java" />
     <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/InsertUser.class" />
     <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/FileRow.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -884,13 +879,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/deploy.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="825">
-          <caret line="55" column="28" selection-start-line="55" selection-start-column="28" selection-end-line="55" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -919,6 +907,61 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/ts/taskFiles.ts">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/ts/project.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="410">
+          <caret line="371" column="14" selection-start-line="371" selection-start-column="14" selection-end-line="371" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/taskDetail.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/files.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="49" selection-start-line="21" selection-start-column="49" selection-end-line="21" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/taskEdit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="39" selection-start-line="24" selection-start-column="39" selection-end-line="24" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/tasksAddForm.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="33" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/ts/tasks (before array sort).ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/ts/tasksEdit.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="436">
+          <caret line="65" selection-start-line="65" selection-end-line="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/deploy.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="271">
+          <caret line="34" column="30" lean-forward="true" selection-start-line="34" selection-start-column="30" selection-end-line="34" selection-end-column="30" />
         </state>
       </provider>
     </entry>
