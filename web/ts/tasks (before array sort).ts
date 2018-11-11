@@ -47,18 +47,18 @@ class TaskList {
             if (data.mTaskData[i].mPriority == 1 || data.mTaskData[i].mPriority == 2 || data.mTaskData[i].mPriority == 3) {
                 if(data.mTaskData[i].mPriority == 1)
                 {
-                    $("#taskListRed").append("<tr><td class='red priorityCol'> </td><td class='taskCol'> <b> " +data.mTaskData[i].mName+" :</b></td><td class='descCol'> " +data.mTaskData[i].mDescription+"</td><td class='buttonCol'><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div><div id = complete-"+data.mTaskData[i].mId+" name = completeButton></div><div id = backlog-"+data.mTaskData[i].mId+" name = backlogButton></div></td></tr>");
+                    $("#taskListRed").append("<tr><td class='red priorityCol'> </td><td class='taskCol'> <b> " +data.mTaskData[i].mName+" :</b></td><td class='descCol'> " +data.mTaskData[i].mDescription+"</td><td class='buttonCol'><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div><div id = complete-"+data.mTaskData[i].mId+" name = completeButton></div><div id = backlog-"+data.mTaskData[i].mId+" name = backlogButton></div><div id = edit-"+data.mTaskData[i].mId+" name = editButton></div></td></tr>");
 
                     $(".red").css('background-color','#F53');
                 }
                 if(data.mTaskData[i].mPriority == 2)
                 {
-                    $("#taskListYellow").append("<tr><td class='yellow priorityCol'> </td><td class='taskCol'> <b> " +data.mTaskData[i].mName+" :</b></td><td class='descCol'> " +data.mTaskData[i].mDescription+"</td><td class='buttonCol'><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div><div id = complete-"+data.mTaskData[i].mId+" name = completeButton></div><div id = backlog-"+data.mTaskData[i].mId+" name = backlogButton></div></td></tr>");
+                    $("#taskListYellow").append("<tr><td class='yellow priorityCol'> </td><td class='taskCol'> <b> " +data.mTaskData[i].mName+" :</b></td><td class='descCol'> " +data.mTaskData[i].mDescription+"</td><td class='buttonCol'><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div><div id = complete-"+data.mTaskData[i].mId+" name = completeButton></div><div id = backlog-"+data.mTaskData[i].mId+" name = backlogButton></div><div id = edit-"+data.mTaskData[i].mId+" name = editButton></div></td></tr>");
                     $(".yellow").css('background-color','#FF7');
                 }
                 if(data.mTaskData[i].mPriority == 3)
                 {
-                    $("#taskListGreen").append("<tr><td class='green priorityCol'></td><td class='taskCol'> <b> " +data.mTaskData[i].mName+" :</b></td><td class='descCol'> " +data.mTaskData[i].mDescription+"</td><td class='buttonCol'><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div><div id = complete-"+data.mTaskData[i].mId+" name = completeButton></div><div id = backlog-"+data.mTaskData[i].mId+" name = backlogButton></div></td></tr>");
+                    $("#taskListGreen").append("<tr><td class='green priorityCol'></td><td class='taskCol'> <b> " +data.mTaskData[i].mName+" :</b></td><td class='descCol'> " +data.mTaskData[i].mDescription+"</td><td class='buttonCol'><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div><div id = complete-"+data.mTaskData[i].mId+" name = completeButton></div><div id = backlog-"+data.mTaskData[i].mId+" name = backlogButton></div><div id = edit-"+data.mTaskData[i].mId+" name = editButton></div></td></tr>");
                     $(".green").css('background-color','#072');
                 }
                 $("#taskList").append("<tr><td class='priorityCol'>"+data.mTaskData[i].mId+". </td><td class='taskCol'> <b> " +data.mTaskData[i].mName+" :</b></td><td class='descCol'> " +data.mTaskData[i].mDescription+"</td><td class='buttonCol'><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div><div id = complete-"+data.mTaskData[i].mId+" name = completeButton></div><div id = backlog-"+data.mTaskData[i].mId+" name = backlogButton></div></td></tr>");
@@ -66,6 +66,7 @@ class TaskList {
                 $("#task-"+data.mTaskData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/taskDetail.html' id = 'TID'><input type='submit' value='To Task Page' /><input type= 'hidden' id = 'taskID' name= 'taskID' value='"+data.mTaskData[i].mId+"' /></form>");
                 $("#complete-"+data.mTaskData[i].mId).replaceWith("<input type='submit' value='Complete' id='completeButton' onClick='completeTask("+data.mTaskData[i].mId+")'/>");
                 $("#backlog-"+data.mTaskData[i].mId).replaceWith("<input type='submit' value='Backlog' id='backlogButton' onClick='backlogTask("+data.mTaskData[i].mId+")'/>");
+                $("#edit-"+data.mTaskData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/taskEdit.html' id = 'taskEdit-"+data.mTaskData[i].mId+"'><input type='submit' value='Edit' /><input type= 'hidden' id = 'taskID' name= 'taskID' value='"+data.mTaskData[i].mId+"' /></form>");
 
                 $("#task-"+data.mTaskData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/taskDetail.html' id = 'TID'><input type='submit' value='To Task Page' /><input type='hidden' name='taskID' value='"+data.mTaskData[i].mId+"' /> <input type='hidden' name='priority' value='"+data.mTaskData[i].mPriority+"'/> </form>");
             }
@@ -131,6 +132,10 @@ function backlogTask(taskID: any){
         data: JSON.stringify({mTaskId: taskID}),
         success: taskList.refreshProject(),
     });
+
+}
+function editTask(taskID: any){
+    console.log("Editing Task: "+taskID);
 
 }
 class NewTaskForm{

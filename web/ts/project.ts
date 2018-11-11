@@ -125,6 +125,7 @@ class TaskList {
                                     cards += "<button class='btn btn-primary btn-sm float-right' onclick='uncompleteTask(" + task.mId + ")' title='Mark task as not complete'>Un-complete</button>";
                                 }
             cards += "\
+                                <a href='/taskEdit.html?taskId=" + task.mId + "'><button class='btn btn-primary btn-sm float-right'>Edit</button></a>\
                                 </p><p></p>\
                             </div>\
                         </div>";
