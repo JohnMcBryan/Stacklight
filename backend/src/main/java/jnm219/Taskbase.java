@@ -43,6 +43,8 @@ public class Taskbase {
     private PreparedStatement mCompleteTask;
     private PreparedStatement mUncompleteTask;
     private PreparedStatement mBacklogTask;
+
+    private PreparedStatement mEditTask;
     /**
      * Give the Database object a connection, fail if we cannot get one
      * Must be logged into heroku on a local computer to be able to use mvn heroku:deploy
@@ -115,6 +117,7 @@ public class Taskbase {
         try{
             tb.mSelectAllTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks");
             tb.mAddTask = tb.mConnection.prepareStatement("INSERT INTO Tasks Values (default,?,?,?,?,?,?,default)");
+            tb.mEditTask = tb.mConnection.prepareStatement("UPDATE Tasks SET taskName = ?, description = ?, priority = ?, assignee = ?, assigner = ? WHERE id = ?)");
             tb.mAddTaskMessage = tb.mConnection.prepareStatement("INSERT INTO Messages Values (default,?,?,?)");
             //tb.mSelectTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE projectId = ?");       // 10/29/18 Mira selected all statuses
             tb.mSelectTasks = tb.mConnection.prepareStatement("SELECT T.*, COUNT(S.id) as subtasks" +
@@ -261,6 +264,28 @@ public class Taskbase {
             mAddTaskMessage.setString(3,"Notification");
             rs +=mAddTask.executeUpdate();
             mAddTaskMessage.executeUpdate();
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+    //Method for adding a new task
+    boolean editTask(int id,String taskname,String description,
+                    int priority, String assignee, String assigner) {
+        int rs=0;
+
+        try {
+            System.out.println("Editing: " + taskname);
+            mEditTask.setString(1,taskname);
+            mEditTask.setString(2,description);
+            mEditTask.setInt(3,priority);
+            mEditTask.setString(4,assignee);
+            mEditTask.setString(5,assigner);
+            mEditTask.setInt(6,id);
+            String notification = "Edit Task: "+taskname;
+            rs +=mEditTask.executeUpdate();
         } catch (SQLException e)
         {
             e.printStackTrace();

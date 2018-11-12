@@ -371,6 +371,28 @@ public class App {
             }
         });
 
+        Spark.post("/tasks/edit", (request, res) -> {
+            System.out.println("Editing a task....");
+            SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);
+            res.status(200);
+            res.type("application/json");
+            int id = req.mId;
+            String taskName = req.mTaskname;
+            String description = req.mDescription;
+            int priority = Integer.parseInt( req.mPriority );
+            String assignee = req.mAssignee;
+            String assigner = req.mAssigner;
+            System.out.println("ID: "+id+" Task: "+taskName);
+
+            boolean newTask = tb.editTask(id,taskName,description,
+                    priority,assignee,assigner);
+            if (!newTask) {
+                return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
+            } else {
+                return gson.toJson(new StructuredResponse("ok", "" + newTask, null));
+            }
+        });
+
         Spark.post("/projects", (request, res) -> {
             System.out.println("Adding a project....");
             SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);

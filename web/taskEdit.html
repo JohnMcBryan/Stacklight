@@ -7,21 +7,21 @@
 </head>
 
 <body>
-<b>Add a Task</b>
+<b>Edit A Taskk</b>
 <div id="editTask">
-    <h3>Editing...</h3>
     <label>Task Name</label>
     <input type="text" id="taskname" /><br>
     <label>Description</label>
     <textarea id="description"></textarea><br>
     <label>Priority</label><br>
-    <input type="radio" name="priority" value="0">Low<br>
-    <input type="radio" name="priority" value="1">Medium<br>
-    <input type="radio" name="priority" value="2">High<br>
+    <input type="radio" name="priority" value="0" id="low">Low<br>
+    <input type="radio" name="priority" value="1" id="medium">Medium<br>
+    <input type="radio" name="priority" value="2" id="high">High<br>
     <label>Assignee</label>
     <input type="text" id="assignee" /><br>
     <label>Assigner</label>
     <input type="text" id="assigner" /><br>
+    <input type="hidden" id="identifier"/>
     <button id="addButton">Add</button>
     <button id="addCancel">Cancel</button>
 </div>

@@ -45,18 +45,18 @@ class TaskList {
         console.log(data);
         for (let i = 0; i < data.mTaskData.length; ++i) {
             if (data.mTaskData[i].mPriority == 1 || data.mTaskData[i].mPriority == 2 || data.mTaskData[i].mPriority == 3) {
-                if(data.mTaskData[i].mPriority == 1)
+                if(data.mTaskData[i].mPriority == 2)
                 {
                     $("#taskListRed").append("<tr><td class='red priorityCol'> </td><td class='taskCol'> <b> " +data.mTaskData[i].mName+" :</b></td><td class='descCol'> " +data.mTaskData[i].mDescription+"</td><td class='buttonCol'><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div><div id = complete-"+data.mTaskData[i].mId+" name = completeButton></div><div id = backlog-"+data.mTaskData[i].mId+" name = backlogButton></div><div id = edit-"+data.mTaskData[i].mId+" name = editButton></div></td></tr>");
 
                     $(".red").css('background-color','#F53');
                 }
-                if(data.mTaskData[i].mPriority == 2)
+                if(data.mTaskData[i].mPriority == 1)
                 {
                     $("#taskListYellow").append("<tr><td class='yellow priorityCol'> </td><td class='taskCol'> <b> " +data.mTaskData[i].mName+" :</b></td><td class='descCol'> " +data.mTaskData[i].mDescription+"</td><td class='buttonCol'><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div><div id = complete-"+data.mTaskData[i].mId+" name = completeButton></div><div id = backlog-"+data.mTaskData[i].mId+" name = backlogButton></div><div id = edit-"+data.mTaskData[i].mId+" name = editButton></div></td></tr>");
                     $(".yellow").css('background-color','#FF7');
                 }
-                if(data.mTaskData[i].mPriority == 3)
+                if(data.mTaskData[i].mPriority == 0)
                 {
                     $("#taskListGreen").append("<tr><td class='green priorityCol'></td><td class='taskCol'> <b> " +data.mTaskData[i].mName+" :</b></td><td class='descCol'> " +data.mTaskData[i].mDescription+"</td><td class='buttonCol'><div id = task-"+data.mTaskData[i].mId+" name = tasksLink></div><div id = complete-"+data.mTaskData[i].mId+" name = completeButton></div><div id = backlog-"+data.mTaskData[i].mId+" name = backlogButton></div><div id = edit-"+data.mTaskData[i].mId+" name = editButton></div></td></tr>");
                     $(".green").css('background-color','#072');
