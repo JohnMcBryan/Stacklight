@@ -65,9 +65,8 @@ class TaskList {
     }
 
     private update(data: any) {
-        //console.log(data);
         data.mTaskData.sort(taskList.compare);
-        console.log(data);
+        //console.log(data);
         $("#projectHeader").html("<h2>Project: " + projectName + "</h2>");
 
         var cards: any;
@@ -167,32 +166,53 @@ class TaskList {
                 subtask = data.mSubtaskData[i];
                 detail += "<p>" + subtask.mName + "</p><hr>";
             }
-            console.log(detail);
+            //console.log(detail);
             $('#taskSubtasks' + data.mSubtaskData[0].mTaskId).html(detail);   // put subtasks in the DOM
         }
     }
 
+    private compareFiles(a: any, b: any)
+    {
+        if (a.mfileName < b.mfileName)
+            return -1;
+        if (b.mfileName < a.mfileName)
+            return 1;
+        return 0;
+    }
+
     public updateFiles(data: any)
     {
+        console.log(data);
         // {"mStatus":"ok","mData":[{"mId":23,"mfileName":"","mfileId":"Error"},{"mId":24,"mfileName":"","mfileId":"Error"}]}
         // todo: get taskId in response, or GET subtasks and files in one response to one request.
 
         if (data && data.mData && data.mData.length>0)     // guard against empty result
         {
+            data.mData.sort(taskList.compareFiles);
+
             var detail: any;
             detail = "";
             for (let i = 0; i < data.mData.length; ++i)
             {
-                var f: any;     // filename
-                f = data.mData[i].mfileName;
-                if (!f)
-                    f = "mId:" + data.mData[i].mId + " mfileId:" + data.mData[i].mfileId; // todo: remove mId when mfileName is not empty
-                detail += "<p>" + f + "</p><hr>";
+                var file: any;
+                var name: any;
+                file = data.mData[i];
+                name = file.mfileName;
+                if (!name)
+                    name = "mId:" + file.mId + " mfileId:" + file.mfileId; // todo: remove mId when mfileName is not empty
+                detail += "<p>" + name + " (" + file.mId + ")";     // todo: replace mId with a modification time since mId has no value to user
+                detail += "<span class='float-right'>";
+                detail += "<span onclick='onStar(" + savedTaskId + "," + file.mId +")'><i class='fa" + (file.mStatus == "1" ? "s" : "r") + " fa-sm fa-star'></i></span>";
+                detail += "&nbsp;<a href= \"/download/" + file.mfileId + "\" download=\"" + name + "\">";
+                detail += "<button class='btn btn-primary btn-sm' title='Download file'>Download</button></a>";
+                detail += "&nbsp;<button class='btn btn-primary btn-sm' title='Delete file'>Delete</button>";
+                detail += "</span></p>";
             }
-            console.log(detail);
+            //console.log(detail);
             $('#taskFiles' + savedTaskId).html(detail);
         }
     }
+
 }
 
 function getSubtasksForSavedId(data: any)
@@ -216,11 +236,22 @@ function getSubtasks(taskId: any)
     }
 }
 
+function onStar(taskId: any, fileId: any)
+{
+    savedTaskId = taskId;
+    $.ajax({
+        type: "POST",
+        url: backendUrl + "/file/star",
+        dataType: "json",
+        data: JSON.stringify({mFileId: fileId}),
+        success: refreshFiles,
+    });
+}
 function getFiles(taskId: any)
 {
     if (taskId)     // should never be false
     {
-        savedTaskId = taskId;        // todo: get rid of this
+        savedTaskId = taskId;       // todo: get rid of this
         $.ajax({
             type: "GET",
             url: backendUrl + "/file/" + taskId,
@@ -228,6 +259,16 @@ function getFiles(taskId: any)
             success: taskList.updateFiles,
         });
     }
+}
+
+function refreshFiles(data: any)      // callback for onUpload()
+{
+    if (data.mStatus == "ok")
+        getFiles(savedTaskId);
+    else if (data.mMessage)
+        alert(data.mMessage);
+    $("#uploadFile"+savedTaskId).wrap('<form>').closest('form').get(0).reset(); // clear input file. thank you, stackoverflow.
+    $("#uploadFile"+savedTaskId).unwrap();
 }
 
 function onDetail(element: any, taskId: any)
@@ -249,6 +290,29 @@ function onDetail(element: any, taskId: any)
     }
 }
 
+function onUpload(element: any, taskId: any)
+{
+    let file = $("#uploadFile"+taskId)[0].files[0];
+    if (file)
+    {
+        var formData = new FormData();
+        formData.append('mFile', file);
+        formData.append('mFileName',file.name);
+        formData.append('mTaskID',taskId);
+        //console.log(formData);
+        savedTaskId = taskId;        // todo: get rid of this
+        $.ajax({
+            type: "POST",
+            url: backendUrl + "/file",
+            dataType: "json",      // dataType of response to POST
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: refreshFiles
+        });
+    }
+}
+
 function onAddSubtaskInput(element: any, taskId: any)
 {
     $("#addSubtaskFeedback" + taskId).hide();
@@ -260,15 +324,14 @@ function onAddSubtask(element: any, taskId: any)
     addSubtask = $("#addSubtask" + taskId);
     if (addSubtask.val())
     {
-        console.log("valid input");
+        //console.log("valid input");
         savedTaskId = taskId;        // todo: get rid of this
         $.ajax({
             type: "POST",
             url: backendUrl + "/subtasks",
             dataType: "json",
             data: JSON.stringify({ mTaskId: taskId, mName: addSubtask.val(), mStatus: /*incomplete*/0 }),
-            success: getSubtasksForSavedId,
-            error: onDetail         // close details
+            success: getSubtasksForSavedId
         });
     }
     else
@@ -279,7 +342,7 @@ function onAddSubtask(element: any, taskId: any)
 
 function completeTask(taskId: any)
 {
-    console.log("completeTask "+taskId);
+    //console.log("completeTask "+taskId);
 
     $.ajax({
         type: "POST",
