@@ -66,21 +66,20 @@ class NewProjectForm{
             success: newprojectform.onSubmitResponse,
             error: newprojectform.onSubmitResponse
         });
-
-        $("#member").each(() => {
-            $.ajax({
-                type: "POST",
-                url: backendUrl + "/projects/user",
-                dataType: "json",
-                data: JSON.stringify({  mId: projId, mEmail: $(this).val()})
-            });
-        });
     }
 
     private onSubmitResponse(data: any) {
         // If we get an "ok" message, clear the form
         if (data.mStatus === "ok") {
             projId = data.mData;
+            $("input.form-control.member").each((index: number, elem: Element) => {
+                        $.ajax({
+                            type: "POST",
+                            url: backendUrl + "/projects/user",
+                            dataType: "json",
+                            data: JSON.stringify({  mId: projId, mEmail: $(elem).val()})
+                        });
+                    });
             console.log("Project Added Sucessfully!");
             projects.refresh();
             window.location.replace("https://stacklight.herokuapp.com/");

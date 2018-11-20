@@ -5,10 +5,10 @@ $(function () {
 })
 
 function addUser() {
-    $('#members').append('<input type="text" id="formMember">');
+    $('#members').append('<input type="text" class="formMember">');
 }
 function submit(){
-    $("#formMember").each(function () {
+    $(".formMember").each(function () {
                 $.ajax({
                     type: "POST",
                     url: backendUrl + "/projects/user",
