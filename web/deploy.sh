@@ -26,7 +26,7 @@ mkdir $TARGET $WEB $WEB/$IMAGE $WEB/$JS $WEB/$VIEW $WEB/$STYLE
 # copy only known/needed files to the respective deployment directories.
 # test files will remain local.
 
-for html in index.html project.html taskDetail.html tasksAddForm.html
+for html in index.html project.html taskDetail.html tasksAddForm.html tasks.html taskPage.html tasksAddForm.html profile.html
 do
     cp $html $WEB
 done
@@ -38,7 +38,7 @@ for image in logo.png logoWhite.png uploadwhite.png add-list.png add-user.png ne
 do
     cp $IMAGE/$image $WEB/$IMAGE
 done
-for script in googleSignIn.js allProjectsPage.js handlebars-v4.0.12.js addUser.js
+for script in googleSignIn.js allProjectsPage.js handlebars-v4.0.12.js addUser.js profile.js
 do
     cp $JS/$script $WEB/$JS
 done
@@ -50,12 +50,13 @@ done
 
 # compile TypeScript files
 retVal=0
-for ts in app index project taskFiles messages
+for ts in index project taskFiles app tasks task projects files subtasks messages
 do
     node_modules/typescript/bin/tsc ts/${ts}.ts --strict --outFile $WEB/$JS/${ts}.js
     retVal=$(($retVal + $?))
 done
 
+#Put Client Secret Doc into Resources Folder
 cp ../backend/StoplightCS.json ../backend/src/main/resources/StoplightCS.json
 #cp StacklightLocalhostServiceKey.json ../backend/src/main/resources/StoplightCS.json
 

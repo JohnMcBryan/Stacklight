@@ -473,6 +473,15 @@ public class App {
             return gson.toJson(new StructuredResponse("ok", null, db.selectUser(id)));
         });
 
+        Spark.get("/usersEmail/:email", (request, response) -> {
+            response.status(200);
+            response.type("application/json");
+            String email = request.params("email");
+            User u = db.selectUserByEmail(email);
+            return gson.toJson(u);
+        });
+
+
         Spark.get("/messages/:projectID",(req,res) -> {
             res.status(200);
             res.type("application/json");
