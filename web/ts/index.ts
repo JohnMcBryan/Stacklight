@@ -75,6 +75,12 @@ class NewProjectForm{
                             data: JSON.stringify({  mId: projId, mEmail: $(elem).val()})
                         });
                     });
+            $.ajax({
+                 type: "POST",
+                 url: backendUrl + "/projects/user",
+                 dataType: "json",
+                 data: JSON.stringify({  mId: projId, mEmail: $("input#owner.form-control").val()})
+             });
             console.log("Project Added Sucessfully!");
             projects.refresh();
             window.location.replace("https://stacklight.herokuapp.com/");
