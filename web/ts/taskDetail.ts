@@ -14,7 +14,9 @@ class Task{
         });
     }
     private update(data: any) {
-        $("#task").html("<tr><td>"+data.mTaskData.mId+". </td><td> <b> " +data.mTaskData.mName+" :</b></td><td> " +data.mTaskData.mDescription+"</td>");
+        $("#taskHeader").html("<tr><td>"+data.mTaskData.mId+":  </td><td> <b> " +data.mTaskData.mName+" :</b></td></tr>");
+        $("#taskInfo").html("<tr>"+data.mTaskData.mDescription+":  </tr><tr>Priority: "+data.mTaskData.mPriority+"</tr><tr><td> Assignee: " +data.mTaskData.mAssignee+" </td><td> Assigner: " +data.mTaskData.mAssigner+"</td><tr>");
+
         console.log(data);
     }
 }

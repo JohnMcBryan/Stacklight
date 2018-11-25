@@ -333,11 +333,12 @@ class NewTaskForm
         let assignee = "" + $("#assignee").val();
         let assigner = "" + $("assigner").val();
 
+        
         if (taskname === "" || description === "") {
             window.alert("Task name and task description cannot be black.");
             return;
         }
-        console.log("Priority: "+ priority);
+        console.log("Assignee: "+ assignee);
         // set up an AJAX post.  When the server replies, the result will go to
         // onSubmitResponse
         $.ajax({

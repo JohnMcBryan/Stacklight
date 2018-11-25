@@ -50,7 +50,7 @@ done
 
 # compile TypeScript files
 retVal=0
-for ts in app index project taskDetail taskFiles messages tasksEdit
+for ts in app index project taskDetail taskFiles messages tasksEdit tasks
 do
     node_modules/typescript/bin/tsc ts/${ts}.ts --strict --outFile $WEB/$JS/${ts}.js
     retVal=$(($retVal + $?))

@@ -35,13 +35,13 @@ class EditTaskForm{
         let description = "" + $("#description").val();
         let priority = $('input[name=priority]:checked').val();
         let assignee = "" + $("#assignee").val();
-        let assigner = "" + $("assigner").val();
+        let assigner = "" + $("#assigner").val();
 
         if (taskname === "" || description === "") {
             window.alert("Error: Task is not valid");
             return;
         }
-        console.log("Priority: "+ priority);
+        console.log("Assigner: "+ assigner);
         // set up an AJAX post.  When the server replies, the result will go to
         // onSubmitResponse
         $.ajax({

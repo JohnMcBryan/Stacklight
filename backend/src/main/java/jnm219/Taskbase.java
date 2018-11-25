@@ -117,7 +117,7 @@ public class Taskbase {
         try{
             tb.mSelectAllTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks");
             tb.mAddTask = tb.mConnection.prepareStatement("INSERT INTO Tasks Values (default,?,?,?,?,?,?,default)");
-            tb.mEditTask = tb.mConnection.prepareStatement("UPDATE Tasks SET taskName = ?, description = ?, priority = ?, assignee = ?, assigner = ? WHERE id = ?)");
+            tb.mEditTask = tb.mConnection.prepareStatement("UPDATE Tasks SET taskName = ?, description = ?, priority = ?, assignee = ?, assigner = ? WHERE id = ?");
             tb.mAddTaskMessage = tb.mConnection.prepareStatement("INSERT INTO Messages Values (default,?,?,?)");
             //tb.mSelectTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE projectId = ?");       // 10/29/18 Mira selected all statuses
             tb.mSelectTasks = tb.mConnection.prepareStatement("SELECT T.*, COUNT(S.id) as subtasks" +
@@ -252,6 +252,7 @@ public class Taskbase {
 
         try {
             System.out.println(projectId + "Adding: " + taskname);
+            System.out.println("Assigner: "+assigner);
             mAddTask.setInt(1,projectId);
             mAddTask.setString(2,taskname);
             mAddTask.setString(3,description);
@@ -259,7 +260,7 @@ public class Taskbase {
             mAddTask.setString(5,assignee);
             mAddTask.setString(6,assigner);
             mAddTaskMessage.setInt(1,projectId);
-            String notification = "New Task: "+taskname;
+            String notification = "Assignee: "+taskname;
             mAddTaskMessage.setString(2,notification);
             mAddTaskMessage.setString(3,"Notification");
             rs +=mAddTask.executeUpdate();
@@ -277,14 +278,13 @@ public class Taskbase {
         int rs=0;
 
         try {
-            System.out.println("Editing: " + taskname);
+            System.out.println("Edit Assigner: " + assigner);
             mEditTask.setString(1,taskname);
             mEditTask.setString(2,description);
             mEditTask.setInt(3,priority);
             mEditTask.setString(4,assignee);
             mEditTask.setString(5,assigner);
             mEditTask.setInt(6,id);
-            String notification = "Edit Task: "+taskname;
             rs +=mEditTask.executeUpdate();
         } catch (SQLException e)
         {
