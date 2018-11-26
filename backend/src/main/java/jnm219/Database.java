@@ -41,6 +41,7 @@ public class Database {
     private PreparedStatement mSelectTaskFiles;
     private PreparedStatement mStarFile;
     private PreparedStatement mUnstarFile;
+    private PreparedStatement mSelectUserByEmail;
 
     /**
      * Give the Database object a connection, fail if we cannot get one
@@ -90,7 +91,8 @@ public class Database {
         try{
 
             db.mInsertUser = db.mConnection.prepareStatement("INSERT INTO Users Values (default,?,?,?)");
-            db.mSelectUser = db.mConnection.prepareStatement("SELECT firstname, lastname, email from users where userid = ?");
+            db.mSelectUser = db.mConnection.prepareStatement("SELECT firstname, lastname, email from users where your_id = ?");
+            db.mSelectUserByEmail = db.mConnection.prepareStatement("SELECT firstname, lastname from users where email = ?");
             db.mCheckUser = db.mConnection.prepareStatement("select COUNT(*) as check FROM Users WHERE email = ?");
 
             db.mSelectAllFiles = db.mConnection.prepareStatement("SELECT * FROM Files");
@@ -185,8 +187,6 @@ public class Database {
         }
     }
 
-
-
     public User selectUser(int id) {
         System.out.println("selectUser");
         try {
@@ -195,6 +195,22 @@ public class Database {
             rs.next();
             //System.err.println("NAMES: "+rs.getString("name"));
             User res = new User(rs.getString("firstname"), rs.getString("lastname"), rs.getString("email"));
+            rs.close();
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public User selectUserByEmail(String email) {
+        System.out.println("selectUser");
+        try {
+            mSelectUserByEmail.setString(1, email);
+            ResultSet rs = mSelectUserByEmail.executeQuery();
+            rs.next();
+            //System.err.println("NAMES: "+rs.getString("name"));
+            User res = new User(rs.getString("firstname"), rs.getString("lastname"));
             rs.close();
             return res;
         } catch (SQLException e) {

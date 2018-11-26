@@ -14,4 +14,9 @@ public class User{
         this.mFirstName = firstName;
         this.mLastName = lastName;
     }
+    User(String firstName, String lastName){
+        this.mEmail = null;
+        this.mFirstName = firstName;
+        this.mLastName = lastName;
+    }
 }

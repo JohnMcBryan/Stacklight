@@ -41,22 +41,30 @@ class FileList2 {
         });
     }
     /**
-     * update is the private method used by refresh() to update messageList
+     * update is the private method used by refresh() to update fileList
      */
     private update(data: any) {
         $("#fileList").html("<table>");
 
         for (let i = 0; i < data.mData.length; ++i) {
-            let sub = "sub-"+data.mData[i].mId;
-            //$("#fileList").append("<tr><td>ID: " + data.mData[i].mId +" </td><td> File Name: "+data.mData[i].mfileName+" </td><td> File ID: "+data.mData[i].mfileId+" </td><td><a href= \"https://stacklight.herokuapp.com/download/"+data.mData[i].mfileId+"\" download = \""+data.mData[i].mfileName+"\">Export</a></td><td><input type= \"file\" id= \"upload-"+data.mData[i].mfileId+"\" /></td><td><button class = \"upload\" id = \""+data.mData[i].mId+"\">Upload</button></td></tr><tr><td><div id = \""+sub+"\"></div></td></tr><tr></tr>");
-            let star = data.mData[i].mStatus;
-            // alert("Star: "+star);
-            console.log("File: "+data.mData[i].mfileName+" Star: "+star);
+            let f=data.mData[i];        // next file
+            let sub = "sub-"+f.mId;
+            let star = f.mStatus;
+            console.log("File: "+f.mfileName+" Star: "+star);
 
-            $("#fileList").append("<tr><td>ID: " + data.mData[i].mId +" </td><td> File Name: "+data.mData[i].mfileName+" </td><td> File ID: "+data.mData[i].mfileId+" </td><td><a href= \"https://stacklight.herokuapp.com/download/"+data.mData[i].mfileId+"\" download = \""+data.mData[i].mfileName+"\">Export</a></td><td><div id = star-"+data.mData[i].mId+" name = starButton></div></td></tr>");
-            $("#star-"+data.mData[i].mId).replaceWith("<input type='submit' value='Star' id='starButton' onClick='starFile("+data.mData[i].mId+")'/>");
+            $("#fileList").append(
+            "<tr>"
+                +"<td>mId: " + f.mId +" </td>"
+                +"<td>File Name: " +f.mfileName +" </td>"
+                +"<td>mfileId: " +f.mfileId +" </td>"
+                +"<td><a href= \"https://stacklight.herokuapp.com/download/"+f.mfileId +"\" download = \""
+                    +f.mfileName+"\">Export</a></td>"
+                +"<td><div id = star-" +f.mId +" name = starButton></div></td>"
+            +"</tr>");
+            $("#star-"+f.mId).replaceWith("<input type='submit' value='Star' id='starButton' onClick='starFile("+f.mId+")'/>");
         }
         
+        /*
         $(".upload").click( function(this:HTMLButtonElement){
             let pid = "" + this.id;
             alert(pid);
@@ -64,6 +72,7 @@ class FileList2 {
             //let fileName = $("#fileName").val();
             var formData = new FormData();
             var fileName = $('input[type=file]').val().replace(/C:\\fakepath\\/i, '');
+            console.log("fileName:" + fileName);
             formData.append('mFile', file);
             formData.append('mFileName',fileName);
             formData.append('mPid',pid);
@@ -78,6 +87,7 @@ class FileList2 {
                 success: fileList.update
             });
         });
+        */
     }
     private updateSub(data: any) {
         let pid = data.mData.mpid;
@@ -91,8 +101,6 @@ class FileList2 {
     
 }
 function starFile(fileID: any){
-    //console.log("Task ID: "+fileID);
-
     $.ajax({
         type: "POST",
         url: backendUrl + "/file/star",
@@ -112,12 +120,11 @@ class fileUpload{
     private upload(data:any)
     {
         let file = $("#fileUpload")[0].files[0];
-        //let fileName = $("#fileName").val();
         var formData = new FormData();
-        var fileName = "" + $("#fileName").val();
         formData.append('mFile', file);
-        formData.append('mFileName',fileName);
+        formData.append('mFileName',file.name);
         formData.append('mTaskID',taskId);
+        //console.log(formData);
         $.ajax({
             type: "POST",
             url: backendUrl + "/file",

@@ -54,16 +54,14 @@ function signOut() {
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
   $.ajax({
-                   type: "POST",
-                   url: backendUrl + "/users",
-                   data: JSON.stringify({mFirstName: profile.getGivenName(), mLastName: profile.getFamilyName()
-                        , mEmail: profile.getEmail()}),
-                  //data: params,
-                  success: function (result) {
-                      console.log("User check sent");
-                  },
-              }
-      );
+      type: "POST",
+      url: backendUrl + "/users",
+      data: JSON.stringify({mFirstName: profile.getGivenName(), mLastName: profile.getFamilyName(),
+          mEmail: profile.getEmail()}),
+      success: function (result) {
+          console.log("User check sent");
+       },
+  });
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
   $('#loginBar').text(profile.getEmail());
   $('#loginBar').show();
