@@ -38,7 +38,7 @@ for image in logo.png logoWhite.png uploadwhite.png add-list.png newproject.png 
 do
     cp $IMAGE/$image $WEB/$IMAGE
 done
-for script in googleSignIn.js allProjectsPage.js handlebars-v4.0.12.js addUser.js
+for script in googleSignIn.js allProjectsPage.js handlebars-v4.0.12.js addUser.js profile.js
 do
     cp $JS/$script $WEB/$JS
 done

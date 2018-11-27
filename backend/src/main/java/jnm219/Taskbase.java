@@ -260,7 +260,7 @@ public class Taskbase {
             mAddTask.setString(5,assignee);
             mAddTask.setString(6,assigner);
             mAddTaskMessage.setInt(1,projectId);
-            String notification = "Assignee: "+taskname;
+            String notification = "Task: "+taskname;
             mAddTaskMessage.setString(2,notification);
             mAddTaskMessage.setString(3,"Notification");
             rs +=mAddTask.executeUpdate();

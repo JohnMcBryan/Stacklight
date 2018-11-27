@@ -91,11 +91,11 @@ class TaskList {
             task = data.mTaskData[i];
 
             var color: any;
-            if (task.mStatus == /*incomplete*/"0" && task.mPriority == 0)
+            if (task.mStatus == /*incomplete*/"0" && task.mPriority == 2)
                 color = 'danger';
             else if (task.mStatus == "0" && task.mPriority == 1)
                 color = 'warning';
-            else if (task.mStatus == "0" && task.mPriority == 2)
+            else if (task.mStatus == "0" && task.mPriority == 0)
                 color = 'success';
             else if (task.mStatus == "0")   // no priority set
                 color = 'light';
@@ -397,7 +397,7 @@ class NewTaskForm
         let description = "" + $("#description").val();
         let priority = $('input[name=priority]:checked').val();
         let assignee = "" + $("#assignee").val();
-        let assigner = "" + $("assigner").val();
+        let assigner = "" + $("#assigner").val();
 
         
         if (taskname === "" || description === "") {
@@ -421,7 +421,7 @@ class NewTaskForm
     back(){
         console.log("Task Add Cancelled");
         taskList.refresh();
-        window.location.replace("https://stacklight.herokuapp.com/tasks.html?projectID="+projectID);
+        window.location.replace("https://stacklight.herokuapp.com/projects.html?projectID="+projectID);
     }
 
     private onSubmitResponse(data: any) {
@@ -429,7 +429,7 @@ class NewTaskForm
         if (data.mStatus === "ok") {
             console.log("Task Added Sucessfully!");
             taskList.refresh();
-            window.location.replace("https://stacklight.herokuapp.com/tasks.html?projectID="+projectID);
+            window.location.replace("https://stacklight.herokuapp.com/projects.html?projectID="+projectID);
         }
         // Handle explicit errors with a detailed popup message
         else if (data.mStatus === "error") {
