@@ -389,19 +389,23 @@ class NewTaskForm
     constructor()
     {
         $("#addButton").click(this.submitForm);
-        $("#addCancel").click(this.back);
     }
 
     submitForm() {
         let taskname = "" + $("#taskname").val();
+        console.log("taskname: " + taskname);
         let description = "" + $("#description").val();
+        console.log("description: " + description);
         let priority = $('input[name=priority]:checked').val();
+        console.log("priority: " + priority);
         let assignee = "" + $("#assignee").val();
-        let assigner = "" + $("assigner").val();
+        console.log("assignee: " + assignee);
+        let assigner = "" + $("#assigner").val();
+        console.log("assigner: " + assigner);
 
         
         if (taskname === "" || description === "") {
-            window.alert("Task name and task description cannot be black.");
+            window.alert("Task name and task description cannot be blank.");
             return;
         }
         console.log("Assignee: "+ assignee);
@@ -418,18 +422,14 @@ class NewTaskForm
             error: newTaskForm.onSubmitResponse
         });
     }
-    back(){
-        console.log("Task Add Cancelled");
-        taskList.refresh();
-        window.location.replace("https://stacklight.herokuapp.com/tasks.html?projectID="+projectID);
-    }
 
     private onSubmitResponse(data: any) {
         // If we get an "ok" message, clear the form
         if (data.mStatus === "ok") {
             console.log("Task Added Sucessfully!");
             taskList.refresh();
-            window.location.replace("https://stacklight.herokuapp.com/tasks.html?projectID="+projectID);
+            // todo: pass the project name or write get method to get name when page loads
+            window.location.replace("https://stacklight.herokuapp.com/project.html?projectID="+projectID);
         }
         // Handle explicit errors with a detailed popup message
         else if (data.mStatus === "error") {
@@ -439,6 +439,8 @@ class NewTaskForm
         else {
             window.alert("Unspecified error "+data.mStatus);
         }
+            taskList.refresh();
+            window.location.replace("https://stacklight.herokuapp.com/project.html?projectID="+projectID);
     }
 }
 
