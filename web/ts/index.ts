@@ -8,6 +8,7 @@ var newprojectform: NewProjectForm;
 
 class ProjectList {
     refresh() {
+        // assume logged in
         $('#loginBar').text(localStorage.getItem("email"));
         $.ajax({
             type: "GET",
@@ -15,20 +16,26 @@ class ProjectList {
             dataType: "json",
             success: projects.update
         });
-        $('#loginBar').text(localStorage.getItem("email"));
+        //$('#loginBar').text(localStorage.getItem("email"));   // why again? -Mira
     }
     private update(data: any) {
         console.log(data);
         for (let i = 0; i < data.mProjectData.length; ++i) {
-            $("#projects").append("<div class='col-sm-3'> <form action= 'https://stacklight.herokuapp.com/tasks.html' id='PID'> <div class='well project'> <img src='Images/project.png' class='center' alt='Project'> <input type='submit' value='"+data.mProjectData[i].mName+"'/> </div><input type='hidden' name='projectID' value='"+data.mProjectData[i].mId+"'/></form></div>");
+            $("#projectList").append("\
+                <div style='display:inline-block;'>\
+                    <form action='/project.html' method='get' id='PID'>\
+                        <div class='jumbotron'>\
+                            <img src='Images/project.png' class='center' alt='Project'>\
+                            <button type='submit' class='btn btn-primary btn-lg'>" + data.mProjectData[i].mName + "</button>\
+                        </div>\
+                        <input type='hidden' name='projectID' value='" + data.mProjectData[i].mId + "'/>\
+                        <input type='hidden' name='projectName' value='" + data.mProjectData[i].mName + "'/>\
+                    </form>\
+                </div>");
         }
-        //for (let i = 0; i < data.mProjectData.length; ++i) {
-        //    $("#projectList").append("<tr><td>"+data.mProjectData[i].mId+". </td><td> <b> " +data.mProjectData[i].mName+" :</b></td><td> " +data.mProjectData[i].mDescription+"</td><td><div id = project-"+data.mProjectData[i].mId+" name = projectsLink></div></td><tr>");
-
-        //    $("#project-"+data.mProjectData[i].mId).replaceWith("<form action= 'https://stacklight.herokuapp.com/tasks.html' id='PID'><input type='submit' value='T' /><input type= 'hidden' name= 'projectID' value='"+data.mProjectData[i].mId+"' /></form>");
-        //}
     }
 }
+// <input type='submit' value='" + data.mProjectData[i].mName + "'/>\
 
 class NewProjectForm{
     constructor() {
@@ -40,8 +47,20 @@ class NewProjectForm{
         let owner = $("#owner").val();
         let organization = "" + $("#organization").val();
 
-        if (name === "" || description === "") {
-            window.alert("Error: Project is not valid");
+        if (name === "") {
+            window.alert("Project name is required");
+            return;
+        }
+        if (description === "") {
+            window.alert("Description is required");
+            return;
+        }
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(owner))
+        {
+        }
+        else
+        {
+            window.alert("A valid email is required");
             return;
         }
         // set up an AJAX post.  When the server replies, the result will go to
@@ -55,21 +74,26 @@ class NewProjectForm{
             success: newprojectform.onSubmitResponse,
             error: newprojectform.onSubmitResponse
         });
-
-        $("#member").each(() => {
-            $.ajax({
-                type: "POST",
-                url: backendUrl + "/projects/user",
-                dataType: "json",
-                data: JSON.stringify({  mId: projId, mEmail: $(this).val()})
-            });
-        });
     }
 
     private onSubmitResponse(data: any) {
         // If we get an "ok" message, clear the form
         if (data.mStatus === "ok") {
             projId = data.mData;
+            $("input.form-control.member").each((index: number, elem: Element) => {
+                        $.ajax({
+                            type: "POST",
+                            url: backendUrl + "/projects/user",
+                            dataType: "json",
+                            data: JSON.stringify({  mId: projId, mEmail: $(elem).val()})
+                        });
+                    });
+            $.ajax({
+                 type: "POST",
+                 url: backendUrl + "/projects/user",
+                 dataType: "json",
+                 data: JSON.stringify({  mId: projId, mEmail: $("input#owner.form-control").val()})
+             });
             console.log("Project Added Sucessfully!");
             projects.refresh();
             window.location.replace("https://stacklight.herokuapp.com/");

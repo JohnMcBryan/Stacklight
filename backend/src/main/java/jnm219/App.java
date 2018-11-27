@@ -144,28 +144,6 @@ public class App {
             e.printStackTrace();
         }
 
-        /*try {
-            // Build a new authorized API client service.
-            Drive service = GDrive.getDriveService();
-            // Print the names and IDs for up to 10 files.
-            FileList result = service.files().list()
-                    .setMaxResults(10)
-                    //.setFields("nextPageToken, files(id, name)")
-                    .execute();
-            List<File> files = result.getItems();
-            if (files == null || files.size() == 0) {
-                System.out.println("No files found.");
-            } else {
-                System.out.println("Files:");
-                for (File file : files) {
-                    System.out.printf("%s (%s)\n", file.getTitle(), file.getId());
-                }
-            }
-        } catch (IOException e) {
-            System.out.println(e);
-        }*/
-
-
         //Route For getting one parents sub files
         Spark.get("/file/:taskID", (request, response) -> {
 
@@ -173,6 +151,15 @@ public class App {
             response.type("application/json");
             int taskID = Integer.parseInt(request.params("taskID"));
             return gson.toJson(new StructuredResponse("ok", null, db.selectTaskFiles(taskID)));
+
+        });
+        Spark.post("/file/star", (request, response) -> {
+            response.status(200);
+            response.type("application/json");
+            SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);
+            int fileID = req.mFileId;
+            System.out.println("App File: "+fileID);
+            return gson.toJson(new StructuredResponse("ok", null, db.starFile(fileID)));
 
         });
 
@@ -243,12 +230,12 @@ public class App {
         });
 
         Spark.get("/", (req, res) -> {
-            res.redirect("/allProjectsPage.html");  //index.html Mira
+            res.redirect("/index.html");  //index.html Mira
             return "";
         });
 
         Spark.get("/tasks",(req,res) -> {
-            res.redirect("/tasks.html");
+            res.redirect("/project.html");
            return "";
         });
 
@@ -384,6 +371,28 @@ public class App {
             }
         });
 
+        Spark.post("/tasks/edit", (request, res) -> {
+            System.out.println("Editing a task....");
+            SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);
+            res.status(200);
+            res.type("application/json");
+            int id = req.mId;
+            String taskName = req.mTaskname;
+            String description = req.mDescription;
+            int priority = Integer.parseInt( req.mPriority );
+            String assignee = req.mAssignee;
+            String assigner = req.mAssigner;
+            System.out.println("ID: "+id+" Task: "+taskName);
+
+            boolean newTask = tb.editTask(id,taskName,description,
+                    priority,assignee,assigner);
+            if (!newTask) {
+                return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
+            } else {
+                return gson.toJson(new StructuredResponse("ok", "" + newTask, null));
+            }
+        });
+
         Spark.post("/projects", (request, res) -> {
             System.out.println("Adding a project....");
             SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);
@@ -485,6 +494,15 @@ public class App {
             int id = Integer.parseInt(request.params("id"));
             return gson.toJson(new StructuredResponse("ok", null, db.selectUser(id)));
         });
+
+        Spark.get("/usersEmail/:email", (request, response) -> {
+            response.status(200);
+            response.type("application/json");
+            String email = request.params("email");
+            User u = db.selectUserByEmail(email);
+            return gson.toJson(u);
+        });
+
 
         Spark.get("/messages/:projectID",(req,res) -> {
             res.status(200);

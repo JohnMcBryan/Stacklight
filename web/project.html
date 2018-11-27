@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Stacklight</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script src="js/app.js"></script>
+    <script src="js/project.js"></script>
+    <script src="js/messages.js"></script>
+    <script type="text/javascript" src="js/addUser.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="navbar">
+                <a href="index.html" data-toggle="tooltip" data-placement="bottom" title="Back to homepage" class="navelem"><img src="Images/logo.png" id="navLogo"></a> <!-- <a href="#home"> tacks url..#home to end -->
+                <!--<a href="allProjectsPage.html"><span class="glyphicon glyphicon-menu-left"></span></a>
+                <span data-toggle="modal" data-target="#createNewTask">
+                        <a href="#" data-toggle="tooltip" data-placement="bottom" title="Create a new task" class="navelem"><img src="Images/add-list.png" class="center" alt="Create new task" ></a>
+                </span>
+                -->
+                <form action="https://stacklight.herokuapp.com/tasksAddForm.html">
+                    <input type="image" src="Images/add-list.png" class="navelem"/>
+                    <!--<input type="submit" value="Add a New Task" />-->
+                    <input type= 'hidden' name= 'projectID' id = 'PID'/>
+                </form>
+                <div class="navelem" data-toggle="modal" data-target="#addUser">
+                    <img src="Images/add-user.png" class="center" alt="Show Profile">
+                </div>
+                <div class="login navbar-right">
+                    <a href="#" class="login"><span class="glyphicon glyphicon-user"></span> abc123@lehigh.edu </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="projectHeader"></div>
+        </div>
+    </div>
+    <div class="row content">
+        <div class="col-md-8">
+            <div id="miraList">
+            </div>
+            <div id="taskList">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <!-- Use Handlebars to loop through messages.
+            Use if statements to show different style bubbles for your vs others messages
+            <div>
+                <h4 style="margin-top: 30px">Communication Hub</h4>
+            </div>
+            -->
+            <div class="well">
+                <div id="messageList">
+                </div>
+                <input type="text" id="message" autocomplete="off" />
+                <input id="addMessage" type="submit" value="Send" style="float:right; margin-right:15px;">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="addUser" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Users</h4>
+            </div>
+            <div class="modal-body">
+                <!--<form id="uploadFile" enctype="multipart/form-data" method="POST" action="\project">-->
+                <form action="https://stacklight.herokuapp.com/projectsAddForm.html">
+                    <!--
+                    <label for="admins">Admins:</label>
+                    <button type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                    <input type="text" class="form-control" id="admins">
+                    -->
+                    <label for="members">Users:</label>
+                    <button type="button" id="addFormButton"><span class="glyphicon glyphicon-plus"></span></button>
+                    <div id="members">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="addUserButton">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="showProfile" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Profile</h4>
+            </div>
+            <div class="modal-body">
+                <!--<form id="uploadFile" enctype="multipart/form-data" method="POST" action="\project">-->
+                <form action="https://stacklight.herokuapp.com/profile.html">
+                    <label for="name">Name:</label>
+                    <div id="name"></div>
+                    <label for="name">Email:</label>
+                    <div id="email"></div>
+                    <label for="projects">Projects:</label>
+                    <div id="projects"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

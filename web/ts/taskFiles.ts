@@ -1,7 +1,4 @@
-// Prevent compiler errors when using jQuery.  "$" will be given a type of
-// "any", so that we can use it anywhere, and assume it has any fields or
-// methods, without the compiler producing an error.
-var $: any;
+///<reference path="app.ts" />
 
 // The 'this' keyword does not behave in JavaScript/TypeScript like it does in
 // Java.  Since there is only one NewEntryForm, we will save it to a global, so
@@ -10,10 +7,7 @@ var $: any;
 var FileUpload: fileUpload;
 var fileList: FileList2;
 var subFileList: SubFileList;
-var helper: HelperFile;
-var taskID: any;
-
-const backendUrl = "https://stacklight.herokuapp.com";
+var taskId: any;        // assigned in refresh()
 
 class SubFileList{
     refresh() {
@@ -31,33 +25,46 @@ class SubFileList{
             $("#subFileList").append("<tr><td>ID: " + data.mData[i].mId +" </td><td>PID: "+data.mData[i].mpid+" </td><td> File Name: "+data.mData[i].mfileName+" </td><td> File ID: "+data.mData[i].mfileId+" </td><td><a href= \"https://stacklight.herokuapp.com/download/"+data.mData[i].mfileId+"\" download = \""+data.mData[i].mfileName+"\">Export</a></td>");
         }
     }
-
-
 }
+
 class FileList2 {
     private download(data:String){
         alert("Infunction");
     }
-    refresh() {
+    refresh(id: any) {
+        taskId = id;        // save for update()
         $.ajax({
             type: "GET",
-            url: backendUrl + "/file/"+taskID,
+            url: backendUrl + "/file/"+taskId,
             dataType: "json",
             success: fileList.update
         });
     }
     /**
-     * update is the private method used by refresh() to update messageList
+     * update is the private method used by refresh() to update fileList
      */
     private update(data: any) {
         $("#fileList").html("<table>");
 
         for (let i = 0; i < data.mData.length; ++i) {
-            let sub = "sub-"+data.mData[i].mId;
-            //$("#fileList").append("<tr><td>ID: " + data.mData[i].mId +" </td><td> File Name: "+data.mData[i].mfileName+" </td><td> File ID: "+data.mData[i].mfileId+" </td><td><a href= \"https://stacklight.herokuapp.com/download/"+data.mData[i].mfileId+"\" download = \""+data.mData[i].mfileName+"\">Export</a></td><td><input type= \"file\" id= \"upload-"+data.mData[i].mfileId+"\" /></td><td><button class = \"upload\" id = \""+data.mData[i].mId+"\">Upload</button></td></tr><tr><td><div id = \""+sub+"\"></div></td></tr><tr></tr>");
-            $("#fileList").append("<tr><td>ID: " + data.mData[i].mId +" </td><td> File Name: "+data.mData[i].mfileName+" </td><td> File ID: "+data.mData[i].mfileId+" </td><td><a href= \"https://stacklight.herokuapp.com/download/"+data.mData[i].mfileId+"\" download = \""+data.mData[i].mfileName+"\">Export</a></td></tr>");
+            let f=data.mData[i];        // next file
+            let sub = "sub-"+f.mId;
+            let star = f.mStatus;
+            console.log("File: "+f.mfileName+" Star: "+star);
+
+            $("#fileList").append(
+            "<tr>"
+                +"<td>mId: " + f.mId +" </td>"
+                +"<td>File Name: " +f.mfileName +" </td>"
+                +"<td>mfileId: " +f.mfileId +" </td>"
+                +"<td><a href= \"https://stacklight.herokuapp.com/download/"+f.mfileId +"\" download = \""
+                    +f.mfileName+"\">Export</a></td>"
+                +"<td><div id = star-" +f.mId +" name = starButton></div></td>"
+            +"</tr>");
+            $("#star-"+f.mId).replaceWith("<input type='submit' value='Star' id='starButton' onClick='starFile("+f.mId+")'/>");
         }
         
+        /*
         $(".upload").click( function(this:HTMLButtonElement){
             let pid = "" + this.id;
             alert(pid);
@@ -65,6 +72,7 @@ class FileList2 {
             //let fileName = $("#fileName").val();
             var formData = new FormData();
             var fileName = $('input[type=file]').val().replace(/C:\\fakepath\\/i, '');
+            console.log("fileName:" + fileName);
             formData.append('mFile', file);
             formData.append('mFileName',fileName);
             formData.append('mPid',pid);
@@ -79,6 +87,7 @@ class FileList2 {
                 success: fileList.update
             });
         });
+        */
     }
     private updateSub(data: any) {
         let pid = data.mData.mpid;
@@ -91,6 +100,16 @@ class FileList2 {
     }
     
 }
+function starFile(fileID: any){
+    $.ajax({
+        type: "POST",
+        url: backendUrl + "/file/star",
+        dataType: "json",
+        data: JSON.stringify({mFileId: fileID}),
+        success: fileList.refresh(taskId),
+    });
+
+}
 
 class fileUpload{
 
@@ -101,12 +120,11 @@ class fileUpload{
     private upload(data:any)
     {
         let file = $("#fileUpload")[0].files[0];
-        //let fileName = $("#fileName").val();
         var formData = new FormData();
-        var fileName = "" + $("#fileName").val();
         formData.append('mFile', file);
-        formData.append('mFileName',fileName);
-        formData.append('mTaskID',taskID);
+        formData.append('mFileName',file.name);
+        formData.append('mTaskID',taskId);
+        //console.log(formData);
         $.ajax({
             type: "POST",
             url: backendUrl + "/file",
@@ -125,38 +143,6 @@ class fileUpload{
          */
         private static onSubmitResponse(data: any) {
             fileList = new FileList2();
-            fileList.refresh();
+            fileList.refresh(taskId);
         }
 }
-class HelperFile{
-    public getUrlParameter(sParam: String) {
-        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-            sURLVariables = sPageURL.split('&'),
-            sParameterName,
-            i;
-    
-        for (i = 0; i < sURLVariables.length; i++) {
-            sParameterName = sURLVariables[i].split('=');
-    
-            if (sParameterName[0] === sParam) {
-                return sParameterName[1] === undefined ? true : sParameterName[1];
-            }
-        }
-    }
-
-}
-
-
-
-// Run some configuration code when the web page loads
-$(document).ready(function () {
-    // Create the object that controls the "New Entry" form
-    FileUpload = new fileUpload();
-    fileList = new FileList2();
-    helper = new HelperFile();
-    taskID = helper.getUrlParameter('taskID');
-    //subFileList = new SubFileList();
-
-    fileList.refresh();
-    //subFileList.refresh();
-});

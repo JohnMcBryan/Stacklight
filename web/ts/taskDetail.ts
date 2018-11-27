@@ -1,16 +1,34 @@
-// Run some configuration code when the web page loads
-const backendUrl = "https://stacklight.herokuapp.com";
-var $: any;
+///<reference path="app.ts" />
+///<reference path="taskFiles.ts" />
+var helper: AppHelper;
+var taskId: any;
+
+var task: Task;
+class Task{
+    refresh() {
+        $.ajax({
+            type: "GET",
+            url: backendUrl + "/task/"+taskId,
+            dataType: "json",
+            success: task.update
+        });
+    }
+    private update(data: any) {
+        $("#taskHeader").html("<tr><td>"+data.mTaskData.mId+":  </td><td> <b> " +data.mTaskData.mName+" :</b></td></tr>");
+        $("#taskInfo").html("<tr>"+data.mTaskData.mDescription+":  </tr><tr>Priority: "+data.mTaskData.mPriority+"</tr><tr><td> Assignee: " +data.mTaskData.mAssignee+" </td><td> Assigner: " +data.mTaskData.mAssigner+"</td><tr>");
+
+        console.log(data);
+    }
+}
+
 var subtaskList: SubtaskList;
 var newSubtaskform: NewSubtaskForm;
-var helper: Helper;
-var taskID: any;
 
 class SubtaskList {
     refresh(){
         $.ajax({
             type: "GET",
-            url: backendUrl + "/subtasks/"+taskID,
+            url: backendUrl + "/subtasks/"+taskId,
             dataType: "json",
             success: subtaskList.update
         });
@@ -23,6 +41,7 @@ class SubtaskList {
         }
     }
 }
+
 class NewSubtaskForm{
     constructor() {
         $("#addSubtaskButton").click(this.submitForm);
@@ -43,7 +62,7 @@ class NewSubtaskForm{
             type: "POST",
             url: backendUrl + "/subtasks",
             dataType: "json",
-            data: JSON.stringify({ mTaskId: taskID, mName: name, mStatus:status }),
+            data: JSON.stringify({ mTaskId: taskId, mName: name, mStatus:status }),
             success: newSubtaskform.onSubmitResponse,
             error: newSubtaskform.onSubmitResponse
         });
@@ -56,6 +75,7 @@ class NewSubtaskForm{
 
     private onSubmitResponse(data: any) {
         $("#Subtaskname").val("");
+        console.log(data);
         // If we get an "ok" message, clear the form
         if (data.mStatus === "ok") {
             console.log("Task Added Sucessfully!");
@@ -72,32 +92,24 @@ class NewSubtaskForm{
     }
 }
 
-class Helper{
-    public getUrlParameter(sParam: String) {
-        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-            sURLVariables = sPageURL.split('&'),
-            sParameterName,
-            i;
-    
-        for (i = 0; i < sURLVariables.length; i++) {
-            sParameterName = sURLVariables[i].split('=');
-    
-            if (sParameterName[0] === sParam) {
-                return sParameterName[1] === undefined ? true : sParameterName[1];
-            }
-        }
-    }
-
-}
-
 $(document).ready(function () {
-    console.log("Loading Subtasks Page......."); 
+    helper = new AppHelper();
+    taskId = helper.getUrlParameter('taskId');
     
+    console.log("Task ID: "+taskId);
+
+    task = new Task();
     subtaskList = new SubtaskList();
     newSubtaskform = new NewSubtaskForm();
-    helper = new Helper();
-    taskID = helper.getUrlParameter('taskID');
 
-    console.log("(Subtask) Task ID: "+taskID);
+    task.refresh();
     subtaskList.refresh();
+
+    // Create the object that controls the "New Entry" form
+    FileUpload = new fileUpload();
+    fileList = new FileList2();
+
+    fileList.refresh(taskId);
+
+    $('.login').text(localStorage.getItem("email"));
 });

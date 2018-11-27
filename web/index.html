@@ -6,58 +6,70 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="google-signin-client_id" content="797190126682-g4g57tc49te2j0dt30k3hjldhc9u0jhd.apps.googleusercontent.com">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!--<script type="text/javascript" src="projectPage.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
-    <!--<script src="app.js"></script>-->
-    <script type="text/javascript" src="allProjectsPage.js"></script>
-    <script src="projects.js"></script>
 
+    <script type="text/javascript" src="js/allProjectsPage.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/handlebars-v4.0.12.js"></script>
 
+    <script type="text/javascript" src="hbs/allProjects.js"></script>
 </head>
 <body>
-
-<div class="navbar">
-    <div class="login navbar-right">
-        <div class="g-signin2" data-onsuccess="onSignIn"></div>
-        <div><a id = "loginBar" href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></div> <!-- replace # to actually log in -->
-    </div>
-</div>
-
-<div class="container-fluid" id="projectsWindow">
-    <div>
-        <img src="Images/logoWhite.png" class="center" style="max-height:200px; width:auto; margin-bottom:50px;">
-    </div>
-    <h2>All Projects</h2>
-    <br>
-    <div class="row content">
-        <div id="showElements">
-            <div id="projectList"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="navbar">
+                <div class="login navbar-right">
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                    <div><a id="loginBar" href="#" style="display:hidden;"><span class="glyphicon glyphicon-log-in"></span>Login</a></div>
+                </div>
+            </div>
         </div>
-        <div class="row" id="projects">
-            <div class="col-sm-3" id="newProject">
-                <div class="well" data-toggle="modal" data-target="#createNewProject">
-                    <img src="Images/newproject.png" class="center" alt="Create New Project">
-                    <div class="name">Create New Project</div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <img src="Images/logo.png" class="center" style="max-height:200px; width:auto; margin-bottom:50px;">
+        </div>
+    </div>
+    <div id="projectWindow" style="display:hidden;">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>All Projects</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div style="display:inline-block;">
+                <div class="jumbotron">
+                    <div data-toggle="modal" data-target="#createProject">
+                        <img src="Images/newproject.png" class="center" alt="Create Project">
+                        <div class="name">Create Project</div>
+                    </div>
+                </div>
+                </div>
+                <div id="projectList">
                 </div>
             </div>
         </div>
     </div>
 </div>
 <!-- Upload File Modal -->
-<div id="createNewProject" class="modal fade" role="dialog">
+<div id="createProject" class="modal fade" role="dialog">
     <div class="modal-dialog">
-
         <!-- Modal content -->
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title">Create Project</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Create New Project</h4>
             </div>
             <div class="modal-body">
                 <!--<form id="uploadFile" enctype="multipart/form-data" method="POST" action="\project">-->
@@ -67,7 +79,7 @@
                     <label for="description">Description:</label>
                     <input type="text" class="form-control" id="description">
                     <label for="owner">Owner:</label>
-                    <input type="text" class="form-control" id="owner">
+                    <input type="email" class="form-control" id="owner">
                     <label for="organization">Organization:</label>
                     <input type="text" class="form-control" id="organization">
 
@@ -92,6 +104,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>

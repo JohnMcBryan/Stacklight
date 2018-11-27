@@ -10,6 +10,7 @@ import java.net.URISyntaxException;
 import java.security.Timestamp;
 import java.sql.Time;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Calendar;
 import java.text.DateFormat;
@@ -126,6 +127,7 @@ public class Projectbase {
      */
     ArrayList<ProjectRow> selectAllProjects(String email) {
         ArrayList<ProjectRow> res = new ArrayList<ProjectRow>();
+        ArrayList<Integer> checkRes = new ArrayList<Integer>();
         try {
             ResultSet rs = mSelectAllProjects.executeQuery();
             mCheckProjects.setString(1, email);
@@ -134,19 +136,15 @@ public class Projectbase {
             System.out.println("SubFiles Are Here");
 
             System.out.println("IN SELECT ALL PROJECTS");
+            while(checkSet.next()){
+                checkRes.add(checkSet.getInt("projectid"));
+            }
             while (rs.next()) {
-                System.out.println("projectid:" + checkSet.getInt("projectid") + " id:" +rs.getInt("id"));
-                if(checkSet.getInt("projectid") == rs.getInt("id")) {
+                if(checkRes.contains(rs.getInt("id"))){
                     ProjectRow Projectrow = new ProjectRow(rs.getInt("id"), rs.getString("name"),
                             rs.getString("description"), rs.getString("owner"),
                             rs.getString("organization"));
-                    System.out.println(Projectrow);
                     res.add(Projectrow);
-                    if(!(checkSet.next())){
-                        rs.close();
-                        checkSet.close();
-                        return res;
-                    }
                 }
             }
             rs.close();

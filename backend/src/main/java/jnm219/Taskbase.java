@@ -33,6 +33,7 @@ public class Taskbase {
     private PreparedStatement mSelectTasks;
 
     private PreparedStatement mAddTask;
+    private PreparedStatement mAddTaskMessage;
 
     private PreparedStatement mSelectTask;
     private PreparedStatement mSelectCompletedTasks;
@@ -42,6 +43,8 @@ public class Taskbase {
     private PreparedStatement mCompleteTask;
     private PreparedStatement mUncompleteTask;
     private PreparedStatement mBacklogTask;
+
+    private PreparedStatement mEditTask;
     /**
      * Give the Database object a connection, fail if we cannot get one
      * Must be logged into heroku on a local computer to be able to use mvn heroku:deploy
@@ -114,7 +117,15 @@ public class Taskbase {
         try{
             tb.mSelectAllTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks");
             tb.mAddTask = tb.mConnection.prepareStatement("INSERT INTO Tasks Values (default,?,?,?,?,?,?,default)");
-            tb.mSelectTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE projectId = ? AND status = 0");
+            tb.mEditTask = tb.mConnection.prepareStatement("UPDATE Tasks SET taskName = ?, description = ?, priority = ?, assignee = ?, assigner = ? WHERE id = ?");
+            tb.mAddTaskMessage = tb.mConnection.prepareStatement("INSERT INTO Messages Values (default,?,?,?)");
+            //tb.mSelectTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE projectId = ?");       // 10/29/18 Mira selected all statuses
+            tb.mSelectTasks = tb.mConnection.prepareStatement("SELECT T.*, COUNT(S.id) as subtasks" +
+                    " FROM Tasks as T" +
+                    " LEFT JOIN Subtasks as S" +
+                    " ON T.id = S.taskId" +
+                    " WHERE T.projectId = ? AND T.status <> 2" +
+                    " GROUP BY T.id");       // 10/29/18 Mira selected all statuses. Todo: deal with backlogged tasks in the client.
             tb.mSelectCompletedTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE projectId = ? AND status = 1");
             tb.mSelectBacklogTasks = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE projectId = ? AND status = 2");
             tb.mSelectTask = tb.mConnection.prepareStatement("SELECT * FROM Tasks WHERE id = ?");
@@ -144,7 +155,7 @@ public class Taskbase {
             while (rs.next()) {
                 TaskRow taskrow = new TaskRow(rs.getInt("id"),rs.getInt("projectId"),rs.getString("taskname"),
                         rs.getString("description"),rs.getInt("priority"),rs.getString("assignee"),
-                        rs.getString("assigner"));
+                        rs.getString("assigner"),rs.getInt("status"));   // 10/29/18 Mira added status
                 System.out.println(taskrow);
                 res.add(taskrow);
             }
@@ -164,7 +175,7 @@ public class Taskbase {
             while (rs.next()) {
                 TaskRow taskrow = new TaskRow(rs.getInt("id"),rs.getInt("projectId"),rs.getString("taskname"),
                         rs.getString("description"),rs.getInt("priority"),rs.getString("assignee"),
-                        rs.getString("assigner"));
+                        rs.getString("assigner"),rs.getInt("status"),rs.getInt("subtasks"));  // 10/29/18 Mira added status and subtasks
                 System.out.println(taskrow);
                 res.add(taskrow);
             }
@@ -184,7 +195,7 @@ public class Taskbase {
             while (rs.next()) {
                 TaskRow taskrow = new TaskRow(rs.getInt("id"),rs.getInt("projectId"),rs.getString("taskname"),
                         rs.getString("description"),rs.getInt("priority"),rs.getString("assignee"),
-                        rs.getString("assigner"));
+                        rs.getString("assigner"),/*completed*/1);
                 System.out.println(taskrow);
                 res.add(taskrow);
             }
@@ -204,7 +215,7 @@ public class Taskbase {
             while (rs.next()) {
                 TaskRow taskrow = new TaskRow(rs.getInt("id"),rs.getInt("projectId"),rs.getString("taskname"),
                         rs.getString("description"),rs.getInt("priority"),rs.getString("assignee"),
-                        rs.getString("assigner"));
+                        rs.getString("assigner"),/*backlog*/2);
                 System.out.println(taskrow);
                 res.add(taskrow);
             }
@@ -224,7 +235,7 @@ public class Taskbase {
             while (rs.next()) {
                  taskrow = new TaskRow(rs.getInt("id"),rs.getInt("projectId"),rs.getString("taskname"),
                         rs.getString("description"),rs.getInt("priority"),rs.getString("assignee"),
-                        rs.getString("assigner"));
+                        rs.getString("assigner"),rs.getInt("status"));
                 System.out.println(taskrow);
             }
             rs.close();
@@ -241,13 +252,40 @@ public class Taskbase {
 
         try {
             System.out.println(projectId + "Adding: " + taskname);
+            System.out.println("Assigner: "+assigner);
             mAddTask.setInt(1,projectId);
             mAddTask.setString(2,taskname);
             mAddTask.setString(3,description);
             mAddTask.setInt(4,priority);
             mAddTask.setString(5,assignee);
             mAddTask.setString(6,assigner);
+            mAddTaskMessage.setInt(1,projectId);
+            String notification = "Assignee: "+taskname;
+            mAddTaskMessage.setString(2,notification);
+            mAddTaskMessage.setString(3,"Notification");
             rs +=mAddTask.executeUpdate();
+            mAddTaskMessage.executeUpdate();
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+    //Method for adding a new task
+    boolean editTask(int id,String taskname,String description,
+                    int priority, String assignee, String assigner) {
+        int rs=0;
+
+        try {
+            System.out.println("Edit Assigner: " + assigner);
+            mEditTask.setString(1,taskname);
+            mEditTask.setString(2,description);
+            mEditTask.setInt(3,priority);
+            mEditTask.setString(4,assignee);
+            mEditTask.setString(5,assigner);
+            mEditTask.setInt(6,id);
+            rs +=mEditTask.executeUpdate();
         } catch (SQLException e)
         {
             e.printStackTrace();
@@ -258,9 +296,16 @@ public class Taskbase {
 
     boolean completeTask(int taskId){
         try {
+            mSelectTask.setInt(1,taskId);
+            ResultSet rs = mSelectTask.executeQuery();
+            rs.next();
             mCompleteTask.setInt(1, taskId);
             mCompleteTask.executeUpdate();
-
+            mAddTaskMessage.setInt(1,rs.getInt("projectId"));
+            String notification = "Completing Task: "+rs.getString("taskname");
+            mAddTaskMessage.setString(2,notification);
+            mAddTaskMessage.setString(3,"Notification");
+            mAddTaskMessage.executeUpdate();
             return true;
         } catch (SQLException e){
             e.printStackTrace();
