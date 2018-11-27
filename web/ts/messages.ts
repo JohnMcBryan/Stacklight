@@ -57,8 +57,6 @@ class NewMessageForm {
             error: messageInfo.refresh
         });
         $("#message").val("");
-
-
     }
 
 }
