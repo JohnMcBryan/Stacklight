@@ -69,7 +69,9 @@
     <div id="myMessagenav" class="messagenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
-        <div id="messageList" class="messagelist"></div>
+        <div id="messageList">
+            <span class="close">&times;</span>
+        </div>
 
         <input id="addMessage" type="submit" value="Send" style="float:right; margin-right:15px;">
         <div style="overflow: hidden; padding-right: .5em;">
@@ -80,7 +82,6 @@
 
 
 </div>
-
 <span class="openclose" onclick="openNav()">&#9776;Messages</span>
 <script>
                 function openNav() {
@@ -91,6 +92,17 @@
                     document.getElementById("myMessagenav").style.width = "0";
                     }
             </script>
+
+<script>
+    var closebtns = document.getElementByClassName("close");
+    var i;
+
+    for (i = 0; i < closebtns.length; i++) {
+    closebtns[i].addEventListener("click", function() {
+    this.parentElement.style.display = 'none';
+    });
+    }
+</script>
 
 <div id="addUser" class="modal fade" role="dialog">
     <div class="modal-dialog">
