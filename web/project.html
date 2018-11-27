@@ -62,15 +62,33 @@
                 <h4 style="margin-top: 30px">Communication Hub</h4>
             </div>
             -->
-            <div class="well">
-                <div id="messageList">
-                </div>
-                <input type="text" id="message" autocomplete="off" />
-                <input id="addMessage" type="submit" value="Send" style="float:right; margin-right:15px;">
-            </div>
+
         </div>
     </div>
+
+    <div id="myMessagenav" class="messagenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+        <div id="messageList"></div>
+        <input type="text" id="message" autocomplete="off" />
+        <input id="addMessage" type="submit" value="Send" style="float:right; margin-right:15px;">
+
+    </div>
+
+
 </div>
+
+<span class="openclose" onclick="openNav()">&#9776;Messages</span>
+<script>
+                function openNav() {
+                    document.getElementById("myMessagenav").style.width = "450px";
+                    }
+
+                function closeNav() {
+                    document.getElementById("myMessagenav").style.width = "0";
+                    }
+            </script>
+
 <div id="addUser" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content -->
