@@ -91,11 +91,11 @@ class TaskList {
             task = data.mTaskData[i];
 
             var color: any;
-            if (task.mStatus == /*incomplete*/"0" && task.mPriority == 2)
+            if (task.mStatus == /*incomplete*/"0" && task.mPriority == 0)
                 color = 'danger';
             else if (task.mStatus == "0" && task.mPriority == 1)
                 color = 'warning';
-            else if (task.mStatus == "0" && task.mPriority == 0)
+            else if (task.mStatus == "0" && task.mPriority == 2)
                 color = 'success';
             else if (task.mStatus == "0")   // no priority set
                 color = 'light';
