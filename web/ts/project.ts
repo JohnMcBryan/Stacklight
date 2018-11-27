@@ -332,6 +332,9 @@ function onAddSubtask(element: any, taskId: any)
             dataType: "json",
             data: JSON.stringify({ mTaskId: taskId, mName: addSubtask.val(), mStatus: /*incomplete*/0 }),
             success: getSubtasksForSavedId
+            //success: function() {
+                //getSubtasks(taskId);
+            //}
         });
     }
     else

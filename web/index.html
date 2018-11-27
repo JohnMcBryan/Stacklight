@@ -37,7 +37,7 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <img src="Images/logoWhite.png" class="center" style="max-height:200px; width:auto; margin-bottom:50px;">
+            <img src="Images/logo.png" class="center" style="max-height:200px; width:auto; margin-bottom:50px;">
         </div>
     </div>
     <div id="projectWindow" style="display:hidden;">
@@ -48,13 +48,15 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div id="projectList">
-                </div>
                 <div style="display:inline-block;">
-                    <div class="well" data-toggle="modal" data-target="#createProject">
+                <div class="jumbotron">
+                    <div data-toggle="modal" data-target="#createProject">
                         <img src="Images/newproject.png" class="center" alt="Create Project">
                         <div class="name">Create Project</div>
                     </div>
+                </div>
+                </div>
+                <div id="projectList">
                 </div>
             </div>
         </div>
@@ -66,8 +68,8 @@
         <!-- Modal content -->
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Create Project</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
                 <!--<form id="uploadFile" enctype="multipart/form-data" method="POST" action="\project">-->
@@ -77,7 +79,7 @@
                     <label for="description">Description:</label>
                     <input type="text" class="form-control" id="description">
                     <label for="owner">Owner:</label>
-                    <input type="text" class="form-control" id="owner">
+                    <input type="email" class="form-control" id="owner">
                     <label for="organization">Organization:</label>
                     <input type="text" class="form-control" id="organization">
 
