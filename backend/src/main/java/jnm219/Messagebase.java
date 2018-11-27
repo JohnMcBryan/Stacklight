@@ -34,6 +34,7 @@ public class Messagebase {
 
     private PreparedStatement mCheckIndex;
     private PreparedStatement mCheckMessages;
+    private PreparedStatement mDeleteMessage;
 
     /**
      * Give the Database object a connection, fail if we cannot get one
@@ -107,6 +108,7 @@ public class Messagebase {
         try{
             mb.mSelectMessages = mb.mConnection.prepareStatement("SELECT * FROM messages where projectId = ?");
             mb.mAddMessage = mb.mConnection.prepareStatement("INSERT INTO messages Values (default,?,?,?)");
+            mb.mDeleteMessage = mb.mConnection.prepareStatement("DELETE FROM messages where id = ?");
 
 
         } catch (SQLException e) {
@@ -151,6 +153,22 @@ public class Messagebase {
             mAddMessage.setString(2,content);
             mAddMessage.setString(3,owner);
             rs +=mAddMessage.executeUpdate();
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    //Method for deleting a message
+    boolean deleteMessage(int projectId) {
+        int rs=0;
+
+        try {
+            //System.out.println("Deleting Message: " + content);
+            mDeleteMessage.setInt(1,projectId);
+            rs +=mDeleteMessage.executeUpdate();
         } catch (SQLException e)
         {
             e.printStackTrace();

@@ -512,6 +512,22 @@ public class App {
             }
         });
 
+        Spark.delete("/messages", (request, res) -> {
+            System.out.println("Deleting a message....");
+            SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);
+            res.status(200);
+            res.type("application/json");
+
+            int projectId = Integer.parseInt( req.mProjectId );
+
+            boolean deleteMessage = mb.deleteMessage(projectId);
+            if (!deleteMessage) {
+                return gson.toJson(new StructuredResponse("error", "error performing deletion", null));
+            } else {
+                return gson.toJson(new StructuredResponse("ok", "" + deleteMessage, null));
+            }
+        });
+
     }
 
     /**
