@@ -334,7 +334,7 @@ a:hover
 .openclose {
   font-size: 30px;
   cursor: pointer;
-  top: 50px;
+  top: 75px;
   right: 20px;
   position: fixed;
 }
@@ -342,4 +342,9 @@ a:hover
 @media screen and (max-height: 450px) {
   .messagenav {padding-top: 15px;}
   .messagenav a {font-size: 18px;}
+}
+
+.messagelist {
+list-style-type: circle;
+
 }

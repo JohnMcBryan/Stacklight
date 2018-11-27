@@ -69,9 +69,12 @@
     <div id="myMessagenav" class="messagenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
-        <div id="messageList"></div>
-        <input type="text" id="message" autocomplete="off" />
+        <div id="messageList" class="messagelist"></div>
+
         <input id="addMessage" type="submit" value="Send" style="float:right; margin-right:15px;">
+        <div style="overflow: hidden; padding-right: .5em;">
+            <input type="text" id="message" autocomplete="off" />
+        </div>
 
     </div>
 
