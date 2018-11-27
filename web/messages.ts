@@ -22,6 +22,18 @@ class MessageInfo {
         $("#messageList").append("</table>");
         console.log(data);
     }
+
+    public deleteMessage() {
+        $.ajax({
+            type: "DELETE",
+            url: backendUrl + "/messages",
+            dataType: "json",
+            data: JSON.stringify({ mProjectId: projectID}),
+            success: messageInfo.refresh,
+            error: messageInfo.refresh,
+         });
+    }
+
 }
 
 class NewMessageForm {
@@ -45,8 +57,6 @@ class NewMessageForm {
             error: messageInfo.refresh
         });
         $("#message").val("");
-
-
     }
 
 }
