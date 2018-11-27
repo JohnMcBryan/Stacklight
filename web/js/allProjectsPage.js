@@ -1,5 +1,4 @@
 var backendUrl = "https://stacklight.herokuapp.com";
-
 $(function () {
     console.log("On page load allProjectsPage.js");
     //gapi.load('auth2', function() { // Ready. });
@@ -7,7 +6,12 @@ $(function () {
     $('#loginBar').hide();
     //$('.row').hide();
     $('#projectWindow').hide();
-    $('.navbar').click(signOut);
+    $('#signOutButton').click(signOut);
+    if (localStorage.getItem("out") != null){
+        $('.g-signin2').show();
+        $('#loginBar').hide();
+        $('#projectWindow').hide();
+    }
     $(".abcRioButtonContentWrapper").css("left", "75%");
     $('#addMemberButton').click(addMember);
 })
@@ -17,28 +21,6 @@ $(function () {
     //location.href = "index.html";
 //}
 
-// Utility method for encapsulating the jQuery Ajax Call
-function doAjaxCall(method, cmd, params, fcn) {
-    $.ajax(
-            SERVER + cmd,
-            {
-                type: method,
-                processData: true,
-                data: JSON.stringify(params),
-                //data: params,
-                dataType: "json",
-                success: function (result) {
-                    fcn(result)
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.log("params: "+params);
-                    console.log("Error: " + jqXHR.responseText);
-                    console.log("Error: " + textStatus);
-                    console.log("Error: " + errorThrown);
-                }
-            }
-    );
-}
 function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
@@ -53,6 +35,8 @@ function signOut() {
 
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
+  var auth2 = gapi.auth2.getAuthInstance();
+  localStorage.setItem("auth", auth2);
   $.ajax({
       type: "POST",
       url: backendUrl + "/users",
@@ -63,12 +47,28 @@ function onSignIn(googleUser) {
        },
   });
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-  $('#loginBar').text(profile.getEmail());
-  $('#loginBar').show();
-  //$('.row').show();
-  $('#projectWindow').show();
-  $('.g-signin2').hide();
-   localStorage.setItem("email", profile.getEmail());
+    $('#loginBar').text(profile.getEmail());
+    $('#loginBar').show();
+    //$('.row').show();
+    $('#projectWindow').show();
+    $('.g-signin2').hide();
+    localStorage.setItem("email", profile.getEmail());
+    $("#nameProfile").append("<div>&nbsp;&nbsp;&nbsp;&nbsp;" + profile.getGivenName() + " " + profile.getFamilyName() + "</div>")
+    $("#email").append("<div>&nbsp;&nbsp;&nbsp;&nbsp;" + profile.getEmail() + "</div>")
+    $.ajax({
+            type: "GET",
+            url: backendUrl + "/projects/all/" + profile.getEmail(),
+            dataType: "json",
+            success: function (result){
+               for (var i = 0; i < result.mProjectData.length; ++i) {
+                          $("#projects").append("<div>&nbsp;&nbsp;&nbsp;&nbsp;" + result.mProjectData[i].mName + "</div>");
+               }
+            },
+       });
+       if (localStorage.getItem("out") != null){
+            localStorage.removeItem("out");
+            signOut();
+       }
 }
 
 function addMember() {
