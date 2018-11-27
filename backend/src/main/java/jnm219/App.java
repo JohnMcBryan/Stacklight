@@ -340,7 +340,18 @@ public class App {
                 return gson.toJson(new StructuredResponse("ok", "" + newSubTask, null));
             }
         });
+        Spark.post("/subtasks/complete", (request,res) -> {
+            SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);
+            res.status(200);
+            int id  = req.mSubtaskId;
+            boolean check = stb.completeSubtask(id);
+            if (!check) {
+                return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
+            } else {
+                return gson.toJson(new StructuredResponse("ok", "" + check, null));
+            }
 
+        });
 
         Spark.get("/projects/all/:email",(req,res) -> {
             res.status(200);

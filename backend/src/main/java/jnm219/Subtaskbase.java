@@ -32,6 +32,8 @@ public class Subtaskbase {
     private PreparedStatement mSelectSubTasks;
 
     private PreparedStatement mAddSubtask;
+
+    private PreparedStatement mCompleteSubtask;
     /**
      * Give the Database object a connection, fail if we cannot get one
      * Must be logged into heroku on a local computer to be able to use mvn heroku:deploy
@@ -97,6 +99,7 @@ public class Subtaskbase {
         try{
             stb.mSelectSubTasks = stb.mConnection.prepareStatement("SELECT * FROM Subtasks WHERE taskId = ?");
             stb.mAddSubtask = stb.mConnection.prepareStatement("INSERT INTO Subtasks VALUES(default,?,?,?)");
+            stb.mCompleteSubtask = stb.mConnection.prepareStatement("UPDATE Subtasks SET status = 1 WHERE id = ?")
 
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
@@ -137,6 +140,19 @@ public class Subtaskbase {
             mAddSubtask.setInt(3,status);
             rs +=mAddSubtask.executeUpdate();
         } catch (SQLException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+    //Status 0 = Uncomplete
+    //Status 1 = Complete
+    boolean completeSubtask(int id){
+        try{
+            mCompleteSubtask.setInt(1,id);
+            mCompleteSubtask.executeUpdate();
+        }catch (SQLException e)
         {
             e.printStackTrace();
             return false;

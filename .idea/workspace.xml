@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="261ae756-dee5-4dc1-b5b8-df69ba2d3787" name="Default" comment="12_Edit_Tasks:&#10;&#10;-Added an Edit button that takes you to a yet to be created html page for editing&#10;-I messed up the css in the project page because I am not good at handlebars">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/ts/tasks.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/ts/tasks.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/jnm219/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/jnm219/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/jnm219/Subtaskbase.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/jnm219/Subtaskbase.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,7 +37,7 @@
         <counts>
           <entry key="class" value="3" />
           <entry key="html" value="10" />
-          <entry key="java" value="44" />
+          <entry key="java" value="47" />
           <entry key="js" value="3" />
           <entry key="json" value="8" />
           <entry key="md" value="5" />
@@ -50,7 +51,7 @@
           <entry key="Bash" value="9" />
           <entry key="CLASS" value="3" />
           <entry key="HTML" value="10" />
-          <entry key="JAVA" value="44" />
+          <entry key="JAVA" value="47" />
           <entry key="JSON" value="8" />
           <entry key="JavaScript" value="3" />
           <entry key="PLAIN_TEXT" value="16" />
@@ -61,7 +62,7 @@
         <counts>
           <entry key="class" value="2" />
           <entry key="html" value="14" />
-          <entry key="java" value="2300" />
+          <entry key="java" value="2752" />
           <entry key="md" value="329" />
           <entry key="sh" value="205" />
           <entry key="ts" value="7" />
@@ -74,7 +75,7 @@
           <entry key="Bash" value="205" />
           <entry key="CLASS" value="2" />
           <entry key="HTML" value="14" />
-          <entry key="JAVA" value="2300" />
+          <entry key="JAVA" value="2752" />
           <entry key="PLAIN_TEXT" value="2429" />
           <entry key="XML" value="12" />
         </counts>
@@ -157,10 +158,28 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/deploy.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="825">
+              <caret line="55" column="28" selection-start-line="55" selection-start-column="28" selection-end-line="55" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/Subtaskbase.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="157">
+              <caret line="101" column="58" selection-start-line="101" selection-start-column="58" selection-end-line="101" selection-end-column="58" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/App.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4573">
-              <caret line="346" column="41" selection-start-line="346" selection-start-column="41" selection-end-line="346" selection-end-column="41" />
+            <state relative-caret-position="249">
+              <caret line="344" column="21" selection-start-line="344" selection-start-column="21" selection-end-line="344" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -168,29 +187,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/Taskbase.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="882">
-              <caret line="284" column="31" selection-start-line="284" selection-start-column="31" selection-end-line="284" selection-end-column="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/StructuredTask.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="646">
-              <caret line="38" column="25" selection-start-line="38" selection-start-column="25" selection-end-line="38" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/deploy.sh">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="850">
-              <caret line="50" column="26" selection-start-line="50" selection-start-column="26" selection-end-line="50" selection-end-column="26" />
+            <state relative-caret-position="150">
+              <caret line="119" column="161" lean-forward="true" selection-start-line="119" selection-start-column="60" selection-end-line="119" selection-end-column="161" />
             </state>
           </provider>
         </entry>
@@ -218,7 +219,6 @@
       <find>selecttask</find>
       <find>st</find>
       <find>mTask</find>
-      <find>subtask</find>
       <find>head</find>
       <find>profile</find>
       <find>mMessagedata</find>
@@ -229,6 +229,7 @@
       <find>bootstrap.css</find>
       <find>new</find>
       <find>allproj</find>
+      <find>subtask</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -275,17 +276,17 @@
         <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/StructuredSubTask.java" />
         <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/StructuredSubtask.java" />
         <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/SimpleRequest.java" />
-        <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/Subtaskbase.java" />
         <option value="$PROJECT_DIR$/web/index.html" />
         <option value="$PROJECT_DIR$/web/tasks.html" />
         <option value="$PROJECT_DIR$/web/task.ts" />
         <option value="$PROJECT_DIR$/web/tasks.ts" />
         <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/StructuredMessage.java" />
-        <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/App.java" />
         <option value="$PROJECT_DIR$/web/taskEdit.html" />
         <option value="$PROJECT_DIR$/web/ts/tasksEdit.ts" />
         <option value="$PROJECT_DIR$/web/deploy.sh" />
         <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/Taskbase.java" />
+        <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/Subtaskbase.java" />
+        <option value="$PROJECT_DIR$/backend/src/main/java/jnm219/App.java" />
       </list>
     </option>
   </component>
@@ -330,7 +331,18 @@
               <item name="Stacklight" type="b2602c69:ProjectViewProjectNode" />
               <item name="Stacklight" type="462c0819:PsiDirectoryNode" />
               <item name="backend" type="462c0819:PsiDirectoryNode" />
-              <item name="target" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Stacklight" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Stacklight" type="462c0819:PsiDirectoryNode" />
+              <item name="backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="jnm219" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Stacklight" type="b2602c69:ProjectViewProjectNode" />
@@ -341,7 +353,7 @@
               <item name="Stacklight" type="b2602c69:ProjectViewProjectNode" />
               <item name="Stacklight" type="462c0819:PsiDirectoryNode" />
               <item name="web" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Stacklight" type="b2602c69:ProjectViewProjectNode" />
@@ -353,9 +365,9 @@
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -579,10 +591,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="3193" y="1" width="1294" height="1407" extended-state="0" />
+    <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.11831442" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18681319" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -598,7 +610,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32959184" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.10204082" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" weight="0.32905984" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="9" visible="true" weight="0.32364494" />
+      <window_info anchor="bottom" id="Version Control" order="9" visible="true" weight="0.24795918" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.32899868" />
       <window_info anchor="bottom" id="Inspection Results" order="11" visible="true" weight="0.32899868" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -709,20 +721,6 @@
     <state width="820" height="1470" key="Git.Branch.Popup@3360.2100@192dpi" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/FileRow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="38" column="25" selection-start-line="38" selection-start-column="25" selection-end-line="38" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="34" selection-start-line="14" selection-start-column="34" selection-end-line="14" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/StructuredResponse.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -782,13 +780,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="1" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/Subtaskbase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="128" lean-forward="true" selection-start-line="128" selection-end-line="128" />
         </state>
       </provider>
     </entry>
@@ -878,7 +869,10 @@
     <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/Database.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2205">
-          <caret line="165" column="34" selection-start-line="165" selection-start-column="34" selection-end-line="165" selection-end-column="34" />
+          <caret line="165" column="23" selection-start-line="165" selection-start-column="23" selection-end-line="165" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -887,8 +881,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/ts/project.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="410">
-          <caret line="371" column="14" selection-start-line="371" selection-start-column="14" selection-end-line="371" selection-end-column="14" />
+        <state relative-caret-position="690">
+          <caret line="46" column="41" lean-forward="true" selection-start-line="46" selection-start-column="41" selection-end-line="46" selection-end-column="42" />
         </state>
       </provider>
     </entry>
@@ -936,16 +930,6 @@
         <state relative-caret-position="-19227" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/App.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4573">
-          <caret line="346" column="41" selection-start-line="346" selection-start-column="41" selection-end-line="346" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/StructuredTask.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="646">
@@ -955,15 +939,46 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/deploy.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="850">
-          <caret line="50" column="26" selection-start-line="50" selection-start-column="26" selection-end-line="50" selection-end-column="26" />
+        <state relative-caret-position="825">
+          <caret line="55" column="28" selection-start-line="55" selection-start-column="28" selection-end-line="55" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/target/classes/web/task.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="585">
+          <caret line="39" column="5" selection-start-line="39" selection-start-column="5" selection-end-line="39" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/FileRow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="38" column="25" selection-start-line="38" selection-start-column="25" selection-end-line="38" selection-end-column="25" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/Taskbase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="882">
-          <caret line="284" column="31" selection-start-line="284" selection-start-column="31" selection-end-line="284" selection-end-column="31" />
+        <state relative-caret-position="150">
+          <caret line="119" column="161" lean-forward="true" selection-start-line="119" selection-start-column="60" selection-end-line="119" selection-end-column="161" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/Subtaskbase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="101" column="58" selection-start-line="101" selection-start-column="58" selection-end-line="101" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/src/main/java/jnm219/App.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="249">
+          <caret line="344" column="21" selection-start-line="344" selection-start-column="21" selection-end-line="344" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
