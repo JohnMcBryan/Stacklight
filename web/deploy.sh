@@ -34,11 +34,11 @@ for css in style.css bootstrap.css
 do
     cp $STYLE/$css $WEB/$STYLE
 done
-for image in logo.png logoWhite.png uploadwhite.png add-list.png newproject.png project.png
+for image in logo.png logoWhite.png uploadwhite.png add-list.png newproject.png project.png add-list.png add-user.png
 do
     cp $IMAGE/$image $WEB/$IMAGE
 done
-for script in googleSignIn.js allProjectsPage.js handlebars-v4.0.12.js
+for script in googleSignIn.js allProjectsPage.js handlebars-v4.0.12.js addUser.js
 do
     cp $JS/$script $WEB/$JS
 done

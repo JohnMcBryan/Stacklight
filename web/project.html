@@ -1,33 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>Stacklight</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script src="js/jquery.min.js"></script>    <!-- must load before bootstrap -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <script src="js/app.js"></script>
-    <script src="js/projects.js"></script>
-    <script src="js/profile.js"></script>
-    <script src="js/tasks.js"></script>
     <script src="js/project.js"></script>
     <script src="js/messages.js"></script>
     <script type="text/javascript" src="js/addUser.js"></script>
-
-    <style>
-      #messages form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      #messages form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      #messages form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
-    </style>
 </head>
-
 <body>
 <div class="container-fluid">
     <div class="row">
@@ -41,13 +31,13 @@
                 -->
                 <form action="https://stacklight.herokuapp.com/tasksAddForm.html">
                     <input type="image" src="Images/add-list.png" class="navelem"/>
-                    <div class="navelem" data-toggle="modal" data-target="#addUser">
-                        <img src="Images/add-user.png" class="center" alt="Show Profile">
-                    </div>
                     <!--<input type="submit" value="Add a New Task" />-->
                     <input type= 'hidden' name= 'projectID' id = 'PID'/>
                 </form>
-                <div class="login navbar-right" data-toggle="modal" data-target="#showProfile">
+                <div class="navelem" data-toggle="modal" data-target="#addUser">
+                    <img src="Images/add-user.png" class="center" alt="Show Profile">
+                </div>
+                <div class="login navbar-right">
                     <a href="#" class="login"><span class="glyphicon glyphicon-user"></span> abc123@lehigh.edu </a>
                 </div>
             </div>
@@ -60,22 +50,24 @@
     </div>
     <div class="row content">
         <div class="col-md-8">
+            <div id="miraList">
+            </div>
             <div id="taskList">
             </div>
         </div>
         <div class="col-md-4">
-                <!-- Use Handlebars to loop through messages.
-                Use if statements to show different style bubbles for your vs others messages
-                <div>
-                    <h4 style="margin-top: 30px">Communication Hub</h4>
+            <!-- Use Handlebars to loop through messages.
+            Use if statements to show different style bubbles for your vs others messages
+            <div>
+                <h4 style="margin-top: 30px">Communication Hub</h4>
+            </div>
+            -->
+            <div class="well">
+                <div id="messageList">
                 </div>
-                -->
-                <div class="well">
-                    <div id="messageList">
-                    </div>
-                    <input type="text" id="message" autocomplete="off" />
-                    <input id="addMessage" type="submit" value="Send" style="float:right; margin-right:15px;">
-                </div>
+                <input type="text" id="message" autocomplete="off" />
+                <input id="addMessage" type="submit" value="Send" style="float:right; margin-right:15px;">
+            </div>
         </div>
     </div>
 </div>
