@@ -17,7 +17,7 @@ class MessageInfo {
     public update(data: any) {
         $("#messageList").html("<table>");
         for (let i = 0; i < data.mMessageData.length; ++i) {
-            $("#messageList").append("<tr><td> <b> " +data.mMessageData[i].mOwner+" :</b></td><td>"+data.mMessageData[i].mContent+" </td></tr>");
+            $("#messageList").append("<tr><td> <b> " +data.mMessageData[i].mOwner+":</b></td><td>"+data.mMessageData[i].mContent+" </td></tr>");
         }
         $("#messageList").append("</table>");
         console.log(data);

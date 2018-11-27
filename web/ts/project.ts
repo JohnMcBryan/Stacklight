@@ -396,7 +396,7 @@ class NewTaskForm
 
         
         if (taskname === "" || description === "") {
-            window.alert("Task name and task description cannot be black.");
+            window.alert("Task name and task description cannot be blank.");
             return;
         }
         console.log("Assignee: "+ assignee);
