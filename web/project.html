@@ -28,12 +28,14 @@
                 <span data-toggle="modal" data-target="#createNewTask">
                         <a href="#" data-toggle="tooltip" data-placement="bottom" title="Create a new task" class="navelem"><img src="Images/add-list.png" class="center" alt="Create new task" ></a>
                 </span>
-                -->
                 <form action="https://stacklight.herokuapp.com/tasksAddForm.html">
                     <input type="image" src="Images/add-list.png" class="navelem"/>
-                    <!--<input type="submit" value="Add a New Task" />-->
                     <input type= 'hidden' name= 'projectID' id = 'PID'/>
                 </form>
+                -->
+                <div class="navelem" data-toggle="modal" data-target="#addNewTask">
+                    <img src="Images/add-list.png" class="center" alt="Add new task">
+                </div>
                 <div class="navelem" data-toggle="modal" data-target="#addUser">
                     <img src="Images/add-user.png" class="center" alt="Show Profile">
                 </div>
@@ -76,8 +78,8 @@
         <!-- Modal content -->
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Add Users</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
                 <!--<form id="uploadFile" enctype="multipart/form-data" method="POST" action="\project">-->
@@ -104,8 +106,8 @@
         <!-- Modal content -->
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Profile</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
                 <!--<form id="uploadFile" enctype="multipart/form-data" method="POST" action="\project">-->
@@ -116,6 +118,62 @@
                     <div id="email"></div>
                     <label for="projects">Projects:</label>
                     <div id="projects"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="addNewTask" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">New Task</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!--<form id="uploadFile" enctype="multipart/form-data" method="POST" action="\project">-->
+                <form action="https://stacklight.herokuapp.com/tasks.html">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="taskname">Task</label>
+                            <input type="text" class="form-control" id="taskname">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea class="form-control" id="description" rows="3"></textarea>
+                        </div>
+                        <fieldset class="form-group">
+                            <legend>Priority</legend>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="priority" id="optionsRadios1" value="0" checked="">
+                                    High
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="priority" id="optionsRadios2" value="1">
+                                    Medium
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="priority" id="optionsRadios3" value="2">
+                                    Low
+                                </label>
+                            </div>
+                        </fieldset>
+                        <div class="form-group">
+                            <label for="assignee">Assignee</label>
+                            <input type="text" class="form-control" id="assignee">
+                        </div>
+                        <div class="form-group">
+                            <label for="assigner">Assigner</label>
+                            <input type="text" class="form-control" id="assigner">
+                        </div>
+                        <button type="submit" id="addButton" class="btn btn-primary">Add</button>
+                    </fieldset>
                 </form>
             </div>
         </div>
