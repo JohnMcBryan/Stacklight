@@ -334,7 +334,7 @@ a:hover
 .openclose {
   font-size: 30px;
   cursor: pointer;
-  top: 20px;
+  top: 50px;
   right: 20px;
   position: fixed;
 }
