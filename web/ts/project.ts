@@ -110,11 +110,7 @@ class TaskList {
                             <div class='col-md-12'>\
                                 <p class='card-text'>\
                                     <button class='btn btn-primary btn-sm' onclick='onDetail(this, " + task.mId + ")' title='Toggle detail'><i class='fas fa-lg fa-angle-right'></i></button>&nbsp;"
-                                    + task.mDescription + "\
-                                <a href='/taskDetail.html?taskId=" + task.mId + "'><button class='btn btn-primary btn-sm float-right'>See details";
-                                    if (task.mSubtasks > 0)
-                                        cards += " (" + task.mSubtasks + ")";
-                                    cards += "</button></a>";
+                                    + task.mDescription;
                                 if (task.mStatus == /*incomplete*/"0")
                                 {
                                     cards += "<button class='btn btn-primary btn-sm float-right' onclick='completeTask(" + task.mId + ")' title='Mark task as complete'>Complete</button>";
@@ -389,7 +385,6 @@ class NewTaskForm
     constructor()
     {
         $("#addButton").click(this.submitForm);
-        $("#addCancel").click(this.back);
     }
 
     submitForm() {
@@ -418,18 +413,14 @@ class NewTaskForm
             error: newTaskForm.onSubmitResponse
         });
     }
-    back(){
-        console.log("Task Add Cancelled");
-        taskList.refresh();
-        window.location.replace("https://stacklight.herokuapp.com/projects.html?projectID="+projectID);
-    }
 
     private onSubmitResponse(data: any) {
         // If we get an "ok" message, clear the form
         if (data.mStatus === "ok") {
             console.log("Task Added Sucessfully!");
             taskList.refresh();
-            window.location.replace("https://stacklight.herokuapp.com/projects.html?projectID="+projectID);
+            // todo: pass the project name or write get method to get name when page loads
+            window.location.replace("https://stacklight.herokuapp.com/project.html?projectID="+projectID);
         }
         // Handle explicit errors with a detailed popup message
         else if (data.mStatus === "error") {
@@ -439,6 +430,8 @@ class NewTaskForm
         else {
             window.alert("Unspecified error "+data.mStatus);
         }
+            taskList.refresh();
+            window.location.replace("https://stacklight.herokuapp.com/project.html?projectID="+projectID);
     }
 }
 

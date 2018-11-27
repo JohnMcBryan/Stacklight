@@ -173,7 +173,7 @@ class NewTaskForm{
     back(){
         console.log("Task Add Cancelled");
         taskList.refreshProject();
-        window.location.replace("https://stacklight.herokuapp.com/project.html?projectID="+projectID);
+        window.location.replace("https://stacklight.herokuapp.com/tasks.html?projectID="+projectID);
     }
 
     private onSubmitResponse(data: any) {
@@ -181,7 +181,7 @@ class NewTaskForm{
         if (data.mStatus === "ok") {
             console.log("Task Added Sucessfully!");
             taskList.refreshProject();
-            window.location.replace("https://stacklight.herokuapp.com/project.html?projectID="+projectID);
+            window.location.replace("https://stacklight.herokuapp.com/tasks.html?projectID="+projectID);
         }
         // Handle explicit errors with a detailed popup message
         else if (data.mStatus === "error") {
