@@ -24,9 +24,9 @@ class ProjectList {
             $("#projectList").append("\
                 <div style='display:inline-block;'>\
                     <form action='/project.html' method='get' id='PID'>\
-                        <div class='well project'>\
+                        <div class='jumbotron'>\
                             <img src='Images/project.png' class='center' alt='Project'>\
-                            <input type='submit' value='" + data.mProjectData[i].mName + "'/>\
+                            <button type='submit' class='btn btn-primary btn-lg'>" + data.mProjectData[i].mName + "</button>\
                         </div>\
                         <input type='hidden' name='projectID' value='" + data.mProjectData[i].mId + "'/>\
                         <input type='hidden' name='projectName' value='" + data.mProjectData[i].mName + "'/>\
@@ -35,6 +35,7 @@ class ProjectList {
         }
     }
 }
+// <input type='submit' value='" + data.mProjectData[i].mName + "'/>\
 
 class NewProjectForm{
     constructor() {
@@ -46,8 +47,20 @@ class NewProjectForm{
         let owner = $("#owner").val();
         let organization = "" + $("#organization").val();
 
-        if (name === "" || description === "") {
-            window.alert("Error: Project is not valid");
+        if (name === "") {
+            window.alert("Project name is required");
+            return;
+        }
+        if (description === "") {
+            window.alert("Description is required");
+            return;
+        }
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(owner))
+        {
+        }
+        else
+        {
+            window.alert("A valid email is required");
             return;
         }
         // set up an AJAX post.  When the server replies, the result will go to
