@@ -30,7 +30,7 @@
             <div class="navbar">
                 <div class="login navbar-right">
                     <div class="g-signin2" data-onsuccess="onSignIn"></div>
-                    <div><a id="loginBar" href="#" style="display:hidden;"><span class="glyphicon glyphicon-log-in"></span>Login</a></div>
+                    <div><a id="loginBar" data-toggle="modal" data-target="#showProfile" href="#" style="display:hidden;"><span class="glyphicon glyphicon-log-in"></span>Login</a></div>
                 </div>
             </div>
         </div>
@@ -100,6 +100,31 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal" id="addButton">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="showProfile" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Profile</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!--<form id="uploadFile" enctype="multipart/form-data" method="POST" action="\project">-->
+                <form action="https://stacklight.herokuapp.com/profile.html">
+                    <label for="name">Name:</label>
+                    <div id="nameProfile"></div>
+                    <label for="name">Email:</label>
+                    <div id="email"></div>
+                    <label for="projects">Projects:</label>
+                    <div id="projects"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="signOutButton">Sign Out</button>
             </div>
         </div>
     </div>

@@ -7,9 +7,28 @@ $(function () {
     $('#loginBar').hide();
     //$('.row').hide();
     $('#projectWindow').hide();
-    $('.navbar').click(signOut);
     $(".abcRioButtonContentWrapper").css("left", "75%");
     $('#addMemberButton').click(addMember);
+    $('#signOutButton').click(signOut);
+    $.ajax({
+            type: "GET",
+            url: backendUrl + "/usersEmail/" + localStorage.getItem("email"),
+            success: function (result) {
+                console.log("User check sent");
+                $("#nameProfile").append("<div>&nbsp;&nbsp;&nbsp;&nbsp;" + result.mFirstName + " " + result.mLastName + "</div>")
+                $("#email").append("<div>&nbsp;&nbsp;&nbsp;&nbsp;" + localStorage.getItem("email") + "</div>")
+            },
+        });
+        $.ajax({
+             type: "GET",
+             url: backendUrl + "/projects/all/" + localStorage.getItem("email"),
+             dataType: "json",
+             success: function (result){
+                for (var i = 0; i < result.mProjectData.length; ++i) {
+                           $("#projects").append("<div>&nbsp;&nbsp;&nbsp;&nbsp;" + result.mProjectData[i].mName + "</div>");
+                }
+             },
+        });
 })
 
 //function goToProject() {
@@ -68,6 +87,10 @@ function onSignIn(googleUser) {
   //$('.row').show();
   $('#projectWindow').show();
   $('.g-signin2').hide();
+  if (localStorage.getItem("out") != null){
+       localStorage.removeItem("out");
+       signOut();
+  }
    localStorage.setItem("email", profile.getEmail());
 }
 
