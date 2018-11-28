@@ -34,4 +34,6 @@ public class SimpleRequest {
 
     public int mFileId;
 
+    public int mSubtaskId;
+
 }

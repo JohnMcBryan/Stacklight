@@ -99,7 +99,7 @@ public class Subtaskbase {
         try{
             stb.mSelectSubTasks = stb.mConnection.prepareStatement("SELECT * FROM Subtasks WHERE taskId = ?");
             stb.mAddSubtask = stb.mConnection.prepareStatement("INSERT INTO Subtasks VALUES(default,?,?,?)");
-            stb.mCompleteSubtask = stb.mConnection.prepareStatement("UPDATE Subtasks SET status = 1 WHERE id = ?")
+            stb.mCompleteSubtask = stb.mConnection.prepareStatement("UPDATE Subtasks SET status = 1 WHERE id = ?");
 
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
