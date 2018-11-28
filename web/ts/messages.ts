@@ -15,20 +15,28 @@ class MessageInfo {
         });
     }
     public update(data: any) {
-        $("#messageList").html("<table>");
+        var list: any;
+        list = '<table class="table"><tbody>';
         for (let i = 0; i < data.mMessageData.length; ++i) {
-            $("#messageList").append("<tr><td> <b> " +data.mMessageData[i].mOwner+":</b></td><td>"+data.mMessageData[i].mContent+" </td></tr>");
+            list += '<tr class="table-primary">';
+                list += '<th scope="row">' + data.mMessageData[i].mOwner + '</th>';
+                list += '<td>' + data.mMessageData[i].mContent + '</td>';
+                list += '<td>';
+                    list += '<button class="btn btn-primary btn-sm" onclick="deleteMessage(this, ' + data.mMessageData[i].mId + ')" title="Toggle detail"><i class="fas fa-lg fa-times"></i></button>&nbsp;';
+                list += '</td>';
+            list += '</tr>';
         }
-        $("#messageList").append("</table>");
-        console.log(data);
+        list += "</tbody></table>";
+        $("#messageList").html(list);
+        //console.log(data);
     }
 
-    public deleteMessage() {
+    public deleteMessage(element:any, messageId:any) {
         $.ajax({
             type: "DELETE",
             url: backendUrl + "/messages",
             dataType: "json",
-            data: JSON.stringify({ mProjectId: projectID}),
+            data: JSON.stringify({ mId: messageId}),
             success: messageInfo.refresh,
             error: messageInfo.refresh,
          });
