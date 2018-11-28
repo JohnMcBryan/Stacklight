@@ -161,9 +161,17 @@ class TaskList {
             {
                 var subtask: any;
                 subtask = data.mSubtaskData[i];
-                detail += "<p>" + subtask.mName + "</p><hr>";
+                detail += "<p>" + subtask.mName;
+                if (subtask.mStatus == /*incomplete*/"0")
+                {
+                    detail += "<button class='btn btn-primary btn-sm float-right' onclick='completeSubtask(this, " + subtask.mTaskId + ", " + subtask.mId + ")' title='Mark subtask as complete'>Complete</button>";
+                }
+                else /*complete*/
+                {
+                    detail += "<i class='far fa-check-square float-right'></i>";
+                }
+                detail += "</p><hr>";
             }
-            //console.log(detail);
             $('#taskSubtasks' + data.mSubtaskData[0].mTaskId).html(detail);   // put subtasks in the DOM
         }
     }
@@ -338,6 +346,20 @@ function onAddSubtask(element: any, taskId: any)
     {
         $("#addSubtaskFeedback" + taskId).show();
     }
+}
+
+function completeSubtask(element:any, taskId:any, subtaskId:any)
+{
+    $.ajax({
+        type: "POST",
+        url: backendUrl + "/subtasks/complete",
+        dataType: "json",
+        data: JSON.stringify({mSubtaskId: subtaskId}),
+        //success: taskList.refresh,
+        success: function() {
+            getSubtasks(taskId);
+        }
+    });
 }
 
 function completeTask(taskId: any)
