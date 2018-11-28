@@ -44,9 +44,28 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8">
             <div id="projectHeader"></div>
         </div>
+            <div class="col-md-4">
+                <div class="float-right">
+                <h2><span class="openclose" onclick="openNav()">&#9776;Messages</span></h2>
+                </div>
+            </div>
+
+        <div id="myMessagenav" class="messagenav">
+
+            <a href="javascript:void(0)" class="closebtn float-left" onclick="closeNav()">&times;</a>
+
+            <div id="messageList"></div>
+
+            <!--<input id="addMessage" type="submit" value="Send" style="float:right; margin-right:15px;">-->
+            <p>
+                <input class="form-control-sm col-9" type="text" id="message"/>
+                <button class="btn btn-primary btn-sm float-right" type="submit" id="addMessage">Send</button>
+            </p>
+        </div>
+
     </div>
     <div class="row content">
         <div class="col-md-8">
@@ -56,6 +75,7 @@
             </div>
         </div>
         <div class="col-md-4">
+
             <!-- Use Handlebars to loop through messages.
             Use if statements to show different style bubbles for your vs others messages
             <div>
@@ -66,26 +86,13 @@
         </div>
     </div>
 
-    <div id="myMessagenav" class="messagenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-
-        <div id="messageList">
-            <span class="close">&times;</span>
-        </div>
-
-        <input id="addMessage" type="submit" value="Send" style="float:right; margin-right:15px;">
-        <div style="overflow: hidden; padding-right: .5em;">
-            <input type="text" id="message" autocomplete="off" />
-        </div>
-
-    </div>
 
 
 </div>
-<span class="openclose" onclick="openNav()">&#9776;Messages</span>
+
 <script>
                 function openNav() {
-                    document.getElementById("myMessagenav").style.width = "450px";
+                    document.getElementById("myMessagenav").style.width = "425px";
                     }
 
                 function closeNav() {
