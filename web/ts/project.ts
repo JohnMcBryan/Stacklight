@@ -71,6 +71,7 @@ class TaskList {
 
         var cards: any;
         cards = "";
+        /*
         cards += "<div class='bs-component'>\
             <div class='card text-white bg-primary mb-3'>\
                  <div class='card-header'>\
@@ -84,6 +85,7 @@ class TaskList {
                      </div>\
                  </div>\
             </div></div>";
+            */
 
         for (let i = 0; i < data.mTaskData.length; ++i)
         {
@@ -438,11 +440,14 @@ class NewTaskForm
 
     private onSubmitResponse(data: any) {
         // If we get an "ok" message, clear the form
+        console.log("----got response from server-----");
+        console.log(data);
+        console.log(data.mStatus);
         if (data.mStatus === "ok") {
             console.log("Task Added Sucessfully!");
             taskList.refresh();
             // todo: pass the project name or write get method to get name when page loads
-            window.location.replace("https://stacklight.herokuapp.com/project.html?projectID="+projectID);
+            window.location.replace("https://stacklight.herokuapp.com/project.html?projectID="+projectID + "&projectName=" + projectName);
         }
         // Handle explicit errors with a detailed popup message
         else if (data.mStatus === "error") {
@@ -452,8 +457,8 @@ class NewTaskForm
         else {
             window.alert("Unspecified error "+data.mStatus);
         }
-            taskList.refresh();
-            window.location.replace("https://stacklight.herokuapp.com/project.html?projectID="+projectID);
+            //taskList.refresh();
+            //window.location.replace("https://stacklight.herokuapp.com/project.html?projectID=" + projectID + "&projectName=" + projectName);
     }
 }
 
