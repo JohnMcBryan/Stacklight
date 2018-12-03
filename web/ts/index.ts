@@ -14,28 +14,42 @@ class ProjectList {
             type: "GET",
             url: backendUrl + "/projects/all/" + localStorage.getItem("email"),
             dataType: "json",
-            success: projects.update
+            success: projects.update,
+            error: projects.update
         });
         //$('#loginBar').text(localStorage.getItem("email"));   // why again? -Mira
     }
     private update(data: any) {
-        console.log(data);
-        for (let i = 0; i < data.mProjectData.length; ++i) {
-            $("#projectList").append("\
-                <div style='display:inline-block;'>\
-                    <form action='/project.html' method='get' id='PID'>\
-                        <div class='jumbotron'>\
-                            <img src='Images/project.png' class='center' alt='Project'>\
-                            <button type='submit' class='btn btn-primary btn-lg'>" + data.mProjectData[i].mName + "</button>\
+        var list: any;
+        list = "";
+        list += '<div style="display:inline-block;">\
+                    <form>\
+                    <button type="button" class="btn btn-primary btn-lg">\
+                        <div data-toggle="modal" data-target="#createProject">\
+                            <img src="Images/newproject.png" class="center" alt="Create Project">\
+                            <p><h3>Create Project</h3></p>\
                         </div>\
+                    </div>\
+                    </form>\
+                 </div>';
+        if (data)
+        {
+            for (let i = 0; i < data.mProjectData.length; ++i) {
+                list += "<div style='display:inline-block;'>\
+                    <form action='/project.html' method='get' id='PID'>\
+                        <button type='submit' class='btn btn-primary btn-lg'>\
+                            <img src='Images/project.png' class='center' alt='Project'>\
+                            <p><h3>" + data.mProjectData[i].mName + "</h3></p>\
+                        </button>\
                         <input type='hidden' name='projectID' value='" + data.mProjectData[i].mId + "'/>\
                         <input type='hidden' name='projectName' value='" + data.mProjectData[i].mName + "'/>\
                     </form>\
-                </div>");
+                </div>&nbsp;";
+            }
+            $("#projectList").html(list);
         }
     }
 }
-// <input type='submit' value='" + data.mProjectData[i].mName + "'/>\
 
 class NewProjectForm{
     constructor() {
@@ -57,6 +71,7 @@ class NewProjectForm{
         }
         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(owner))
         {
+            // ignore
         }
         else
         {
@@ -117,13 +132,3 @@ $(document).ready(function () {
     
     projects.refresh();
 });
-
-
-/*
-$(".project").each(function(index) {
-    $(this).closest("form").on("click", function(){
-        console.log("here");
-        $(this).closest("form").submit();
-    });
-});
-*/

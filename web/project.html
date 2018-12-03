@@ -91,27 +91,6 @@
 
 </div>
 
-<script>
-                function openNav() {
-                    document.getElementById("myMessagenav").style.width = "425px";
-                    }
-
-                function closeNav() {
-                    document.getElementById("myMessagenav").style.width = "0";
-                    }
-            </script>
-
-<script>
-    var closebtns = document.getElementByClassName("close");
-    var i;
-
-    for (i = 0; i < closebtns.length; i++) {
-    closebtns[i].addEventListener("click", function() {
-    this.parentElement.style.display = 'none';
-    });
-    }
-</script>
-
 <div id="addUser" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content -->
@@ -129,13 +108,13 @@
                     <input type="text" class="form-control" id="admins">
                     -->
                     <label for="members">Users:</label>
-                    <button type="button" id="addFormButton"><span class="glyphicon glyphicon-plus"></span></button>
+                    <button type="button" id="addFormButton" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i></button>
                     <div id="members">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" id="addUserButton">Submit</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="addUserButton">Submit</button>
             </div>
         </div>
     </div>
@@ -160,7 +139,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" id="signOutButton">Sign Out</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="signOutButton">Sign Out</button>
             </div>
         </div>
     </div>
@@ -221,5 +200,26 @@
         </div>
     </div>
 </div>
+
+<script>
+                function openNav() {
+                    document.getElementById("myMessagenav").style.width = "425px";
+                    }
+
+                function closeNav() {
+                    document.getElementById("myMessagenav").style.width = "0";
+                    }
+            </script>
+
+<script>
+    var closebtns = document.getElementByClassName("close");
+    var i;
+
+    for (i = 0; i < closebtns.length; i++) {
+    closebtns[i].addEventListener("click", function() {
+    this.parentElement.style.display = 'none';
+    });
+    }
+</script>
 </body>
 </html>

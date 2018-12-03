@@ -43,10 +43,10 @@ do
     cp $JS/$script $WEB/$JS
 done
 cp node_modules/jquery/dist/jquery.min.js $WEB/$JS      # special case because jquery is not in js subdirectory
-for view in allProjects.js
-do
-    cp $VIEW/$view $WEB/$VIEW
-done
+#for view in allProjects.js
+#do
+    #cp $VIEW/$view $WEB/$VIEW
+#done
 
 # compile TypeScript files
 retVal=0
