@@ -16,13 +16,13 @@ class MessageInfo {
     }
     public update(data: any) {
         var list: any;
-        list = '<table class="table"><tbody>';
+        list = '<table class="table"><tbody><script src="js/messages.ts"></script>';
         for (let i = 0; i < data.mMessageData.length; ++i) {
             list += '<tr class="table-primary">';
                 list += '<th scope="row">' + data.mMessageData[i].mOwner + '</th>';
                 list += '<td>' + data.mMessageData[i].mContent + '</td>';
                 list += '<td>';
-                    list += '<button class="btn btn-primary btn-sm" onclick="deleteMessage(this, ' + data.mMessageData[i].mId + ')" title="Toggle detail"><i class="fas fa-lg fa-times"></i></button>&nbsp;';
+                    list += '<button class="btn btn-primary btn-sm" onclick="messageInfo.deleteMessage(this, ' + data.mMessageData[i].mId + ')" title="Toggle detail"><i class="fas fa-lg fa-times"></i></button>&nbsp;';
                 list += '</td>';
             list += '</tr>';
         }
@@ -41,8 +41,9 @@ class MessageInfo {
             error: messageInfo.refresh,
          });
     }
-
 }
+
+
 
 class NewMessageForm {
     constructor() {

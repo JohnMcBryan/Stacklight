@@ -547,9 +547,9 @@ public class App {
             res.status(200);
             res.type("application/json");
 
-            int projectId = Integer.parseInt( req.mProjectId );
+            int id =  req.mId;
 
-            boolean deleteMessage = mb.deleteMessage(projectId);
+            boolean deleteMessage = mb.deleteMessage(id);
             if (!deleteMessage) {
                 return gson.toJson(new StructuredResponse("error", "error performing deletion", null));
             } else {
