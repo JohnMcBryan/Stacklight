@@ -132,12 +132,12 @@ public class Projectbase {
             ResultSet rs = mSelectAllProjects.executeQuery();
             mCheckProjects.setString(1, email);
             ResultSet checkSet = mCheckProjects.executeQuery();
-            checkSet.next();
             System.out.println("SubFiles Are Here");
 
             System.out.println("IN SELECT ALL PROJECTS");
             while(checkSet.next()){
                 checkRes.add(checkSet.getInt("projectid"));
+                System.out.println("projectid: " + String.valueOf(checkSet.getInt("projectid")));
             }
             while (rs.next()) {
                 if(checkRes.contains(rs.getInt("id"))){
@@ -145,6 +145,7 @@ public class Projectbase {
                             rs.getString("description"), rs.getString("owner"),
                             rs.getString("organization"));
                     res.add(Projectrow);
+                    System.out.println("id: " + String.valueOf(rs.getInt("id")));
                 }
             }
             rs.close();
