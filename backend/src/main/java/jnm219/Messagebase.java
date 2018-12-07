@@ -162,12 +162,12 @@ public class Messagebase {
     }
 
     //Method for deleting a message
-    boolean deleteMessage(int projectId) {
+    boolean deleteMessage(int id) {
         int rs=0;
 
         try {
             //System.out.println("Deleting Message: " + content);
-            mDeleteMessage.setInt(1,projectId);
+            mDeleteMessage.setInt(1,id);
             rs +=mDeleteMessage.executeUpdate();
         } catch (SQLException e)
         {
