@@ -71,21 +71,6 @@ class TaskList {
 
         var cards: any;
         cards = "";
-        /*
-        cards += "<div class='bs-component'>\
-            <div class='card text-white bg-primary mb-3'>\
-                 <div class='card-header'>\
-                     Task Name\
-                 </div>\
-                 <div class='card-body'>\
-                     <h4 class='card-title'>Task Name</h4>\
-                     <p class='card-text'>Task details</p>\
-                     <div class='progress'>\
-                        <div class='progress-bar bg-info' role='progressbar' style='width: 50%' aria-valuenow='50' aria-valuemin='0' aria-valuemax='100'>\
-                     </div>\
-                 </div>\
-            </div></div>";
-            */
 
         for (let i = 0; i < data.mTaskData.length; ++i)
         {
@@ -123,6 +108,7 @@ class TaskList {
                                 }
             cards += "\
                                 <a href='/taskEdit.html?taskId=" + task.mId + "'><button class='btn btn-primary btn-sm float-right'>Edit</button></a>\
+                                <div id='pSubtasksComplete" + task.mId + "'></div>\
                                 </p><p></p>\
                             </div>\
                         </div>";
@@ -149,6 +135,8 @@ class TaskList {
                     </div>\
                 </div>\
             </div>";
+
+            getNCompleteSubtasks(task.mId);
         }
         $("#miraList").html(cards);
     }
@@ -176,6 +164,50 @@ class TaskList {
             }
             $('#taskSubtasks' + data.mSubtaskData[0].mTaskId).html(detail);   // put subtasks in the DOM
         }
+    }
+
+    public countSubtasks(data: any)
+    {
+        if (data && data.mSubtaskData && data.mSubtaskData.length>0 && data.mSubtaskData[0].mTaskId)     // guard against empty result
+        {
+            var ncomplete: any;
+            var progressbar: String;
+            ncomplete = 0;
+            progressbar = "";
+            for (let i = 0; i < data.mSubtaskData.length; ++i)
+            {
+                var subtask: any;
+                subtask = data.mSubtaskData[i];
+                if (subtask.mStatus == /*complete*/"1")
+                {
+                    ncomplete+=1;
+                }
+            }
+            var percentComplete: any;
+            var color: String;
+            percentComplete = (ncomplete/data.mSubtaskData.length) * 100;
+            if (percentComplete == 0)       // special case because don't want empty progress bar bc hard to see
+            {
+                progressbar += " <div class='progress'>\
+                        <div class='progress-bar bg-danger' role='progressbar' style='width: 16%' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'><font color='white'>Subtasks 0%</font>\
+                     </div>";
+            }
+            else
+            {
+                if (percentComplete > 0 && percentComplete <= 33)
+                    color = "danger";
+                else if (percentComplete > 33 && percentComplete <= 66)
+                    color = "warning";
+                else
+                    color = "success";
+                progressbar += " <div class='progress'>\
+                        <div class='progress-bar bg-" + color + "' role='progressbar' style='width: " + percentComplete + "%' aria-valuenow='" + percentComplete + "' aria-valuemin='0' aria-valuemax='100'>\
+                        <font color='white'>Subtasks " + percentComplete + "%</font>\
+                     </div>";
+             }
+            $('#pSubtasksComplete' + data.mSubtaskData[0].mTaskId).html(progressbar);
+        }
+
     }
 
     private compareFiles(a: any, b: any)
@@ -207,7 +239,7 @@ class TaskList {
                 name = file.mfileName;
                 if (!name)
                     name = "mId:" + file.mId + " mfileId:" + file.mfileId; // todo: remove mId when mfileName is not empty
-                detail += "<p>" + name + " (" + file.mId + ")";     // todo: replace mId with a modification time since mId has no value to user
+                detail += "<p>" + name; // + " (" + file.mId + ")";     // todo: replace mId with a modification time since mId has no value to user
                 detail += "<span class='float-right'>";
                 detail += "<span onclick='onStar(" + savedTaskId + "," + file.mId +")'><i class='fa" + (file.mStatus == "1" ? "s" : "r") + " fa-sm fa-star'></i></span>";
                 detail += "&nbsp;<a href= \"/download/" + file.mfileId + "\" download=\"" + name + "\">";
@@ -239,6 +271,21 @@ function getSubtasks(taskId: any)
             url: backendUrl + "/subtasks/" + taskId,
             dataType: "json",
             success: taskList.updateSubtasks,
+        });
+    }
+}
+function getNCompleteSubtasks(taskId: any)
+{
+    if (taskId)     // should never be false
+    {
+        $.ajax({
+            type: "GET",
+            url: backendUrl + "/subtasks/" + taskId,
+            dataType: "json",
+            success: taskList.countSubtasks,
+            error: function(){
+                //fail silently
+            }
         });
     }
 }
@@ -338,10 +385,11 @@ function onAddSubtask(element: any, taskId: any)
             url: backendUrl + "/subtasks",
             dataType: "json",
             data: JSON.stringify({ mTaskId: taskId, mName: addSubtask.val(), mStatus: /*incomplete*/0 }),
-            success: getSubtasksForSavedId
-            //success: function() {
-                //getSubtasks(taskId);
-            //}
+            //success: getSubtasksForSavedId
+            success: function() {
+                getSubtasks(taskId);
+                getNCompleteSubtasks(taskId);
+            }
         });
     }
     else
@@ -360,6 +408,7 @@ function completeSubtask(element:any, taskId:any, subtaskId:any)
         //success: taskList.refresh,
         success: function() {
             getSubtasks(taskId);
+            getNCompleteSubtasks(taskId);
         }
     });
 }

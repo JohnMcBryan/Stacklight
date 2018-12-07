@@ -16,6 +16,9 @@ class AppHelper{
             sParameterName = sURLVariables[i].split('=');
     
             if (sParameterName[0] === sParam) {
+                var name: String;
+                name = sParameterName[1];
+                name = name.replace('+',' ');
                 return sParameterName[1] === undefined ? true : sParameterName[1];
             }
         }
